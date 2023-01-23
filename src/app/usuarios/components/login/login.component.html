@@ -1,0 +1,83 @@
+<body>
+    <div class="container">
+        <div class="forms">
+            <div class="form login">
+                <span class="title">Inicio de sesión</span>
+                <!--Formulario de inicio de sesión-->
+                <form action="#">
+                    <div class="input-field">
+                        <input type="text" placeholder="Correo electrónico" required>
+                        <fa-icon [icon]="iconUser"></fa-icon>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" class="password" placeholder="Contraseña" required>
+                        <fa-icon [icon]="iconCandado"></fa-icon>
+                        <!--<fa-icon [icon]="iconOjo"></fa-icon>-->
+                    </div>
+    
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <input type="checkbox" id="logCheck">
+                            <label for="logCheck" class="text">Recuérdame</label>
+                        </div>
+    
+                        <a href="#" class="text">Olvidé mi contraseña</a>
+                    </div>
+    
+                    <div class="input-field button">
+                        <input type="button" value="Iniciar Sesión">
+                    </div>
+                </form>
+    
+                <div class="login-signup">
+                    <span class="text">¿No estás registrado?
+                        <a href="#" class="text signup-link">Registrarme ahora</a>
+                    </span>
+                </div>
+            </div>
+    
+    
+            <!--Formulario de registro-->
+            <div class="form signup">
+                <span class="title">Registro</span>
+    
+                <form action="#">
+                    <div class="input-field">
+                        <input type="text" placeholder="Ingrese su nombre" required>
+                        <i>Icono</i>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" placeholder="Ingrese su email" required>
+                        <i>Icono</i>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" class="password" placeholder="Ingrese su contraseña" required>
+                        <i>Icono</i>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" class="password" placeholder="Confirmar contraseña" required>
+                        <i>Icono</i>
+                        <i>IconoOjo</i>
+                    </div>
+    
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <input type="checkbox" id="termCon">
+                            <label for="termCon" class="text">Acepto los términos y condiciones</label>
+                        </div>
+                    </div>
+    
+                    <div class="input-field-button">
+                        <input type="button" value="Signup">
+                    </div>
+                </form>
+    
+                <div class="login-signup">
+                    <span class="text">¿Ya tienes una cuenta?
+                        <a href="#" class="text login-link">Iniciar sesión</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
