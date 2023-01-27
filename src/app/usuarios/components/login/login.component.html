@@ -4,13 +4,13 @@
             <div class="form login">
                 <span class="title">Inicio de sesión</span>
                 <!--Formulario de inicio de sesión-->
-                <form action="#">
+                <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
                     <div class="input-field">
-                        <input type="text" placeholder="Correo electrónico" required>
+                        <input type="text" placeholder="Correo electrónico" required formControlName="correo">
                         <fa-icon [icon]="iconUser"></fa-icon>
                     </div>
                     <div class="input-field">
-                        <input type="password" class="password" placeholder="Contraseña" required>
+                        <input type="password" class="password" placeholder="Contraseña" required formControlName="clave">
                         <fa-icon [icon]="iconCandado"></fa-icon>
                         <!--<fa-icon [icon]="iconOjo"></fa-icon>-->
                     </div>
@@ -25,7 +25,7 @@
                     </div>
     
                     <div class="input-field button">
-                        <input type="button" value="Iniciar Sesión">
+                        <input type="submit" value="Iniciar Sesión">
                     </div>
                 </form>
     

@@ -12,7 +12,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #4070f4;
+    background-color: #42AB49;
 }
 
 .container{
@@ -53,6 +53,11 @@ body{
 }
 
 .container.active .signup{
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.container.active .forms{
     height: 600px;
 }
 
@@ -69,7 +74,7 @@ body{
     bottom: 0;
     height: 3px;
     width: 30px;
-    background-color: #4070f4;
+    background-color: #42AB49;
     border-radius: 25px;
 }
 
@@ -94,7 +99,7 @@ body{
 }
 
 .input-field input:is(:focus, :valid){
-    border-bottom-color: #4070f4;
+    border-bottom-color: #42AB49;
 }
 
 /*Para los iconos*/
@@ -108,7 +113,7 @@ body{
 }
 
 .input-field input:is(:focus, :valid) ~ fa-icon{
-    color: #4070f4;
+    color: #42AB49;
 }
 
 .input-field fa-icon.icon{
@@ -135,7 +140,7 @@ body{
 
 .checkbox-content input{
     margin-right: 10px;
-    accent-color: #4070f4;
+    accent-color: #42AB49;
 }
 
 .form .text{
@@ -144,7 +149,7 @@ body{
 }
 
 .form a.text{
-    color: #4070f4;
+    color: #42AB49;
     text-decoration: none;
 }
 
@@ -163,13 +168,13 @@ body{
     font-weight: 500;
     letter-spacing: 1px;
     border-radius: 6px;
-    background-color: #4070f4;
+    background-color: #42AB49;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button input:hover{
-    background-color: #265df2;
+    background-color: #42AB49;
 }
 
 .form .login-signup{

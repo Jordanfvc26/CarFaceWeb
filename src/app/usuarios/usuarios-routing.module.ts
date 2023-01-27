@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 //Ruta de los componentes
 import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegistroVehiculoComponent } from './components/registro-vehiculo/registro-vehiculo.component';
 
 
@@ -12,6 +13,7 @@ const routes:Routes =[
     path: '',
     children: [
       { path: 'login', component: LoginComponent},
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'registroVehiculo', component: RegistroVehiculoComponent},
       /*Path cuando no se especifica una ruta correcta*/
       { path: '**', redirectTo:'login'}
