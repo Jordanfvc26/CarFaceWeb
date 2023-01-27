@@ -32,7 +32,11 @@ export class LoginComponent implements OnInit {
 
   //Método para iniciar sesión
   iniciarSesion(){
-    this.api.postDatos("/session/login", null, this.loginForm.value.correo, this.loginForm.value.clave).subscribe(data=>{
+    let headers = new Map();
+    headers.set("correo", this.loginForm.value.correo);
+    headers.set("clave", this.loginForm.value.clave) ;
+    console.log(headers);
+    this.api.postDatos("/session/login", null, headers).subscribe(data=>{
       alert(data);
       console.log(data);
     })
