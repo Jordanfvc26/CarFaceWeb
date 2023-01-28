@@ -17,7 +17,7 @@ export class ConsumirServiciosService {
     'Authorization': 'bearer ' + this.token
   });
 
-  options = { headers: this.headers }
+  options = {}
 
   constructor(private http: HttpClient) { }
 
@@ -54,11 +54,10 @@ export class ConsumirServiciosService {
   private obtenerHeader(headers: Map<string, any>): boolean {
     if (headers != null) {
       for (let key of headers.keys()) {
-        console.log(key, headers.get(key))
-        this.headers.append(key, headers.get(key) || "");
+        this.headers = this.headers.append(key, headers.get(key) || "");
       }
-      return true;
     }
-    return false;
+    this.options = { headers: this.headers };
+    return headers != null;
   }
 }

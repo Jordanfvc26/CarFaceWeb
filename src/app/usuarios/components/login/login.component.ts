@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     headers.set("correo", this.loginForm.value.correo);
     headers.set("clave", this.loginForm.value.clave) ;
     console.log(headers);
-    this.api.postDatos("/session/login", null, headers).subscribe(data=>{
+    this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
       alert(data);
       console.log(data);
     })
