@@ -2,79 +2,89 @@
     <div class="container">
         <div class="forms">
             <div class="form login">
-                <span class="title">Inicio de sesión</span>
+                <div class="img-titulo">
+                    <img src="../../../../assets/icono/iconCarFace.png">
+                    <span class="title">Inicio de sesión</span>
+                </div>
                 <!--Formulario de inicio de sesión-->
                 <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
                     <div class="input-field">
-                        <input type="text" placeholder="Correo electrónico" required formControlName="correo">
+                        <input type="text" placeholder="Email" required formControlName="correo">
                         <fa-icon [icon]="iconUser"></fa-icon>
                     </div>
                     <div class="input-field">
-                        <input type="password" class="password" placeholder="Contraseña" required formControlName="clave">
+                        <input type="password" class="password" placeholder="Contraseña" required
+                            formControlName="clave">
                         <fa-icon [icon]="iconCandado"></fa-icon>
-                        <!--<fa-icon [icon]="iconOjo"></fa-icon>-->
+                        <fa-icon [icon]="iconOjo" class="showHidePw"></fa-icon>
                     </div>
-    
+
                     <div class="checkbox-text">
                         <div class="checkbox-content">
                             <input type="checkbox" id="logCheck">
                             <label for="logCheck" class="text">Recuérdame</label>
                         </div>
-    
-                        <a href="#" class="text">Olvidé mi contraseña</a>
+
+                        <a href="registro" class="text">Olvidé mi contraseña</a>
                     </div>
-    
+
                     <div class="input-field button">
                         <input type="submit" value="Iniciar Sesión">
                     </div>
                 </form>
-    
+
                 <div class="login-signup">
                     <span class="text">¿No estás registrado?
-                        <a href="#" class="text signup-link">Registrarme ahora</a>
+                        <a routerLink="/registro-usuario" class="text signup-link">Regístrate ahora</a>
                     </span>
                 </div>
             </div>
-    
-    
+
             <!--Formulario de registro-->
             <div class="form signup">
-                <span class="title">Registro</span>
-    
+                <div class="img-titulo">
+                    <img src="../../../../assets/icono/iconCarFace.png">
+                    <span class="title">Registro de usuario</span>
+                </div>
+
                 <form action="#">
                     <div class="input-field">
-                        <input type="text" placeholder="Ingrese su nombre" required>
-                        <i>Icono</i>
+                        <input type="text" placeholder="Nombres" required>
+                        <fa-icon [icon]="iconUser"></fa-icon>
                     </div>
                     <div class="input-field">
-                        <input type="text" placeholder="Ingrese su email" required>
-                        <i>Icono</i>
+                        <input type="text" placeholder="Apellidos" required>
+                        <fa-icon [icon]="iconUser"></fa-icon>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" placeholder="Email" required>
+                        <fa-icon [icon]="iconEmail"></fa-icon>
                     </div>
                     <div class="input-field">
                         <input type="password" class="password" placeholder="Ingrese su contraseña" required>
-                        <i>Icono</i>
+                        <fa-icon [icon]="iconCandado"></fa-icon>
                     </div>
                     <div class="input-field">
                         <input type="password" class="password" placeholder="Confirmar contraseña" required>
-                        <i>Icono</i>
+                        <fa-icon [icon]="iconCandado"></fa-icon>
                         <i>IconoOjo</i>
                     </div>
-    
+
                     <div class="checkbox-text">
                         <div class="checkbox-content">
-                            <input type="checkbox" id="termCon">
-                            <label for="termCon" class="text">Acepto los términos y condiciones</label>
+                            <input type="checkbox" >
+                            <a href="#" id="terCon" class="text">Acepto los términos y condiciones</a>
                         </div>
                     </div>
-    
-                    <div class="input-field-button">
-                        <input type="button" value="Signup">
+
+                    <div class="input-field button">
+                        <input type="button" value="Registrarme">
                     </div>
                 </form>
-    
+
                 <div class="login-signup">
                     <span class="text">¿Ya tienes una cuenta?
-                        <a href="#" class="text login-link">Iniciar sesión</a>
+                        <a routerLink="/login" class="text login-link">Iniciar sesión</a>
                     </span>
                 </div>
             </div>

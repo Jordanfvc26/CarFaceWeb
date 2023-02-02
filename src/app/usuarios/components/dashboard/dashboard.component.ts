@@ -15,11 +15,20 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(sessionStorage.getItem("usuario")==null){
+      this.ruta.navigateByUrl('/login');
+    }
   }
 
 
   iconCarro = iconos.faCarSide;
   iconInicio = iconos.faHome;
   iconAgregar = iconos.faCar;
+  iconBarras = iconos.faBars;
+  iconFlechaAbajo = iconos.faAngleDown;
+
+  iconUsuario= iconos.faUser;
+  iconConfiguracion = iconos.faSlidersH;
+  iconCerrarSesion = iconos.faSignOutAlt;
 
 }

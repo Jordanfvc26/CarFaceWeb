@@ -13,6 +13,7 @@ const routes:Routes =[
     path: '',
     children: [
       { path: 'login', component: LoginComponent},
+      /*{ path: 'registro-usuario', component: LoginComponent},*/
       { path: 'dashboard', component: DashboardComponent},
       { path: 'registroVehiculo', component: RegistroVehiculoComponent},
       /*Path cuando no se especifica una ruta correcta*/

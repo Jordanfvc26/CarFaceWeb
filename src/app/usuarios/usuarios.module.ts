@@ -1,3 +1,4 @@
+import { Alerts } from './alerts/alerts.component';
 import { ConsumirServiciosService } from './services/consumir-servicios.service';
 import { CargarScriptsJsService } from './services/cargar-scripts-js.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     LoginComponent,
     RegistroVehiculoComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     UsuariosRoutingModule,
@@ -24,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   providers:[
-    CargarScriptsJsService
+    CargarScriptsJsService,
+    Alerts
   ]
 })
 export class UsuariosModule { }

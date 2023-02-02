@@ -11,7 +11,7 @@ export class ConsumirServiciosService {
   correo = '';
   clave = '';
   url: string = "http://localhost:8080"
-  token = localStorage.getItem("usuario");
+  token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': 'bearer ' + this.token

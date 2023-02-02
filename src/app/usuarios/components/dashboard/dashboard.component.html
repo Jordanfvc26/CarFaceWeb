@@ -1,58 +1,55 @@
-<body>
-    <div class="sidebar">
-        <!--Logo y título del menú-->
-        <a href="#" class="caja-logo">
-            <fa-icon [icon]="iconCarro"></fa-icon>
-            <div class="nombre-logo"> CarFace</div>
-        </a>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <fa-icon [icon]="iconBarras" id="btn_open"></fa-icon>
+        </div>
+    </header>
 
-        <!--Opciones del menú-->
-        <ul class="opciones-menu">
-            <li>
-                <div class="title">
-                    <a href="#" class="link">
-                        <fa-icon [icon]="iconInicio"></fa-icon>
-                        <span clas="name"> Inicio</span>
-                    </a>
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <img src="../../../../assets/icono/iconCarFace.png"> <span>CarFace</span>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#" class="selected">
+                <div class="option">
+                    <fa-icon [icon]="iconInicio"></fa-icon>
+                    <h4>Inicio</h4>
                 </div>
-                <div class="submenu">
-                    <a href="#" class="link submenu-title">Dashboard</a>
+            </a>
+
+            <a href="#">
+                <div class="option">
+                    <fa-icon [icon]="iconCarro"></fa-icon>
+                    <h4>Mis vehículos</h4>
                 </div>
-            </li>
+            </a>
             
-            <!---->
-            <li class="dropdown">
-                <div class="title">
-                    <a href="#" class="link">
-                        <fa-icon [icon]="iconInicio"></fa-icon>
-                        <span class="name"> Category</span>
-                    </a>
-                    <fa-icon class="flecha" [icon]="iconInicio"></fa-icon>
+            <a href="#">
+                <div class="option">
+                    <fa-icon [icon]="iconUsuario"></fa-icon>
+                    <h4>Guardias</h4>
                 </div>
-                <div class="submenu">
-                    <a href="#" class="link submenu-title">Category</a>
-                    <a href="#" class="link">Hola 1</a>
-                    <a href="#" class="link">Hola 2</a>
-                    <a href="#" class="link">Hola 3</a>
-                </div>
-            </li>
+            </a>
 
-            <!---->
-            <li class="dropdown">
-                <div class="title">
-                    <a href="#" class="link">
-                        <fa-icon [icon]="iconInicio"></fa-icon>
-                        <span class="name"> Category</span>
-                    </a>
-                    <fa-icon class="flecha" [icon]="iconInicio"></fa-icon>
+            <a href="#">
+                <div class="option">
+                    <fa-icon [icon]="iconCerrarSesion"></fa-icon>
+                    <h4>Cerrar sesión</h4>
                 </div>
-                <div class="submenu">
-                    <a href="#" class="link submenu-title">Category</a>
-                    <a href="#" class="link">Hola 1</a>
-                    <a href="#" class="link">Hola 2</a>
-                    <a href="#" class="link">Hola 3</a>
-                </div>
-            </li>
-        </ul>
+            </a>
+
+
+        </div>
+
     </div>
+
+    <main>
+        <h1>Contenedor</h1><br>
+    </main>
+
+    <script src="js/script.js"></script>
 </body>

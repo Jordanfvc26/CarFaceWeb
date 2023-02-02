@@ -1,3 +1,4 @@
+import { Alerts } from './../../alerts/alerts.component';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Router } from '@angular/router';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _cargarScripts:CargarScriptsJsService, 
     private ruta:Router,
-    private api: ConsumirServiciosService,) {
+    private api: ConsumirServiciosService,
+    public alertaEmergente: Alerts) {
     _cargarScripts.CargarJSLogin(["login/login"]);
   }
 
@@ -36,9 +38,15 @@ export class LoginComponent implements OnInit {
     headers.set("correo", this.loginForm.value.correo);
     headers.set("clave", this.loginForm.value.clave) ;
     console.log(headers);
+
     this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
-      alert(data);
-      console.log(data);
+      sessionStorage.setItem("usuario", data.token);
+      this.ruta.navigateByUrl('/dashboard');
+      //Capturar el rol
+      this.alertaEmergente.alertaMensajeOK("Se ha iniciar sesión correctamente");
+    }, error =>{
+      console.log(error);
+      this.alertaEmergente.alertMensajeError("No se ha podido iniciar sesión, inténtalo más tarde");
     })
   }
 
@@ -47,6 +55,8 @@ export class LoginComponent implements OnInit {
   iconCandado = iconos.faLock;
   iconOjo = iconos.faEye;
   iconUser = iconos.faUser;
+  iconEmail = iconos.faEnvelope;
+  iconCedula = iconos.faIdCard;
 
 
 }
