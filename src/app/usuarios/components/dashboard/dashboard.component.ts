@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   iconAgregar = iconos.faCar;
   iconBarras = iconos.faBars;
   iconFlechaAbajo = iconos.faAngleDown;
+  iconMovimientos = iconos.faCalendar;
 
   iconUsuario= iconos.faUser;
   iconConfiguracion = iconos.faSlidersH;

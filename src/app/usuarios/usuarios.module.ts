@@ -8,12 +8,20 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistroVehiculoComponent } from './components/registro-vehiculo/registro-vehiculo.component';
 import { UsuariosRoutingModule } from './usuarios-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+
+/*Importaciones necesarias para usar el formly */
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+
+/*Archivo repeat para poder intectar contenido en el form del modal nueva columna*/
+import { RepeatTypeComponent } from './repeat-section.type';
 
 
 
 @NgModule({
   declarations: [
+    RepeatTypeComponent,
     LoginComponent,
     RegistroVehiculoComponent,
     DashboardComponent,
@@ -22,7 +30,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     UsuariosRoutingModule,
     FontAwesomeModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormlyBootstrapModule,
+    FormlyModule.forRoot({
+      types: [{ name: 'repeat', component: RepeatTypeComponent }],
+      validationMessages: [
+        { name: 'required', message: 'Este campo es requerido' },
+        { name: 'minLenght', message: 'Se requiere mínimo 8 caracteres' }],
+    }),
   ],
   providers:[
     CargarScriptsJsService,

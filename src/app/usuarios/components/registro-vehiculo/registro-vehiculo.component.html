@@ -1,1 +1,10 @@
-<p>registro-vehiculo works!</p>
+<div class="container">
+    <div class="registro-vehiculo">
+      <h3><fa-icon [icon]="iconCarro"></fa-icon> Vehículos a registrar</h3>
+      <form>
+        <formly-form [model]="modelNewCarro" [fields]="fieldsNewCarro" [options]="optionsNewCarro"
+          [form]="formNewCarro">
+        </formly-form>
+      </form>
+    </div>
+  </div>
