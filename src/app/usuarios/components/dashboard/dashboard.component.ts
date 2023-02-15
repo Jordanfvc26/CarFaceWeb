@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   constructor(private _cargarScripts:CargarScriptsJsService, private ruta:Router) {
-    _cargarScripts.CargarJSDashboardCliente(["dashboard/dashboard"]);
+    _cargarScripts.CargarJS(["dashboard/dashboard"]);
   }
 
   ngOnInit(): void {

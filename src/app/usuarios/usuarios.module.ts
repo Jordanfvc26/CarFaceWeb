@@ -16,6 +16,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 /*Archivo repeat para poder intectar contenido en el form del modal nueva columna*/
 import { RepeatTypeComponent } from './repeat-section.type';
+import { RegistroUsuarioComponent } from './components/registro-usuario/registro-usuario.component';
 
 
 
@@ -25,6 +26,7 @@ import { RepeatTypeComponent } from './repeat-section.type';
     LoginComponent,
     RegistroVehiculoComponent,
     DashboardComponent,
+    RegistroUsuarioComponent,
   ],
   imports: [
     UsuariosRoutingModule,

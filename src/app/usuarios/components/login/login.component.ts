@@ -1,6 +1,6 @@
 import { Alerts } from './../../alerts/alerts.component';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
 import { Component, OnInit } from '@angular/core';
 import * as iconos from '@fortawesome/free-solid-svg-icons';
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private ruta:Router,
     private api: ConsumirServiciosService,
     public alertaEmergente: Alerts) {
-    _cargarScripts.CargarJSLogin(["login/login"]);
+    _cargarScripts.CargarJS(["login/login"]);
   }
 
   ngOnInit(): void {
@@ -48,6 +48,10 @@ export class LoginComponent implements OnInit {
       console.log(error);
       this.alertaEmergente.alertMensajeError("No se ha podido iniciar sesión, inténtalo más tarde");
     })
+  }
+
+  abrirFormRegistro(){
+    this.ruta.navigateByUrl('/registro-usuario');
   }
 
 
