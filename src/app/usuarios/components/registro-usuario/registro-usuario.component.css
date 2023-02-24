@@ -149,6 +149,12 @@ ul.navbar-nav {
 
 .f1 .input-error { border-color: #f35b3f; }
 
+/*Para el rostro*/
+.text-rostro{
+	color:rgba(39, 39, 39, 0.904);
+	text-align: center;
+	margin-bottom: 30px;
+}
 
 
 /***** Media queries *****/

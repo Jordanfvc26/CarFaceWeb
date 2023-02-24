@@ -1,3 +1,6 @@
+//Para la cámara
+import { WebcamImage } from 'ngx-webcam';
+
 import { Alerts } from './../../alerts/alerts.component';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Router, RouterLink } from '@angular/router';
@@ -18,6 +21,13 @@ export class LoginComponent implements OnInit {
     correo: new FormControl('', Validators.required),
     clave: new FormControl('', Validators.required)
   })
+
+  indice=0;
+  webcamImage:WebcamImage | undefined
+
+  handleImage(webcamImage:WebcamImage){
+    this.webcamImage = webcamImage;
+  }
 
 
   constructor(
@@ -51,6 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   abrirFormRegistro(){
+    this.indice = 1;
     this.ruta.navigateByUrl('/registro-usuario');
   }
 

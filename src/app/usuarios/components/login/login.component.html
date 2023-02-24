@@ -35,7 +35,13 @@
 
                 <div class="login-signup">
                     <span class="text">¿No estás registrado?
-                        <a (click)="abrirFormRegistro()" class="text signup-link">Regístrate ahora</a>
+                        <a (click)="abrirFormRegistro()" [ngSwitch]="indice" class="text signup-link">Regístrate ahora
+                            <app-registro-usuario *ngSwitchCase="1" (getPicture)="handleImage($event)"></app-registro-usuario>
+
+                            <div *ngIf="webcamImage" class="webcam-image">
+                                <img [src]="webcamImage.imageAsDataUrl"/>
+                            </div>
+                        </a>
                     </span>
                 </div>
             </div>

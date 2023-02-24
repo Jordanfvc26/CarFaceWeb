@@ -4,10 +4,17 @@ import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
+/*Para íconos y animación*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 import * as AOS from 'aos';
+import { WebcamUtil, WebcamInitError, WebcamImage } from 'ngx-webcam';
+import { Subject, Observable } from 'rxjs';
+
+
+
+
 
 @Component({
   selector: 'app-registro-usuario',
@@ -15,6 +22,16 @@ import * as AOS from 'aos';
   styleUrls: ['./registro-usuario.component.css', './registro-usuario2.component.css']
 })
 export class RegistroUsuarioComponent implements OnInit {
+  @Output() getPicture = new EventEmitter<WebcamImage>();
+  showWebCam = true;
+  isCameraExist = true;
+  errors: WebcamInitError[] = [];
+
+  numFotos = 0;
+
+  //Webcam snapshot trigger
+  private trigger: Subject<void> = new Subject<void>();
+  private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
   constructor(
     private _choferService: ChoferService,
@@ -37,8 +54,48 @@ export class RegistroUsuarioComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    
+    WebcamUtil.getAvailableVideoInputs().then(
+      (mediaDevices: MediaDeviceInfo[]) => {
+        this.isCameraExist = mediaDevices && mediaDevices.length > 0;
+      }
+    );
   }
+
+  tomarFoto() {
+    //this.trigger.next();
+    while (this.numFotos <= 7) {
+      this.alertaEmergente.alertaMensajeOKSinRecargar("Se capturó correctamente la imagen " + this.numFotos)
+      this.numFotos++;
+      //Aqui agregar la foto tomada
+    }
+  }
+
+  cambiarCamara(directionOrDeviceId: boolean | string) {
+    this.nextWebcam.next(directionOrDeviceId);
+  }
+
+  onOffCamara() {
+    this.showWebCam = !this.showWebCam;
+  }
+
+  handleInitError(error: WebcamInitError) {
+    this.errors.push(error);
+  }
+
+  handleImage(webcamImage: WebcamImage) {
+    this.getPicture.emit(webcamImage);
+    //Comentar esta linea
+    //this.showWebCam = false;
+  }
+
+  get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  get nextWebcamObservable(): Observable<boolean | string> {
+    return this.nextWebcam.asObservable();
+  }
+
 
   //Método para registrar el chofer
   registrarChofer(): void {
@@ -56,7 +113,10 @@ export class RegistroUsuarioComponent implements OnInit {
     }
 
     this._choferService.registerChofer(body).subscribe((res) => {
-      console.log(res);
+      //console.log(res);
+      //Aquí consumir api para registrar fotos
+
+      //Si se registro bien, lo lleva al login y que inicie sesión
       this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente en CarFace");
       this.ruta.navigateByUrl('/login');
     }, error => {
@@ -64,9 +124,8 @@ export class RegistroUsuarioComponent implements OnInit {
     });
   }
 
-  alertaRellenar(){
-    if(this.formDatosChofer.value.ci == "" || this.formDatosChofer.value.nombre == "" || this.formDatosChofer.value.apellido == "" || this.formDatosChofer.value.telefono == "" || this.formDatosChofer.value.licencia == "Tipo-licencia")
-    {
+  alertaRellenar() {
+    if (this.formDatosChofer.value.ci == "" || this.formDatosChofer.value.nombre == "" || this.formDatosChofer.value.apellido == "" || this.formDatosChofer.value.telefono == "" || this.formDatosChofer.value.licencia == "Tipo-licencia") {
       this.alertaEmergente.alertMensajeError("Debe rellenar todos los campos");
     }
   }

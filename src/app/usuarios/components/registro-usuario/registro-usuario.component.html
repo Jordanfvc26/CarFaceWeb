@@ -89,22 +89,50 @@
                             </div>
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
-                                <button type="submit" (click)="registrarChofer()" class="btn btn-next">Siguiente</button>
+                                <button type="submit"  class="btn btn-next">Siguiente</button>
+                                <!--(click)="registrarChofer()"-->
                             </div>
                         </fieldset>
 
 
                         <!--paso fin -->
                         <fieldset>
-                            <br>
-                            <div class="form-group">
-                                <span class="sr-only" for="f1-facebook">Permita el acceso a su cámara para registrar su rostro</span>
-                                
+                            <div class="text-rostro row justify-content-center">
+                                <span >Permita el acceso a su cámara para registrar su rostro</span>
                             </div>
+
+                            <div class="camara mt-4">
+                                <div *ngIf="isCameraExist; else noCameraExist">
+                                    <div style="text-align: center;">
+                                        <div class="btn-group" style="margin-bottom: 10px;">
+                                            <button type="button" (click)="tomarFoto()" class="btn btn-primary" style="margin-right: 10px;">Tomar foto</button>
+                                            <button type="button" (click)="cambiarCamara(true)" class="btn btn-primary" style="margin-right: 10px;">Cambiar de cámara</button>
+                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary" style="margin-right: 10px;">On/Off cámara</button>
+                                        </div>
+
+                                        <webcam [height]="300" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                                        *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
+
+                                    </div>
+
+                                    <div *ngIf="errors.length > 0">
+                                        <h4>Mensajes de error:</h4>
+                                        <ul *ngFor="let error of errors">
+                                           <li>{{error | json}}</li> 
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <ng-template #noCameraExist>
+                                No hay una cámara disponible
+                            </ng-template>
+                            
                             
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
-                                <button type="submit" class="btn btn-submit">Registrarme</button>
+                                <button type="button" (click)="registrarChofer()" class="btn btn-submit">Registrarme</button>
                             </div>
                         </fieldset>
                         <!--fin -->

@@ -18,6 +18,8 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { RepeatTypeComponent } from './repeat-section.type';
 import { RegistroUsuarioComponent } from './components/registro-usuario/registro-usuario.component';
 
+/*Para la camara */
+import { WebcamModule } from 'ngx-webcam';
 
 
 @NgModule({
@@ -40,6 +42,7 @@ import { RegistroUsuarioComponent } from './components/registro-usuario/registro
         { name: 'required', message: 'Este campo es requerido' },
         { name: 'minLenght', message: 'Se requiere mínimo 8 caracteres' }],
     }),
+    WebcamModule
   ],
   providers:[
     CargarScriptsJsService,
