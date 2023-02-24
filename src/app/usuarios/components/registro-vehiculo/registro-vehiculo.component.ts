@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { Alerts } from './../../alerts/alerts.component';
+import { VehiculosService } from './../../services/vehiculos.service';
 import { Component, OnInit } from '@angular/core';
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
@@ -12,9 +15,17 @@ import { FormGroup } from '@angular/forms';
 })
 export class RegistroVehiculoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _vehiculoService: VehiculosService,
+    private ruta: Router,
+    public alertaEmergente: Alerts
+  ) { }
+
 
   ngOnInit(): void {
+    /*setInterval(() => {
+      console.log(this.modelNewCarro);
+    }, 10);*/
   }
 
 
@@ -95,6 +106,36 @@ export class RegistroVehiculoComponent implements OnInit {
       },
     },
   ];
+
+  //Aún no funciona
+  registrarVehiculos(): void {
+
+    var datosTabla: JSON = <JSON><unknown>{
+      "vehiculos": this.modelNewCarro.fields
+    }
+    console.log(datosTabla);
+
+    //Pasando los datos del formGroup a la interfaz
+    let vehiculoN: any = {
+      "placa": "",
+      "marca": "",
+      "modelo": "",
+      "color": "",
+      "anio": "",
+      "tipoVehiculo": "" 
+    }
+
+    this._vehiculoService.registerVehiculo(vehiculoN).subscribe((res) => {
+      console.log(res);
+      this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente sus vehículos");
+      this.ruta.navigateByUrl('/dashboard');
+    }, error => {
+      this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
+    });
+  }
+
+
+
 
   iconCarro = iconos.faCar;
 }

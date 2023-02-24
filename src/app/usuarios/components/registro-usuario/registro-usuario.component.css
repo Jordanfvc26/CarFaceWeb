@@ -82,7 +82,10 @@ ul.navbar-nav {
 
 /***** Top content *****/
 
-.top-content { padding: 40px 0 170px 0; }
+.top-content { 
+	padding: 40px 0 170px 0;
+	background-color: #42AB49; 
+}
 
 .top-content .text { color: #fff; }
 .top-content .text h1 { color: #fff; }
@@ -92,7 +95,10 @@ ul.navbar-nav {
 .top-content .description a:hover, 
 .top-content .description a:focus { border-bottom: 1px dotted #fff; }
 
-.form-box { padding-top: 40px;}
+.form-box { 
+	padding-top: 40px;
+}
+
 
 .f1 {
 	padding: 25px; background: #fff;

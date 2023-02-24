@@ -43,10 +43,10 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem("usuario", data.token);
       this.ruta.navigateByUrl('/dashboard');
       //Capturar el rol
-      this.alertaEmergente.alertaMensajeOK("Se ha iniciar sesión correctamente");
+      this.alertaEmergente.alertaMensajeOK("Inicio de sesión exitoso");
     }, error =>{
       console.log(error);
-      this.alertaEmergente.alertMensajeError("No se ha podido iniciar sesión, inténtalo más tarde");
+      this.alertaEmergente.alertMensajeError("Credenciales incorrectas :(");
     })
   }
 

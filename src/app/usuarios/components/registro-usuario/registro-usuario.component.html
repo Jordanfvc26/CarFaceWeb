@@ -1,9 +1,9 @@
 <body>
     <div class="top-content">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-sm-10 col-sm-offset-3 col-md-8 col-md-offset-4 col-lg-6 col-lg-offset-5 form-box">
-                    <form role="form" action="" method="post" class="f1">
+                    <form [formGroup]="formDatosChofer" role="form" action="" class="f1">
 
                         <div class="img-titulo">
                             <img src="../../../../assets/icono/iconCarFace.png">
@@ -34,36 +34,36 @@
                             <br>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-first-name">Cédula:</label>
-                                <input type="text" name="f1-first-name" placeholder="Cédula"
+                                <input formControlName="ci" type="text" name="f1-first-name" placeholder="Cédula"
                                     class="f1-first-name form-control" id="f1-first-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Nombres:</label>
-                                <input type="text" name="f1-last-name" placeholder="Nombres"
+                                <input formControlName="nombre" type="text" name="f1-last-name" placeholder="Nombres"
                                     class="f1-last-name form-control" id="f1-last-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Apellidos:</label>
-                                <input type="text" name="f1-last-name" placeholder="Apellidos"
+                                <input formControlName="apellido" type="text" name="f1-last-name" placeholder="Apellidos"
                                     class="f1-last-name form-control" id="f1-last-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Teléfono celular:</label>
-                                <input type="text" name="f1-last-name" placeholder="Teléfono celular"
+                                <input formControlName="telefono" type="text" name="f1-last-name" placeholder="Teléfono celular"
                                     class="f1-last-name form-control" id="f1-last-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Tipo licencia:</label>
-                                <select name="select" name="f1-last-name" placeholder="Tipo licencia"
+                                <select formControlName="licencia" name="select" name="f1-last-name" placeholder="Tipo licencia"
                                     class="f1-last-name form-control" id="f1-last-name" style="margin-bottom: 12px;">
-                                    <option value="seleccione-genero" selected disabled>-- Tipo de licencia --</option>
+                                    <option value="Tipo-licencia" selected disabled>-- Tipo de licencia --</option>
                                     <option value="A">Tipo A</option>
                                     <option value="B">Tipo B</option>
                                 </select>
                             </div>
 
                             <div class="f1-buttons">
-                                <button type="button" class="btn btn-next">Siguiente</button>
+                                <button type="button" class="btn btn-next" (click)="alertaRellenar()">Siguiente</button>
                             </div>
                         </fieldset>
 
@@ -73,7 +73,7 @@
                             <br>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-email">Correo:</label>
-                                <input type="text" name="f1-email" placeholder="Correo electrónico"
+                                <input formControlName="correo" type="text" name="f1-email" placeholder="Correo electrónico"
                                     class="f1-email form-control" id="f1-email">
                             </div>
                             <div class="form-group">
@@ -83,13 +83,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-repeat-password">Confirmar contraseña</label>
-                                <input type="password" name="f1-repeat-password"
+                                <input formControlName="clave" type="password" name="f1-repeat-password"
                                     placeholder="Confirmar contraseña" class="f1-repeat-password form-control"
                                     id="f1-repeat-password">
                             </div>
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
-                                <button type="button" class="btn btn-next">Siguiente</button>
+                                <button type="submit" (click)="registrarChofer()" class="btn btn-next">Siguiente</button>
                             </div>
                         </fieldset>
 
