@@ -1,3 +1,4 @@
+import { ConsumirServiciosService } from './consumir-servicios.service';
 import { environment } from './../../../environments/environment';
 import { RegisterChoferI } from './../interfaces/chofer.interface';
 import { Observable } from 'rxjs';
@@ -9,7 +10,7 @@ import { Injectable } from '@angular/core';
 })
 export class ChoferService {
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient, private service:ConsumirServiciosService) { }
 
   //Consumo de servicio para registrar un chofer
   registerChofer(body: RegisterChoferI): Observable<any> {

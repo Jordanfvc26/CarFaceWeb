@@ -3,6 +3,6 @@ export interface RegisterVehiculoI {
     marca: string;
     modelo: string;
     color: string;
-    anio: string;
+    año: string;
     tipoVehiculo: string;
 }

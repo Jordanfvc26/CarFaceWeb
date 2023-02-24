@@ -1,13 +1,15 @@
 import { environment } from '../../../environments/environment';
 import { RegisterVehiculoI } from './../interfaces/vehiculo.interface';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculosService {
+
+
 
   constructor(private _httpClient: HttpClient) { }
 

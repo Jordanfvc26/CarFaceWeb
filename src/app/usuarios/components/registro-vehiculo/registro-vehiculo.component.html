@@ -5,7 +5,10 @@
         <formly-form [model]="modelNewCarro" [fields]="fieldsNewCarro" [options]="optionsNewCarro"
           [form]="formNewCarro">
         </formly-form>
-        <button type="button" class="btn btn-next btn btn-success" (click)="registrarVehiculos()">Registrar</button>
+        <div class="row justify-content-end">
+          <button type="button" class="btn btn-next btn btn-success" (click)="registrarVehiculos()" style="width: 10%;">Registrar</button>
+        </div>
+        
       </form>
     </div>
   </div>

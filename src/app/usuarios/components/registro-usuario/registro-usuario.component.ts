@@ -62,7 +62,7 @@ export class RegistroUsuarioComponent implements OnInit {
   }
 
   tomarFoto() {
-    //this.trigger.next();
+    this.trigger.next();
     while (this.numFotos <= 7) {
       this.alertaEmergente.alertaMensajeOKSinRecargar("Se capturó correctamente la imagen " + this.numFotos)
       this.numFotos++;
@@ -85,7 +85,7 @@ export class RegistroUsuarioComponent implements OnInit {
   handleImage(webcamImage: WebcamImage) {
     this.getPicture.emit(webcamImage);
     //Comentar esta linea
-    //this.showWebCam = false;
+    this.showWebCam = false;
   }
 
   get triggerObservable(): Observable<void> {

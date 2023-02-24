@@ -14,23 +14,25 @@ export class ConsumirServiciosService {
   token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'bearer ' + this.token
+    'Authorization': 'bearer ' + this.token,
+    'Accept': '*/*',
+    'Access-Control-Request-Header':'Content-type',
+    'Access-Control-Allow-Origin': '*'
   });
 
   options = {}
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
 
-  //Iniciar sesion
+
   getDatos(rutaComplementaria: String, headers?: Map<string, any>): Observable<any> {
-    if (headers != null)
       this.obtenerHeader(headers);
 
     return this.http.get(this.url + rutaComplementaria, this.options);
   }
 
   postDatos(rutaComplementaria: String, body: any, headers?: Map<string, any>): Observable<any> {
-    if (headers != null)
       this.obtenerHeader(headers);
 
       console.log(this.options);
@@ -38,20 +40,18 @@ export class ConsumirServiciosService {
   }
 
   putDatos(rutaComplementaria: String, datos: any, headers?: Map<string, any>): Observable<any> {
-    if (headers != null)
       this.obtenerHeader(headers);
 
     return this.http.put(this.url + rutaComplementaria, datos, this.options);
   }
 
   deleteDatos(rutaComplementaria: String, headers?: Map<string, any>): Observable<any> {
-    if (headers != null)
       this.obtenerHeader(headers);
 
     return this.http.delete(this.url + rutaComplementaria, this.options);
   }
 
-  private obtenerHeader(headers: Map<string, any>): boolean {
+  private obtenerHeader(headers: Map<string, any> | undefined): boolean {
     if (headers != null) {
       for (let key of headers.keys()) {
         this.headers = this.headers.append(key, headers.get(key) || "");

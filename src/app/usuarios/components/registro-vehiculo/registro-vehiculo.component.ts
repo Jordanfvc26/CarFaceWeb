@@ -1,3 +1,4 @@
+import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Router } from '@angular/router';
 import { Alerts } from './../../alerts/alerts.component';
 import { VehiculosService } from './../../services/vehiculos.service';
@@ -16,7 +17,7 @@ import { FormGroup } from '@angular/forms';
 export class RegistroVehiculoComponent implements OnInit {
 
   constructor(
-    private _vehiculoService: VehiculosService,
+    private _vehiculoService: ConsumirServiciosService,
     private ruta: Router,
     public alertaEmergente: Alerts
   ) { }
@@ -64,7 +65,7 @@ export class RegistroVehiculoComponent implements OnInit {
           {
             className: 'col-4',
             type: 'input',
-            key: 'Modelo',
+            key: 'modelo',
             props: {
               label: 'Modelo:',
               required: true,
@@ -82,7 +83,7 @@ export class RegistroVehiculoComponent implements OnInit {
           {
             className: 'col-4',
             type: 'input',
-            key: 'anio',
+            key: 'año',
             props: {
               label: 'Año de modelo:',
               required: true,
@@ -96,8 +97,8 @@ export class RegistroVehiculoComponent implements OnInit {
               required: true,
               label: 'Tipo de vehículo:',
               options: [
-                { label: 'Carro', value: 'Carro' },
-                { label: 'Moto', value: 'Moto' },
+                { label: 'Carro', value: 'CARRO' },
+                { label: 'Moto', value: 'MOTO' },
                 { label: 'Furgoneta', value: 'Furgoneta' },
               ],
             },
@@ -124,14 +125,21 @@ export class RegistroVehiculoComponent implements OnInit {
       "anio": "",
       "tipoVehiculo": "" 
     }
+    
+    console.log(this.modelNewCarro.fields.length);
 
-    this._vehiculoService.registerVehiculo(vehiculoN).subscribe((res) => {
-      console.log(res);
-      this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente sus vehículos");
-      this.ruta.navigateByUrl('/dashboard');
-    }, error => {
-      this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
-    });
+    for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
+      console.log(this.modelNewCarro.fields[index]);
+      this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
+        console.log(res);
+        this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente sus vehículos");
+        this.ruta.navigateByUrl('/dashboard');
+      }, error => {
+        this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
+      })
+      
+    }
+    
   }
 
 
