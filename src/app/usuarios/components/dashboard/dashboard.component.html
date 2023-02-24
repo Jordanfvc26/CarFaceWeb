@@ -14,35 +14,35 @@
 
         <div class="options__menu">	
 
-            <a href="#">
+            <a (click)="cambiarIndiceMenu(0)">
                 <div class="option">
                     <fa-icon [icon]="iconInicio"></fa-icon>
                     <h4>Inicio</h4>
                 </div>
             </a>
 
-            <a href="#" class="selected">
+            <a (click)="cambiarIndiceMenu(1)" class="selected">
                 <div class="option">
                     <fa-icon [icon]="iconCarro"></fa-icon>
                     <h4>Mis vehículos</h4>
                 </div>
             </a>
 
-            <a href="#">
+            <a (click)="cambiarIndiceMenu(2)">
                 <div class="option">
                     <fa-icon [icon]="iconMovimientos"></fa-icon>
                     <h4>Movimientos</h4>
                 </div>
             </a>
             
-            <a href="#">
+            <a (click)="cambiarIndiceMenu(3)">
                 <div class="option">
                     <fa-icon [icon]="iconUsuario"></fa-icon>
                     <h4>Guardias</h4>
                 </div>
             </a>
 
-            <a href="#">
+            <a (click)="cerrarSesion()">
                 <div class="option">
                     <fa-icon [icon]="iconCerrarSesion"></fa-icon>
                     <h4>Cerrar sesión</h4>
@@ -54,8 +54,11 @@
 
     </div>
 
-    <main>
-        <app-registro-vehiculo></app-registro-vehiculo>
+    <main [ngSwitch]="opcionMenu">
+        <app-inicio *ngSwitchCase="0"></app-inicio>
+        <app-registro-vehiculo *ngSwitchCase="1"></app-registro-vehiculo>
+        <app-movimientos *ngSwitchCase="2"></app-movimientos>
+        <app-guardias *ngSwitchCase="3"></app-guardias>
     </main>
 
     <script src="js/script.js"></script>

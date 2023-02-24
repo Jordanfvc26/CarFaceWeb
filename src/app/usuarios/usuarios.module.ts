@@ -20,6 +20,9 @@ import { RegistroUsuarioComponent } from './components/registro-usuario/registro
 
 /*Para la camara */
 import { WebcamModule } from 'ngx-webcam';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { MovimientosComponent } from './components/movimientos/movimientos.component';
+import { GuardiasComponent } from './components/guardias/guardias.component';
 
 
 @NgModule({
@@ -29,6 +32,9 @@ import { WebcamModule } from 'ngx-webcam';
     RegistroVehiculoComponent,
     DashboardComponent,
     RegistroUsuarioComponent,
+    InicioComponent,
+    MovimientosComponent,
+    GuardiasComponent,
   ],
   imports: [
     UsuariosRoutingModule,
