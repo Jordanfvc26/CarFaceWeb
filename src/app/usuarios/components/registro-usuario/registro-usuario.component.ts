@@ -130,5 +130,11 @@ export class RegistroUsuarioComponent implements OnInit {
     }
   }
 
+  verificarFotos(){
+    if(this.numFotos==0){
+      this.alertaEmergente.alertMensajeError("Primero debe registrar su rostro");
+    }
+  }
+
   iconCedula = iconos.faIdCard;
 }
