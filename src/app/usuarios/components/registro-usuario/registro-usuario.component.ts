@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 /*Para íconos y animación*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
@@ -13,20 +13,21 @@ import { WebcamUtil, WebcamInitError, WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 
 
-
-
-
 @Component({
   selector: 'app-registro-usuario',
   templateUrl: './registro-usuario.component.html',
   styleUrls: ['./registro-usuario.component.css', './registro-usuario2.component.css']
 })
 export class RegistroUsuarioComponent implements OnInit {
+  //Creando el viewChild
+  @ViewChild('photo') photo: ElementRef;
+
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebCam = true;
   isCameraExist = true;
   errors: WebcamInitError[] = [];
-
+  //Yo
+  fotos: any[] = [];
   numFotos = 0;
 
   //Webcam snapshot trigger
@@ -60,6 +61,38 @@ export class RegistroUsuarioComponent implements OnInit {
       }
     );
   }
+
+  //ChatGPT
+  capturePhoto() {
+    // Obtener el objeto de la cámara
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        // Asignar el stream de la cámara al elemento de video
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+  
+        // Crear un canvas para capturar la imagen
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+  
+        // Esperar a que la cámara esté lista
+        video.addEventListener('loadedmetadata', () => {
+          // Capturar la imagen
+          canvas.getContext('2d').drawImage(video, 0, 0);
+  
+          // Mostrar la imagen en el elemento de imagen
+          this.photo.nativeElement.src = canvas.toDataURL('image/png');
+          
+  
+          // Detener la cámara
+          stream.getTracks().forEach(track => track.stop());
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
 
   tomarFoto() {
     this.trigger.next();
@@ -95,6 +128,8 @@ export class RegistroUsuarioComponent implements OnInit {
   get nextWebcamObservable(): Observable<boolean | string> {
     return this.nextWebcam.asObservable();
   }
+
+
 
 
   //Método para registrar el chofer

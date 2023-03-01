@@ -1,5 +1,4 @@
 <body id="body">
-    
     <header>
         <div class="icon__menu">
             <fa-icon [icon]="iconBarras" id="btn_open"></fa-icon>
@@ -7,59 +6,30 @@
     </header>
 
     <div class="menu__side" id="menu_side">
-
         <div class="name__page">
             <img src="../../../../assets/icono/iconCarFace.png"> <span>CarFace</span>
         </div>
 
-        <div class="options__menu">	
-
-            <a (click)="cambiarIndiceMenu(0)">
-                <div class="option">
-                    <fa-icon [icon]="iconInicio"></fa-icon>
-                    <h4>Inicio</h4>
-                </div>
-            </a>
-
-            <a (click)="cambiarIndiceMenu(1)" class="selected">
-                <div class="option">
-                    <fa-icon [icon]="iconCarro"></fa-icon>
-                    <h4>Mis vehículos</h4>
-                </div>
-            </a>
-
-            <a (click)="cambiarIndiceMenu(2)">
-                <div class="option">
-                    <fa-icon [icon]="iconMovimientos"></fa-icon>
-                    <h4>Movimientos</h4>
-                </div>
-            </a>
-            
-            <a (click)="cambiarIndiceMenu(3)">
-                <div class="option">
-                    <fa-icon [icon]="iconUsuario"></fa-icon>
-                    <h4>Guardias</h4>
-                </div>
-            </a>
-
-            <a (click)="cerrarSesion()">
-                <div class="option">
-                    <fa-icon [icon]="iconCerrarSesion"></fa-icon>
-                    <h4>Cerrar sesión</h4>
-                </div>
-            </a>
-
-
+        <div class="options__menu">
+            <ul> <!--Menú dinámico-->
+                <li class="option" *ngFor="let element of menuOpciones; let i = index"
+                    (click)="element? cambiarIndiceMenu(i) : cambiarIndiceMenu(-1)"
+                    [ngClass]="!element.habilitado ? 'disable': ''">
+                    <fa-icon [icon]="element.icono"></fa-icon>
+                    <span> &nbsp;{{element.nombre}}</span>
+                </li>
+            </ul>
+            <div class="derechos-reservados">
+                <p>CarFace © 2023</p>
+            </div>
         </div>
-
     </div>
 
+    <!--Componentes a mostrarse dentro del contenedor del dashboard-->
     <main [ngSwitch]="opcionMenu">
         <app-inicio *ngSwitchCase="0"></app-inicio>
         <app-registro-vehiculo *ngSwitchCase="1"></app-registro-vehiculo>
         <app-movimientos *ngSwitchCase="2"></app-movimientos>
         <app-guardias *ngSwitchCase="3"></app-guardias>
     </main>
-
-    <script src="js/script.js"></script>
 </body>

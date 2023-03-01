@@ -14,7 +14,7 @@ export class ConsumirServiciosService {
   token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'bearer ' + this.token,
+    'Authorization': 'Bearer ' + this.token,
     'Accept': '*/*',
     'Access-Control-Request-Header':'Content-type',
     'Access-Control-Allow-Origin': '*'

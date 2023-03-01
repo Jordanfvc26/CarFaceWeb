@@ -47,19 +47,24 @@ export class LoginComponent implements OnInit {
     let headers = new Map();
     headers.set("correo", this.loginForm.value.correo);
     headers.set("clave", this.loginForm.value.clave) ;
-    console.log(headers);
-
+    //console.log(headers);
     this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
       sessionStorage.setItem("usuario", data.token);
-      this.ruta.navigateByUrl('/dashboard');
-      //Capturar el rol
+      sessionStorage.setItem("rol", data.rol)
       this.alertaEmergente.alertaMensajeOK("Inicio de sesión exitoso");
+      if (data.rol == 'CHOFER') {
+        this.ruta.navigateByUrl('/dashboard');
+      }
+      else {
+        this.ruta.navigateByUrl('/registro-usuario');
+      }
     }, error =>{
       console.log(error);
       this.alertaEmergente.alertMensajeError("Credenciales incorrectas :(");
     })
   }
 
+  //Método que cambia el indice y abre el formulario de registro
   abrirFormRegistro(){
     this.indice = 1;
     this.ruta.navigateByUrl('/registro-usuario');

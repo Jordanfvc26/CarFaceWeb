@@ -9,8 +9,6 @@ import { Injectable } from '@angular/core';
 })
 export class VehiculosService {
 
-
-
   constructor(private _httpClient: HttpClient) { }
 
   //Consumo de servicio para registrar un vehículo

@@ -114,17 +114,7 @@ export class RegistroVehiculoComponent implements OnInit {
     var datosTabla: JSON = <JSON><unknown>{
       "vehiculos": this.modelNewCarro.fields
     }
-    console.log(datosTabla);
-
-    //Pasando los datos del formGroup a la interfaz
-    let vehiculoN: any = {
-      "placa": "",
-      "marca": "",
-      "modelo": "",
-      "color": "",
-      "anio": "",
-      "tipoVehiculo": "" 
-    }
+    //console.log(datosTabla);
     
     console.log(this.modelNewCarro.fields.length);
 
