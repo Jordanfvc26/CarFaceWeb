@@ -1,5 +1,6 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChoferService } from './../../services/chofer.service';
+import { CargarFotosService } from './../../services/cargar-fotos.service'
 import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
@@ -9,7 +10,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '
 /*Para íconos y animación*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 import * as AOS from 'aos';
-import { WebcamUtil, WebcamInitError, WebcamImage } from 'ngx-webcam';
+import { WebcamUtil, WebcamInitError, WebcamImage, WebcamComponent } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 
 
@@ -20,15 +21,18 @@ import { Subject, Observable } from 'rxjs';
 })
 export class RegistroUsuarioComponent implements OnInit {
   //Creando el viewChild
-  @ViewChild('photo') photo: ElementRef;
+  @ViewChild('webcamComponent') webcamComponent: WebcamComponent;
+  capturedImage: string;
 
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebCam = true;
   isCameraExist = true;
   errors: WebcamInitError[] = [];
   //Yo
-  fotos: any[] = [];
+  fotosAEnviar: WebcamImage[] = [];
   numFotos = 0;
+  formData = new FormData();
+  
 
   //Webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -36,6 +40,7 @@ export class RegistroUsuarioComponent implements OnInit {
 
   constructor(
     private _choferService: ChoferService,
+    private _cargarFotos: CargarFotosService,
     private _cargarScripts: CargarScriptsJsService,
     private ruta: Router,
     private api: ConsumirServiciosService,
@@ -55,52 +60,64 @@ export class RegistroUsuarioComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    WebcamUtil.getAvailableVideoInputs().then(
+    /*WebcamUtil.getAvailableVideoInputs().then(
       (mediaDevices: MediaDeviceInfo[]) => {
         this.isCameraExist = mediaDevices && mediaDevices.length > 0;
       }
-    );
+    );*/
   }
 
-  //ChatGPT
-  capturePhoto() {
-    // Obtener el objeto de la cámara
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        // Asignar el stream de la cámara al elemento de video
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
-  
-        // Crear un canvas para capturar la imagen
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-  
-        // Esperar a que la cámara esté lista
-        video.addEventListener('loadedmetadata', () => {
-          // Capturar la imagen
-          canvas.getContext('2d').drawImage(video, 0, 0);
-  
-          // Mostrar la imagen en el elemento de imagen
-          this.photo.nativeElement.src = canvas.toDataURL('image/png');
-          
-  
-          // Detener la cámara
-          stream.getTracks().forEach(track => track.stop());
-        });
-      })
-      .catch(error => console.log(error));
-  }
+  registrarFotos(){
+    this.iniciarSesion();
+    let headers = new Map();
 
-
-  tomarFoto() {
-    this.trigger.next();
-    while (this.numFotos <= 7) {
-      this.alertaEmergente.alertaMensajeOKSinRecargar("Se capturó correctamente la imagen " + this.numFotos)
-      this.numFotos++;
-      //Aqui agregar la foto tomada
+    const files: File[] = [];
+    for (let i = 0; i < this.fotosAEnviar.length; i++) {
+      const imgBlob = this.dataURItoBlob(this.fotosAEnviar[i].imageAsDataUrl);
+      const file = new File([imgBlob], 'imagen_' + i + '.png', { type: imgBlob.type });
+      files.push(file);
     }
+    console.log(files);
+
+    // Crea un objeto FormData y agrega cada archivo al campo 'files'
+    
+    for (let i = 0; i < files.length; i++) {
+      this.formData.append('files', files[i]);
+    }
+    console.log(this.formData);
+
+    this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data=>{
+      this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente su rostro");
+      this.ruta.navigateByUrl('/dashboard');
+    }, error => {
+      this.alertaEmergente.alertMensajeError("No se ha podido registrar su rostro");
+    });
+  }
+
+  //Método sacado de no se donde
+  private dataURItoBlob(dataURI: string) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  //Toma la foto y las agrega a una lista
+  capturePhoto() {
+    for (let index = 0; index < 5; index++) {
+      this.webcamComponent.takeSnapshot();
+      this.numFotos = index+1;
+    }
+  }
+
+  handleImage(webcamImage: WebcamImage) {
+    this.capturedImage = webcamImage.imageAsDataUrl;
+    //La ruta de la imagen se guarda aquí imageAsDataUrl
+    this.fotosAEnviar.push(webcamImage);
   }
 
   cambiarCamara(directionOrDeviceId: boolean | string) {
@@ -113,12 +130,6 @@ export class RegistroUsuarioComponent implements OnInit {
 
   handleInitError(error: WebcamInitError) {
     this.errors.push(error);
-  }
-
-  handleImage(webcamImage: WebcamImage) {
-    this.getPicture.emit(webcamImage);
-    //Comentar esta linea
-    this.showWebCam = false;
   }
 
   get triggerObservable(): Observable<void> {
@@ -134,7 +145,6 @@ export class RegistroUsuarioComponent implements OnInit {
 
   //Método para registrar el chofer
   registrarChofer(): void {
-
     //Pasando los datos del formGroup a la interfaz
     let body: any = {
       "ci": this.formDatosChofer.value.ci,
@@ -150,24 +160,36 @@ export class RegistroUsuarioComponent implements OnInit {
     this._choferService.registerChofer(body).subscribe((res) => {
       //console.log(res);
       //Aquí consumir api para registrar fotos
-
       //Si se registro bien, lo lleva al login y que inicie sesión
-      this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente en CarFace");
-      this.ruta.navigateByUrl('/login');
+      this.alertaEmergente.alertaMensajeOKSinRecargar("Se ha registrado correctamente en CarFace");
+      //this.ruta.navigateByUrl('/login');
     }, error => {
       this.alertaEmergente.alertMensajeError("No se ha podido registrar en CarFace");
     });
   }
 
+
+   //Método para iniciar sesión
+   iniciarSesion(){
+    let headers = new Map();
+    headers.set("correo", this.formDatosChofer.value.correo);
+    headers.set("clave", this.formDatosChofer.value.clave) ;
+    //console.log(headers);
+    this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
+      sessionStorage.setItem("usuario", data.token);
+      sessionStorage.setItem("rol", data.rol)
+      
+    }, error =>{
+      console.log(error);
+      this.alertaEmergente.alertMensajeError("Hubo error al registrarlo");
+    })
+  }
+
+
+
   alertaRellenar() {
     if (this.formDatosChofer.value.ci == "" || this.formDatosChofer.value.nombre == "" || this.formDatosChofer.value.apellido == "" || this.formDatosChofer.value.telefono == "" || this.formDatosChofer.value.licencia == "Tipo-licencia") {
       this.alertaEmergente.alertMensajeError("Debe rellenar todos los campos");
-    }
-  }
-
-  verificarFotos(){
-    if(this.numFotos==0){
-      this.alertaEmergente.alertMensajeError("Primero debe registrar su rostro");
     }
   }
 
