@@ -32,7 +32,7 @@ export class RegistroUsuarioComponent implements OnInit {
   fotosAEnviar: WebcamImage[] = [];
   numFotos = 0;
   formData = new FormData();
-  
+
 
   //Webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -67,8 +67,7 @@ export class RegistroUsuarioComponent implements OnInit {
     );*/
   }
 
-  registrarFotos(){
-    this.iniciarSesion();
+  registrarFotos() {
     let headers = new Map();
 
     const files: File[] = [];
@@ -80,19 +79,22 @@ export class RegistroUsuarioComponent implements OnInit {
     console.log(files);
 
     // Crea un objeto FormData y agrega cada archivo al campo 'files'
-    
+
     for (let i = 0; i < files.length; i++) {
       this.formData.append('files', files[i]);
     }
     console.log(this.formData.getAll("files"));
 
-    this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data=>{
-      this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente su rostro");
-      this.ruta.navigateByUrl('/dashboard');
-    }, error => {
-      console.log(error)
-      this.alertaEmergente.alertMensajeError("No se ha podido registrar su rostro");
-    });
+    if (this.formData.getAll("files") != null) {
+      this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data => {
+        this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente su rostro");
+        this.ruta.navigateByUrl('/dashboard');
+      }, error => {
+        console.log(error)
+        this.alertaEmergente.alertMensajeError("No se ha podido registrar su rostro");
+      });
+    }
+
   }
 
   //Método sacado de no se donde
@@ -110,8 +112,8 @@ export class RegistroUsuarioComponent implements OnInit {
   //Toma la foto y las agrega a una lista
   capturePhoto() {
     for (let index = 0; index < 5; index++) {
-      this.webcamComponent.takeSnapshot();
-      this.numFotos = index+1;
+      this.webcamComponent.takeSnapshot()
+      this.numFotos = index + 1;
     }
   }
 
@@ -163,6 +165,7 @@ export class RegistroUsuarioComponent implements OnInit {
       //Aquí consumir api para registrar fotos
       //Si se registro bien, lo lleva al login y que inicie sesión
       this.alertaEmergente.alertaMensajeOKSinRecargar("Se ha registrado correctamente en CarFace");
+      this.iniciarSesion();
       //this.ruta.navigateByUrl('/login');
     }, error => {
       this.alertaEmergente.alertMensajeError("No se ha podido registrar en CarFace");
@@ -170,17 +173,17 @@ export class RegistroUsuarioComponent implements OnInit {
   }
 
 
-   //Método para iniciar sesión
-   iniciarSesion(){
+  //Método para iniciar sesión
+  iniciarSesion() {
     let headers = new Map();
     headers.set("correo", this.formDatosChofer.value.correo);
-    headers.set("clave", this.formDatosChofer.value.clave) ;
+    headers.set("clave", this.formDatosChofer.value.clave);
     //console.log(headers);
-    this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
+    this.api.postDatos("/sesion/login", null, headers).subscribe(data => {
       sessionStorage.setItem("usuario", data.token);
       sessionStorage.setItem("rol", data.rol)
-      
-    }, error =>{
+
+    }, error => {
       console.log(error);
       this.alertaEmergente.alertMensajeError("Hubo error al registrarlo");
     })
