@@ -74,7 +74,7 @@ export class RegistroUsuarioComponent implements OnInit {
     const files: File[] = [];
     for (let i = 0; i < this.fotosAEnviar.length; i++) {
       const imgBlob = this.dataURItoBlob(this.fotosAEnviar[i].imageAsDataUrl);
-      const file = new File([imgBlob], 'imagen_' + i + '.png', { type: imgBlob.type });
+      const file = new File([imgBlob], 'imagen_' + i + '.jpg', { type: imgBlob.type });
       files.push(file);
     }
     console.log(files);
@@ -84,12 +84,13 @@ export class RegistroUsuarioComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.formData.append('files', files[i]);
     }
-    console.log(this.formData);
+    console.log(this.formData.getAll("files"));
 
     this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data=>{
       this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente su rostro");
       this.ruta.navigateByUrl('/dashboard');
     }, error => {
+      console.log(error)
       this.alertaEmergente.alertMensajeError("No se ha podido registrar su rostro");
     });
   }
