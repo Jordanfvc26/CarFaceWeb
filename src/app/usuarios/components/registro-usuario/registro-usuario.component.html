@@ -28,8 +28,71 @@
                             </div>
                         </div>
 
+                        <fieldset>
+                            <div class="text-rostro row justify-content-center">
+                                <span>Permita el acceso a su cámara para registrar su rostro</span>
+                                <span>Foto número: {{numFotos}}</span>
+                            </div>
 
-                    
+                            <div class="camara mt-4">
+                                <div *ngIf="isCameraExist; else noCameraExist">
+                                    <div style="text-align: center;">
+                                        <div class="btn-group" style="margin-bottom: 10px;">
+                                            <button type="button" (click)="capturarFotos()" class="btn btn-primary"
+                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                                    [icon]="iconCamara"></fa-icon> Tomar foto</button>
+                                            <!--<button type="button" (click)="cambiarCamara(true)" class="btn btn-primary" style="margin-right: 10px; border-radius: 6px;"><fa-icon [icon]="iconCambiarCamara"></fa-icon> Cambiar</button>-->
+                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary"
+                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                                    [icon]="iconOnOffCamara"></fa-icon> On / Off Cámara</button>
+                                        </div>
+
+                                        <!--Barra de progreso para ver cuantas fotos va tomando-->
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"
+                                                [ngStyle]="{ width: numFotos * 10 + '%' }" aria-valuemin="1"
+                                                aria-valuemax="10">
+                                            </div>
+                                        </div>
+
+                                        <webcam #webcamComponent [height]="300" [width]="300"
+                                            [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                                            *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
+
+                                        <p>Este será el rostro a registrar:</p>
+
+                                        <img id="foto" [src]="capturedImage" *ngIf="capturedImage" [height]="220"
+                                            [width]="300">
+
+
+
+                                    </div>
+
+                                    <div *ngIf="errors.length > 0">
+                                        <h4>Mensajes de error:</h4>
+                                        <ul *ngFor="let error of errors">
+                                            <li>{{error | json}}</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <ng-template #noCameraExist>
+                                No hay una cámara disponible
+                            </ng-template>
+
+
+                            <div class="f1-buttons">
+                                <button type="button" (click)="registrarFotos()"
+                                    class="btn btn-submit">Siguiente</button>
+                            </div>
+                        </fieldset>
+
+
+
+
                         <!--Paso 2 Registro de la información personal del usuario-->
                         <fieldset>
                             <br>
@@ -45,18 +108,19 @@
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Apellidos:</label>
-                                <input formControlName="apellido" type="text" name="f1-last-name" placeholder="Apellidos"
-                                    class="f1-last-name form-control" id="f1-last-name">
+                                <input formControlName="apellido" type="text" name="f1-last-name"
+                                    placeholder="Apellidos" class="f1-last-name form-control" id="f1-last-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Teléfono celular:</label>
-                                <input formControlName="telefono" type="text" name="f1-last-name" placeholder="Teléfono celular"
-                                    class="f1-last-name form-control" id="f1-last-name">
+                                <input formControlName="telefono" type="text" name="f1-last-name"
+                                    placeholder="Teléfono celular" class="f1-last-name form-control" id="f1-last-name">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Tipo licencia:</label>
-                                <select formControlName="licencia" name="select" name="f1-last-name" placeholder="Tipo licencia"
-                                    class="f1-last-name form-control" id="f1-last-name" style="margin-bottom: 12px;">
+                                <select formControlName="licencia" name="select" name="f1-last-name"
+                                    placeholder="Tipo licencia" class="f1-last-name form-control" id="f1-last-name"
+                                    style="margin-bottom: 12px;">
                                     <option value="Tipo-licencia" selected disabled>-- Tipo de licencia --</option>
                                     <option value="A">Tipo A</option>
                                     <option value="B">Tipo B</option>
@@ -75,8 +139,8 @@
                             <br>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-email">Correo:</label>
-                                <input formControlName="correo" type="text" name="f1-email" placeholder="Correo electrónico"
-                                    class="f1-email form-control" id="f1-email">
+                                <input formControlName="correo" type="text" name="f1-email"
+                                    placeholder="Correo electrónico" class="f1-email form-control" id="f1-email">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-password">Contraseña</label>
@@ -91,54 +155,14 @@
                             </div>
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
-                                <button type="button" (click)="registrarChofer()" class="btn btn-next">Registrarme</button>
+                                <button type="button" (click)="registrarChofer()"
+                                    class="btn btn-next">Registrarme</button>
                                 <!--(click)="registrarChofer()"-->
                             </div>
                         </fieldset>
 
 
                         <!--Paso 1 (Registro de la cara del usuario)-->
-                        <fieldset>
-                            <div class="text-rostro row justify-content-center">
-                                <span >Permita el acceso a su cámara para registrar su rostro</span>
-                                <span>Foto número: {{numFotos}}</span>
-                            </div>
-
-                            <div class="camara mt-4">
-                                <div *ngIf="isCameraExist; else noCameraExist">
-                                    <div style="text-align: center;">
-                                        <div class="btn-group" style="margin-bottom: 10px;">
-                                            <button type="button" (click)="capturePhoto()" class="btn btn-primary" style="margin-right: 10px;">Tomar foto</button>
-                                            <button type="button" (click)="cambiarCamara(true)" class="btn btn-primary" style="margin-right: 10px;">Cambiar de cámara</button>
-                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary" style="margin-right: 10px;">On/Off cámara</button>
-                                        </div>
-
-                                        <webcam #webcamComponent [height]="300" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
-                                        *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
-                                        
-                                        <img [src]="capturedImage" *ngIf="capturedImage">
-
-                                    </div>
-
-                                    <div *ngIf="errors.length > 0">
-                                        <h4>Mensajes de error:</h4>
-                                        <ul *ngFor="let error of errors">
-                                           <li>{{error | json}}</li> 
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <ng-template #noCameraExist>
-                                No hay una cámara disponible
-                            </ng-template>
-                            
-                            
-                            <div class="f1-buttons">
-                                <button type="button" (click)="registrarFotos()" class="btn btn-submit">Siguiente</button>
-                            </div>
-                        </fieldset>
 
                     </form>
                 </div>

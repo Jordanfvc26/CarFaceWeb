@@ -13,7 +13,6 @@ export class CargarFotosService {
   url: string = "http://localhost:8080"
   token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
-    
     'Authorization': 'Bearer ' + this.token,
     'Accept': '*/*',
     'Access-Control-Request-Header':'Content-type',

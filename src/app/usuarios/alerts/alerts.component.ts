@@ -34,4 +34,15 @@ export class Alerts {
             showConfirmButton: true,
         })
     }
+
+    //Método que muestra alerta con un mensaje de estado OK, sin recargar la página y sin botón de confirmación
+    public alertaMensajeOKSinBtnConfirmar(mensaje: string) {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: mensaje,
+            showConfirmButton: false,
+            timer: 1700
+        })
+    }
 }

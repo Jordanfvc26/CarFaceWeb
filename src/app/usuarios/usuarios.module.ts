@@ -24,6 +24,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { MovimientosComponent } from './components/movimientos/movimientos.component';
 import { GuardiasComponent } from './components/guardias/guardias.component';
 
+import 'boxicons'
+
 
 @NgModule({
   declarations: [
