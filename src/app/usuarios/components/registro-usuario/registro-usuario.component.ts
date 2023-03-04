@@ -13,7 +13,6 @@ import * as AOS from 'aos';
 import { WebcamUtil, WebcamInitError, WebcamImage, WebcamComponent } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-registro-usuario',
   templateUrl: './registro-usuario.component.html',
@@ -33,8 +32,6 @@ export class RegistroUsuarioComponent implements OnInit {
   fotosAEnviar: WebcamImage[] = [];
   numFotos = 0;
   formData = new FormData();
-
-  validaCorreo = true;
 
   private trigger: Subject<void> = new Subject<void>();
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
@@ -197,42 +194,6 @@ export class RegistroUsuarioComponent implements OnInit {
   get nextWebcamObservable(): Observable<boolean | string> {
     return this.nextWebcam.asObservable();
   }
-
-  //Método para validar que solo se ingresen números
-  solo_numeros(evento:any){
-    var regex = /^[0-9]+$/;
-    if(evento.keycode==8 || evento.keycode==46){
-      return true;
-    }
-    if(regex.test(evento.key)){
-      return true;
-    }else{
-      this.alertaEmergente.alertMensajeError("Este campo solo permite números");
-      return false;
-    }
-  }
-
-  //Método para validar que solo se ingresen letras
-  solo_letras(evento:any){
-    var regex_letras = /^[a-zA-Z\s]*$/;
-    if(regex_letras.test(evento.key)){
-      return true;
-    }else{
-      this.alertaEmergente.alertMensajeError("Este campo solo permite letras");
-      return false;
-    }
-  }
-
-  //Método para validar que se ingrese un correo válido
-  valida_correo(evento:any){
-    var regex_correo = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //var regex_correo=/^[a-z]+@[a-z]+\.[a-z]+$/
-    if(regex_correo.test(this.formDatosChofer.value.correo)){
-      this.validaCorreo=false;
-    }else{
-      this.validaCorreo=true;
-    }
-}
 
 
   //Iconos a utilizar

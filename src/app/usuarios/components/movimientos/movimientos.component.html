@@ -1,1 +1,18 @@
-<p>movimientos works!</p>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">ID Carro</th>
+        <th scope="col">Placa</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let temp of movimientos; let i = index">
+        <th scope="row">{{temp.id}}</th>
+        <td>{{temp.placa}}</td>
+        <td>{{temp.fecha}}</td>
+        <td>{{temp.tipo}}</td>
+      </tr>
+    </tbody>
+  </table>
