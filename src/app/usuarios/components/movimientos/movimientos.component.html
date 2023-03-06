@@ -1,18 +1,27 @@
+<div class="row justify-content-end">
+  <button type="button" class="btn btn-next btn btn-success" style="width: 16%; margin-bottom: 15px;">Imprimir reporte</button>
+</div>
 <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">ID Carro</th>
-        <th scope="col">Placa</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Tipo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let temp of movimientos; let i = index">
-        <th scope="row">{{temp.id}}</th>
-        <td>{{temp.placa}}</td>
-        <td>{{temp.fecha}}</td>
-        <td>{{temp.tipo}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th scope="col">N°</th>
+      <th scope="col">Marca</th>
+      <th scope="col">Modelo</th>
+      <th scope="col">Color</th>
+      <th scope="col">Placa</th>
+      <th scope="col">Fecha registro</th>
+      <th scope="col">Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let temp of movimientos; let i = index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{temp.marca}}</td>
+      <td>{{temp.modelo}}</td>
+      <td>{{temp.color}}</td>
+      <td>{{temp.placa}}</td>
+      <td>{{temp.fecha}}</td>
+      <td>{{temp.tipo}}</td>
+    </tr>
+  </tbody>
+</table>
