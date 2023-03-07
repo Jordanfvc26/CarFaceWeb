@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import * as iconos from '@fortawesome/free-solid-svg-icons';
 
 /*Para generar PDF*/
 import jsPDF from 'jspdf';
@@ -130,4 +131,8 @@ export class MovimientosComponent implements OnInit {
     const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
   }
+
+   //Iconos a utilizar
+   iconPdf = iconos.faFilePdf;
+   iconXlsx = iconos.faFileExcel;
 }

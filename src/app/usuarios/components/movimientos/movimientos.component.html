@@ -1,33 +1,46 @@
-<div class="datos-pdf" id="htmlTablaPDF">
-  <div class="row justify-content-end">
-    <h4>Registro de movimientos de sus vehículos</h4>
-    <div class="botones-exportar">
-      <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()">Exportar a .PDF</button>
-    <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()">Exportar a .XLSX</button>
+<section class="intro">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <h4>Registro de movimientos de sus vehículos</h4>
+        <div class="botones-exportar">
+          <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()"><fa-icon
+              [icon]="iconPdf"></fa-icon> Exportar a .PDF</button>
+          <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()"><fa-icon
+              [icon]="iconXlsx"></fa-icon> Exportar a .XLSX</button>
+        </div>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true"
+              style="position: relative;">
+              <table class="table table-striped mb-0">
+                <thead style="background-color: #3a853f;">
+                  <tr>
+                    <th scope="col">N°</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Fecha registro</th>
+                    <th scope="col">Tipo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let temp of movimientos; let i = index">
+                    <th>{{i+1}}</th>
+                    <td>{{temp.marca}}</td>
+                    <td>{{temp.modelo}}</td>
+                    <td>{{temp.color}}</td>
+                    <td>{{temp.placa}}</td>
+                    <td>{{temp.fecha}}</td>
+                    <td>{{temp.tipo}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <table class="table table-bordered" id="htmlTablaExcel">
-    <thead>
-      <tr>
-        <th scope="col">N°</th>
-        <th scope="col">Marca</th>
-        <th scope="col">Modelo</th>
-        <th scope="col">Color</th>
-        <th scope="col">Placa</th>
-        <th scope="col">Fecha registro</th>
-        <th scope="col">Tipo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let temp of movimientos; let i = index">
-        <th>{{i+1}}</th>
-        <td>{{temp.marca}}</td>
-        <td>{{temp.modelo}}</td>
-        <td>{{temp.color}}</td>
-        <td>{{temp.placa}}</td>
-        <td>{{temp.fecha}}</td>
-        <td>{{temp.tipo}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+</section>
