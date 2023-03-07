@@ -6,7 +6,7 @@ import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 /*Para generar PDF*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-movimientos',
@@ -63,10 +63,11 @@ export class MovimientosComponent implements OnInit {
     })
   }
 
+
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
     //Se extrae la información a plasmar en el PDF
-    const DATA = document.getElementById('htmlData');
+    const DATA = document.getElementById('htmlTablaPDF');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
@@ -95,5 +96,38 @@ export class MovimientosComponent implements OnInit {
       const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
       docResult.save(`${fechaPDFDownload}_movimientos.pdf`);
     });
+  }
+
+
+  //Método que permite exportar los datos a excel
+  exportToExcel() {
+    // Obtener la tabla desde el DOM
+    const table = document.getElementById('htmlTablaExcel');
+    
+    // Crear una matriz para almacenar los datos de la tabla
+    const rows = [];
+    const cells = table.querySelectorAll('td');
+    cells.forEach((cell2, index) => {
+      if (!rows[Math.floor(index / 6)]) {
+        rows[Math.floor(index / 6)] = [];
+      }
+      rows[Math.floor(index / 6)][index % 6] = cell2.innerText;
+    });
+
+    // Crear un libro de Excel y agregar una hoja con los datos de la tabla
+    const worksheet = XLSX.utils.aoa_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Movimientos');
+  
+    //Se obtiene la fecha actual del sistema y se le concatena el nombre para darle un nombre final al archivo descargado
+    const fechaPDF = new Date().toISOString()
+    const fecha = new Date(fechaPDF);
+    this.opciones = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    };
+    const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
+    XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
   }
 }

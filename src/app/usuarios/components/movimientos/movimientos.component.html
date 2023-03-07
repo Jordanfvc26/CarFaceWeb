@@ -1,9 +1,12 @@
-<div class="datos-pdf" id="htmlData">
+<div class="datos-pdf" id="htmlTablaPDF">
   <div class="row justify-content-end">
     <h4>Registro de movimientos de sus vehículos</h4>
-    <button type="button" class="btn btn-next btn btn-success" style="width: 16%; margin-bottom: 15px;" (click)="downloadPDF()">Imprimir reporte</button>
+    <div class="botones-exportar">
+      <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()">Exportar a .PDF</button>
+    <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()">Exportar a .XLSX</button>
+    </div>
   </div>
-  <table class="table table-bordered" id="tabla">
+  <table class="table table-bordered" id="htmlTablaExcel">
     <thead>
       <tr>
         <th scope="col">N°</th>
@@ -17,7 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let temp of movimientos; let i = index">
-        <th scope="row">{{i+1}}</th>
+        <th>{{i+1}}</th>
         <td>{{temp.marca}}</td>
         <td>{{temp.modelo}}</td>
         <td>{{temp.color}}</td>
