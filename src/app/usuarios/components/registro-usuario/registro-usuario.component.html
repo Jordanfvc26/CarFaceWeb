@@ -63,7 +63,6 @@
                             </div>
                         </fieldset>
 
-
                         <!---Paso 2 (Llenado de la información de inicio de sesión correo y clave)-->
                         <fieldset>
                             <br>
@@ -85,8 +84,8 @@
                             </div>
                         </fieldset>
 
-                        <!--Paso 3 Registro del faceID-->
-                        <fieldset>
+                         <!--Paso 3 Registro del faceID-->
+                         <fieldset>
                             <div class="text-rostro row justify-content-center">
                                 <span>Permita el acceso a su cámara para registrar su rostro</span>
                                 <span>Foto número: {{numFotos}}</span>
@@ -113,7 +112,7 @@
                                             [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
                                             *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
                                         <p style="color: black;">Este será el rostro a registrar:</p>
-                                        <img id="foto" [src]="capturedImage" *ngIf="capturedImage" [height]="220" [width]="300">
+                                        <img id="foto" [src]="capturedImageurl" *ngIf="capturedImageurl" [height]="220" [width]="300">
                                     </div>
 
                                     <div *ngIf="errors.length > 0">

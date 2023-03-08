@@ -7,10 +7,12 @@ import { Alerts } from './../../alerts/alerts.component';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
+import * as faceapi from 'face-api.js';
+
 /*Para íconos y animación*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 import * as AOS from 'aos';
-import { WebcamUtil, WebcamInitError, WebcamImage, WebcamComponent } from 'ngx-webcam';
+import { WebcamUtil, WebcamModule, WebcamInitError, WebcamImage, WebcamComponent } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +23,8 @@ import { Subject, Observable } from 'rxjs';
 export class RegistroUsuarioComponent implements OnInit {
   //Creando el viewChild
   @ViewChild('webcamComponent') webcamComponent: WebcamComponent;
-  capturedImage: string;
+  capturedImage: WebcamImage;
+  capturedImageurl: string;
 
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebCam = true;
@@ -148,13 +151,26 @@ export class RegistroUsuarioComponent implements OnInit {
 
   //Toma la foto y las agrega a un vector
   async capturarFotos() {
+    await this.loadFaceApi();
     //Se limpia el vector antes de volver a llenarlo
     this.fotosAEnviar.splice(0, this.fotosAEnviar.length);
     for (let index = 0; index < 10; index++) {
       // Espera 1,5 segundos antes de tomar la foto
       await new Promise(resolve => setTimeout(resolve, 1500));
       this.webcamComponent.takeSnapshot();
-      this.numFotos = index + 1;
+
+      // Detecta un rostro en la foto
+      const img = new Image();
+      img.src = this.capturedImage.imageAsDataUrl;
+      const detection = await faceapi.detectSingleFace(img);
+
+      // Si se detectó un rostro, agrega la foto al vector de fotos a enviar
+      if (detection) {
+        this.fotosAEnviar.push(this.capturedImage);
+        this.numFotos = index + 1;
+      } else {
+        index = index - 1;
+      }
     }
     if (this.numFotos == 10) {
       this.alertaEmergente.alertaMensajeOKSinBtnConfirmar("Face ID registrado");
@@ -162,20 +178,28 @@ export class RegistroUsuarioComponent implements OnInit {
     }
   }
 
-
   //Método que agrega las imágenes al vector
   handleImage(webcamImage: WebcamImage) {
-    this.capturedImage = webcamImage.imageAsDataUrl;
-    //La ruta de la imagen se guarda en imageAsDataUrl
-    this.fotosAEnviar.push(webcamImage);
+    this.capturedImage = webcamImage;
+    this.capturedImageurl=webcamImage.imageAsDataUrl;
   }
-
 
   //Método para cambiar de cámara
   cambiarCamara(directionOrDeviceId: boolean | string) {
     this.nextWebcam.next(directionOrDeviceId);
   }
 
+  async loadFaceApi() {
+    const MODEL_URL = '/../../../assets/models/';
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
+    ]);
+    console.log("MODELOS CARGADOS");
+  }
 
   //Método para encender/apagar la cámara
   onOffCamara() {
