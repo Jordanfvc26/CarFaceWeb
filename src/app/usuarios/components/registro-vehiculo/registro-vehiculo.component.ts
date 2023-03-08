@@ -22,10 +22,8 @@ export class RegistroVehiculoComponent implements OnInit {
     public alertaEmergente: Alerts
   ) { }
 
-
   ngOnInit(): void {
   }
-
 
   /*Form para crear a los Estudiantes */
   formNewCarro = new FormGroup({});
@@ -42,7 +40,7 @@ export class RegistroVehiculoComponent implements OnInit {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'placa',
             props: {
@@ -51,7 +49,7 @@ export class RegistroVehiculoComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'marca',
             props: {
@@ -60,7 +58,7 @@ export class RegistroVehiculoComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'modelo',
             props: {
@@ -69,7 +67,7 @@ export class RegistroVehiculoComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'color',
             props: {
@@ -78,7 +76,7 @@ export class RegistroVehiculoComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'año',
             props: {
@@ -87,7 +85,7 @@ export class RegistroVehiculoComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             key: 'tipoVehiculo',
             type: 'select',
             props: {
@@ -106,22 +104,24 @@ export class RegistroVehiculoComponent implements OnInit {
   ];
 
   registrarVehiculos(): void {
-    var datosTabla: JSON = <JSON><unknown>{
-      "vehiculos": this.modelNewCarro.fields
-    }
-    //console.log(datosTabla);
-    
-    console.log(this.modelNewCarro.fields.length);
+    if (!this.fieldsNewCarro) {
+      var datosTabla: JSON = <JSON><unknown>{
+        "vehiculos": this.modelNewCarro.fields
+      }
 
-    for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
-      console.log(this.modelNewCarro.fields[index]);
-      this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
-        console.log(res);
-        this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente sus vehículos");
-        this.ruta.navigateByUrl('/dashboard');
-      }, error => {
-        this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
-      })
+      for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
+        console.log(this.modelNewCarro.fields[index]);
+        this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
+          console.log(res);
+          this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente sus vehículos");
+          this.ruta.navigateByUrl('/dashboard');
+        }, error => {
+          this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
+        })
+      }
+    }
+    else {
+      this.alertaEmergente.alertMensajeError("Primero debe agregar registros");
     }
   }
 

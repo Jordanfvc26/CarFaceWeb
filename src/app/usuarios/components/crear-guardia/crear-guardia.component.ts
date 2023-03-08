@@ -40,7 +40,7 @@ export class CrearGuardiaComponent implements OnInit {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-2',
+            className: 'col-sm-12 col-md-12 col-lg-2',
             type: 'input',
             key: 'ci',
             props: {
@@ -49,7 +49,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-5',
+            className: 'col-sm-12 col-md-12 col-lg-5',
             type: 'input',
             key: 'nombre',
             props: {
@@ -58,7 +58,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-5',
+            className: 'col-sm-12 col-md-12 col-lg-5',
             type: 'input',
             key: 'apellido',
             props: {
@@ -67,7 +67,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-8',
+            className: 'col-sm-12 col-md-12 col-lg-8',
             type: 'input',
             key: 'correo',
             props: {
@@ -76,7 +76,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'clave',
             props: {
@@ -86,7 +86,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'compania',
             props: {
@@ -95,7 +95,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'fecha_inicio',
             props: {
@@ -104,7 +104,7 @@ export class CrearGuardiaComponent implements OnInit {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-sm-12 col-md-12 col-lg-4',
             type: 'input',
             key: 'fecha_fin',
             props: {
@@ -117,28 +117,31 @@ export class CrearGuardiaComponent implements OnInit {
     },
   ];
 
-
   //Método que registra a los guardias en la base de datos
   registrarGuardias() {
-    var datosTabla: JSON = <JSON><unknown>{
-      "guardias": this.modelNewGuardia.fields
-    }
-    console.log(this.modelNewGuardia.fields.length);
+    if (!this.fieldsNewGuardia) {
+      var datosTabla: JSON = <JSON><unknown>{
+        "guardias": this.modelNewGuardia.fields
+      }
 
-    for (let index = 0; index < this.modelNewGuardia.fields.length; index++) {
-      console.log(this.modelNewGuardia.fields[index]);
-      this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
-        console.log(res);
-        this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente a los guardias");
-        this.ruta.navigateByUrl('/dashboard');
-      }, error => {
-        this.alertaEmergente.alertMensajeError("No se ha podido registrar a los guardias");
-      })
+      for (let index = 0; index < this.modelNewGuardia.fields.length; index++) {
+        console.log(this.modelNewGuardia.fields[index]);
+        this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
+          console.log(res);
+          this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente a los guardias");
+          this.ruta.navigateByUrl('/dashboard');
+        }, error => {
+          this.alertaEmergente.alertMensajeError("No se ha podido registrar a los guardias");
+        })
+      }
+    }
+    else {
+      this.alertaEmergente.alertMensajeError("Primero debe agregar registros");
     }
   }
 
-
   //Iconos a utilizar
   iconGuardia = iconos.faUserShield;
+  iconRegistrar = iconos.faCheck;
 
 }

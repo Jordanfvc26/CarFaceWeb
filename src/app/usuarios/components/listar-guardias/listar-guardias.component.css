@@ -20,6 +20,7 @@ thead th {
 .table-scroll table thead th {
   font-size: 1rem;
 }
+
 thead {
   top: 0;
   position: sticky;
@@ -27,25 +28,54 @@ thead {
 
 
 
-.botones-exportar{
-    margin-bottom: 15px;
-    text-align: end;
+.botones-exportar {
+  margin-bottom: 15px;
+  text-align: end;
 }
 
-.save-pdf{
-    margin-right: 20px;
+.save-pdf {
+  margin-right: 20px;
 }
 
 
 /*Para los botones de las acciones*/
-#iconEditar{
-    margin-left: 7px;
-    margin-right: 20px;
-    font-size: 20px;
-    color: rgb(64, 140, 202);
+#iconEditar {
+  margin-left: 7px;
+  margin-right: 20px;
+  font-size: 20px;
+  color: rgb(64, 140, 202);
 }
 
-#iconEliminar{
+#iconEliminar {
+  font-size: 20px;
+  color: rgb(243, 36, 36);
+}
+
+
+/*Responsive*/
+@media screen and (max-width: 760px) {
+  #titulo {
     font-size: 20px;
-    color: rgb(243, 36, 36);
+    margin-bottom: 15px;
+  }
+
+  #subtitulo {
+    font-size: 15;
+    margin-bottom: 8px;
+  }
+
+  .botones-exportar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .botones-exportar .save-pdf {
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .botones-exportar .save-xlsx {
+    margin-bottom: 14px;
+    width: 100%;
+  }
 }

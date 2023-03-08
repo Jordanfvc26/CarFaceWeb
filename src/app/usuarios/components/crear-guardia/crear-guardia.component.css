@@ -1,0 +1,17 @@
+.boton-registrar{
+    text-align: end;
+}
+
+
+@media screen and (max-width: 760px) {
+    #titulo{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    #subtitulo{
+        font-size: 15;
+        margin-bottom: 8px;
+    }
+}
+

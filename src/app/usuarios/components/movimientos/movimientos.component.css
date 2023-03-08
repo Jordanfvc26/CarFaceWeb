@@ -36,3 +36,32 @@ thead {
     margin-right: 20px;
 }
 
+
+/*Responsive*/
+@media screen and (max-width: 760px) {
+  #titulo {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  #subtitulo {
+    font-size: 15;
+    margin-bottom: 8px;
+  }
+
+  .botones-exportar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .botones-exportar .save-pdf {
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .botones-exportar .save-xlsx {
+    margin-bottom: 14px;
+    width: 100%;
+  }
+}
+
