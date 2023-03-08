@@ -7,6 +7,7 @@ import { Alerts } from './../../alerts/alerts.component';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
+/*Para el reconocimiento facial*/
 import * as faceapi from 'face-api.js';
 
 /*Para íconos y animación*/

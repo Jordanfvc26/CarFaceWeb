@@ -1,0 +1,15 @@
+<div class="container">
+    <h3><fa-icon [icon]="iconGuardia"></fa-icon> Guardias a registrar</h3>
+    <div class="registro-vehiculo">
+        <p>Aquí puede registrar los guardias encargados del parqueadero: </p>
+        <form>
+            <formly-form [model]="modelNewGuardia" [fields]="fieldsNewGuardia" [options]="optionsNewGuardia"
+                [form]="formNewGuardia">
+            </formly-form>
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-next btn btn-success" (click)="registrarGuardias()"
+                    style="width: 10%;">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -27,9 +27,17 @@
 
     <!--Componentes a mostrarse dentro del contenedor del dashboard-->
     <main [ngSwitch]="opcionMenu">
-        <app-inicio *ngSwitchCase="0"></app-inicio>
-        <app-registro-vehiculo *ngSwitchCase="1"></app-registro-vehiculo>
-        <app-movimientos *ngSwitchCase="2"></app-movimientos>
-        <app-guardias *ngSwitchCase="3"></app-guardias>
+        <div *ngIf="this.rolUsuario == 'CHOFER'; else administrador">
+            <app-inicio *ngSwitchCase="0"></app-inicio>
+            <app-registro-vehiculo *ngSwitchCase="1"></app-registro-vehiculo>
+            <app-movimientos *ngSwitchCase="2"></app-movimientos>
+        </div>
+        <ng-template #administrador>
+            <app-inicio *ngSwitchCase="0"></app-inicio>
+            <app-crear-guardia *ngSwitchCase="1"></app-crear-guardia>
+            <app-listar-guardias *ngSwitchCase="2"></app-listar-guardias>
+           
+        </ng-template>
+        <h4 *ngSwitchDefault>Lo sentimos, esta opción aún no está disponible :(</h4>
     </main>
 </body>

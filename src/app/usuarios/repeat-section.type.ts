@@ -15,7 +15,7 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
       </div>
       
       <div *ngFor="let field of field.fieldGroup; let i = index" class="row align-items-baseline" style="border: 1px solid rgba(179, 179, 179, 0.863); border-radius: 10px; margin-bottom: 15px;">
-      <h5 style="margin-top: 20px;"> <b>Datos del Vehículo {{i+1}}:</b></h5>
+      <h5 style="margin-top: 20px;"> <b>Registro N° {{i+1}}:</b></h5>
         <formly-field class="col" [field]="field"></formly-field>
         <div class="col-1 d-flex align-items-center">
           <button class="btn btn-danger" type="button" (click)="remove(i)"> <fa-icon [icon]="iconDelete"></fa-icon> </button>

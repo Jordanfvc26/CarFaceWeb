@@ -24,9 +24,6 @@ export class RegistroVehiculoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    /*setInterval(() => {
-      console.log(this.modelNewCarro);
-    }, 10);*/
   }
 
 
@@ -108,9 +105,7 @@ export class RegistroVehiculoComponent implements OnInit {
     },
   ];
 
-  //Aún no funciona
   registrarVehiculos(): void {
-
     var datosTabla: JSON = <JSON><unknown>{
       "vehiculos": this.modelNewCarro.fields
     }
@@ -127,13 +122,9 @@ export class RegistroVehiculoComponent implements OnInit {
       }, error => {
         this.alertaEmergente.alertMensajeError("No se ha podido registrar sus vehículos");
       })
-      
     }
-    
   }
 
-
-
-
+  //Iconos a utilizar
   iconCarro = iconos.faCar;
 }

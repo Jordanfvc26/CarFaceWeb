@@ -1,0 +1,19 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">N°</th>
+      <th scope="col">Nombres</th>
+      <th scope="col">Apellidos</th>
+      <th scope="col">Empresa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let guardia of guardias; let i = index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{guardia.nombre}}</td>
+      <td>{{guardia.apellido}}</td>
+      <td>{{guardia.capital}}</td>
+    </tr>
+
+  </tbody>
+</table>

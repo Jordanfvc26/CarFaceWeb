@@ -32,12 +32,13 @@ export class DashboardComponent implements OnInit {
     if (sessionStorage.getItem("rol") == "CHOFER") {
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Mis vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
-      this.menuOpciones.push({ icono: this.iconGuardias, nombre: "Guardias", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconListGuardias, nombre: "Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
     }
     else {
+      this.menuOpciones.push({ icono: this.iconGuardia, nombre: "Crear Guardias", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconListGuardias, nombre: "Listar Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
-      this.menuOpciones.push({ icono: this.iconGuardias, nombre: "Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
     }
   }
@@ -68,8 +69,9 @@ export class DashboardComponent implements OnInit {
   iconInicio = iconos.faHome;
   iconAgregar = iconos.faCar;
   iconMovimientos = iconos.faCalendar;
-  iconGuardias = iconos.faUser;
+  iconListGuardias = iconos.faUser;
   iconCerrarSesion = iconos.faSignOutAlt;
+  iconGuardia = iconos.faUserShield;
 
   
   
