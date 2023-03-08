@@ -135,4 +135,5 @@ export class MovimientosComponent implements OnInit {
    //Iconos a utilizar
    iconPdf = iconos.faFilePdf;
    iconXlsx = iconos.faFileExcel;
+   iconCalendario = iconos.faCalendar;
 }

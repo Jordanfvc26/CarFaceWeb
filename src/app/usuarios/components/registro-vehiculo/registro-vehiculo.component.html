@@ -1,6 +1,7 @@
 <div class="container">
+  <h3><fa-icon [icon]="iconCarro"></fa-icon> Vehículos a registrar</h3>
     <div class="registro-vehiculo">
-      <h3><fa-icon [icon]="iconCarro"></fa-icon> Vehículos a registrar</h3>
+      <p>Aquí puede registrar todos los vehículos que tiene disponible: </p>
       <form>
         <formly-form [model]="modelNewCarro" [fields]="fieldsNewCarro" [options]="optionsNewCarro"
           [form]="formNewCarro">
@@ -8,7 +9,6 @@
         <div class="row justify-content-end">
           <button type="button" class="btn btn-next btn btn-success" (click)="registrarVehiculos()" style="width: 10%;">Registrar</button>
         </div>
-        
       </form>
     </div>
   </div>
