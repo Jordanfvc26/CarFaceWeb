@@ -1,19 +1,49 @@
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">N°</th>
-      <th scope="col">Nombres</th>
-      <th scope="col">Apellidos</th>
-      <th scope="col">Empresa</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let guardia of guardias; let i = index">
-      <th scope="row">{{i+1}}</th>
-      <td>{{guardia.nombre}}</td>
-      <td>{{guardia.apellido}}</td>
-      <td>{{guardia.capital}}</td>
-    </tr>
-
-  </tbody>
-</table>
+<section class="intro">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <h3><fa-icon [icon]="iconGuardia"></fa-icon> Registro de Guardias</h3>
+        <div class="botones-exportar">
+          <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()"><fa-icon
+              [icon]="iconPdf"></fa-icon> Exportar a .PDF</button>
+          <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()"><fa-icon
+              [icon]="iconXlsx"></fa-icon> Exportar a .XLSX</button>
+        </div>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true"
+              style="position: relative;">
+              <table class="table table-striped mb-0">
+                <thead style="background-color: #3a853f;">
+                  <tr>
+                    <th scope="col">N°</th>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let guardia of guardias; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{guardia.ci}}</td>
+                    <td>{{guardia.nombre}}</td>
+                    <td>{{guardia.correo}}</td>
+                    <td>{{guardia.empresa}}</td>
+                    <td>{{guardia.estado}}</td>
+                    <td class="acciones">
+                      <fa-icon data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
+                      <fa-icon data-bs-toggle="mensaje" title="Eliminar" id="iconEliminar" [icon]="iconEliminar"></fa-icon>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

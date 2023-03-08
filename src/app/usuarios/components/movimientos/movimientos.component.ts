@@ -4,7 +4,7 @@ import { Alerts } from './../../alerts/alerts.component';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
-/*Para generar PDF*/
+/*Para generar PDF y excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
