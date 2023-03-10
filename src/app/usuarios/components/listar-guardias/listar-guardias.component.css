@@ -26,7 +26,9 @@ thead {
   position: sticky;
 }
 
-
+#checkbox{
+  margin-left: 17px;
+}
 
 .botones-exportar {
   margin-bottom: 15px;

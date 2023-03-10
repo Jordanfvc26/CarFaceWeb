@@ -1,15 +1,18 @@
+import { EliminarGuardiaComponent } from './../eliminar-guardia/eliminar-guardia.component';
 import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
 import { ChoferService } from './../../services/chofer.service';
 import { Component, OnInit } from '@angular/core';
-
+/*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
 /*Para generar PDF y Excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
+/*Para la ventana emergente*/
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-listar-guardias',
@@ -26,7 +29,7 @@ export class ListarGuardiasComponent implements OnInit {
     private _choferService: ChoferService,
     public alertaEmergente: Alerts,
     private api: ConsumirServiciosService,
-    private ruta: Router,
+    public modal: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -34,11 +37,14 @@ export class ListarGuardiasComponent implements OnInit {
     this.api.getDatos("/guardia/all").subscribe(data => {
       data.forEach(element => {
         //Dando formato al vector
-        if (element.estado == true)
+        if (element.estado == true){
           this.estado = "ACTIVO";
-        else
+        }
+        else{
           this.estado = "INACTIVO";
+        }
         let guardia = {
+          "id": element.id,
           "ci": element.ci,
           "nombre": element.nombre,
           "correo": element.correo,
@@ -120,6 +126,14 @@ export class ListarGuardiasComponent implements OnInit {
     };
     const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
+  }
+
+  //Método para eliminar a un guardia
+  eliminarGuardia(modalEliminarGuardia: any, guardiaID: any){
+    this.modal.open(modalEliminarGuardia, { size: 'lg', centered: true });
+    //Pasamos el ID de la tabla a eliminar, al componente de Eliminar.
+    EliminarGuardiaComponent.guardiaIDEliminar = guardiaID;
+    console.log(guardiaID);
   }
 
 

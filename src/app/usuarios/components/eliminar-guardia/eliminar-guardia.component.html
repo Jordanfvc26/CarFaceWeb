@@ -1,0 +1,17 @@
+<!--Pestaña "General" la cual se usa para crear una tabla con la información correspondiente-->
+<div class="container">
+    <div class="modal-header">
+        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconEliminar"></fa-icon> Eliminar Guardia</h4>
+    </div>
+
+    <div class="modal-body">
+        <h5>¿Seguro deseas eliminar este guardia?</h5>
+        <br/>
+        <small class="text-danger">Nota: Se eliminará el guardia y toda su información</small>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="modal.dismissAll()" class="btn btn-danger" type="button">Cancelar  <fa-icon id="iconEliminar" [icon]="iconCancelar"></fa-icon></button>
+        <button (click)="eliminarGuardia()" class="btn btn-success" type="button">Aceptar  <fa-icon id="iconEliminar" [icon]="iconAceptar"></fa-icon></button>
+    </div>
+</div>

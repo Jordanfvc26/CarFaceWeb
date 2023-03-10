@@ -11,8 +11,7 @@
         </div>
         <div class="card">
           <div class="card-body p-0">
-            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true"
-              style="position: relative;">
+            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative;">
               <table class="table table-striped mb-0">
                 <thead style="background-color: #3a853f;">
                   <tr>
@@ -21,7 +20,7 @@
                     <th scope="col">Nombres</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Empresa</th>
-                    <th scope="col">Estado</th>
+                    <th scope="col">Activo</th>
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
@@ -32,11 +31,19 @@
                     <td>{{guardia.nombre}}</td>
                     <td>{{guardia.correo}}</td>
                     <td>{{guardia.empresa}}</td>
-                    <td>{{guardia.estado}}</td>
+
+                    <td *ngIf="guardia.estado == 'ACTIVO'; else inactivo">
+                      <input (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" type="checkbox" checked id="checkbox">
+                    </td>
+                    <ng-template #inactivo>
+                      <td><input (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" type="checkbox" id="checkbox"></td>
+                    </ng-template>
+
                     <td class="acciones">
                       <fa-icon data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
-                      <fa-icon data-bs-toggle="mensaje" title="Eliminar" id="iconEliminar" [icon]="iconEliminar"></fa-icon>
-                  </td>
+                      <fa-icon (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" data-bs-toggle="mensaje"
+                        title="Eliminar" id="iconEliminar" [icon]="iconEliminar"></fa-icon>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -47,3 +54,11 @@
     </div>
   </div>
 </section>
+
+
+<!--Ventanas emergentes para las acciones de editar y eliminar-->
+
+<!--Para eliminar un registro-->
+<ng-template #modalEliminarGuardia>
+  <app-eliminar-guardia></app-eliminar-guardia>
+</ng-template>
