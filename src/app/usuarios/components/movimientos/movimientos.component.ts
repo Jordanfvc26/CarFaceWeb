@@ -60,7 +60,7 @@ export class MovimientosComponent implements OnInit {
 
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertMensajeError("No se pudieron cargar los recursos :(");
+      this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
     })
   }
 

@@ -128,15 +128,15 @@ export class CrearGuardiaComponent implements OnInit {
         console.log(this.modelNewGuardia.fields[index]);
         this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
           console.log(res);
-          this.alertaEmergente.alertaMensajeOK("Se ha registrado correctamente a los guardias");
+          this.alertaEmergente.alertaOKSinReloadBtn("Se ha registrado correctamente a los guardias");
           this.ruta.navigateByUrl('/dashboard');
         }, error => {
-          this.alertaEmergente.alertMensajeError("No se ha podido registrar a los guardias");
+          this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido registrar a los guardias");
         })
       }
     }
     else {
-      this.alertaEmergente.alertMensajeError("Primero debe agregar registros");
+      this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe agregar registros");
     }
   }
 

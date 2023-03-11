@@ -31,18 +31,14 @@
                     <td>{{guardia.nombre}}</td>
                     <td>{{guardia.correo}}</td>
                     <td>{{guardia.empresa}}</td>
-
                     <td *ngIf="guardia.estado == 'ACTIVO'; else inactivo">
-                      <input (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" type="checkbox" checked id="checkbox">
+                      <input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox" checked id="checkbox">
                     </td>
                     <ng-template #inactivo>
-                      <td><input (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" type="checkbox" id="checkbox"></td>
+                      <td><input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox" id="checkbox"></td>
                     </ng-template>
-
                     <td class="acciones">
-                      <fa-icon data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
-                      <fa-icon (click)="eliminarGuardia(modalEliminarGuardia, guardia.id)" data-bs-toggle="mensaje"
-                        title="Eliminar" id="iconEliminar" [icon]="iconEliminar"></fa-icon>
+                      <fa-icon (click)="abrirModalEditarGuardia(modalEditarGuardia, guardias[i])" data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
                     </td>
                   </tr>
                 </tbody>
@@ -57,8 +53,7 @@
 
 
 <!--Ventanas emergentes para las acciones de editar y eliminar-->
-
-<!--Para eliminar un registro-->
-<ng-template #modalEliminarGuardia>
-  <app-eliminar-guardia></app-eliminar-guardia>
+<!--Para editar los datos de un guardia-->
+<ng-template #modalEditarGuardia>
+  <app-editar-guardia></app-editar-guardia>
 </ng-template>

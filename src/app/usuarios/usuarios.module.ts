@@ -26,7 +26,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { MovimientosComponent } from './components/movimientos/movimientos.component';
 
 import 'boxicons';
-import { EliminarGuardiaComponent } from './components/eliminar-guardia/eliminar-guardia.component';
+import { EditarGuardiaComponent } from './components/editar-guardia/editar-guardia.component';
 
 
 @NgModule({
@@ -40,7 +40,7 @@ import { EliminarGuardiaComponent } from './components/eliminar-guardia/eliminar
     MovimientosComponent,
     CrearGuardiaComponent,
     ListarGuardiasComponent,
-    EliminarGuardiaComponent,
+    EditarGuardiaComponent,
   ],
   imports: [
     UsuariosRoutingModule,

@@ -67,7 +67,7 @@ export class RegistroUsuarioComponent implements OnInit {
   //Método que indica que primero debe rellenar todos los campos
   alertaRellenar() {
     if (this.formDatosChofer.value.ci == "" || this.formDatosChofer.value.nombre == "" || this.formDatosChofer.value.apellido == "" || this.formDatosChofer.value.telefono == "" || this.formDatosChofer.value.licencia == "Tipo-licencia") {
-      this.alertaEmergente.alertMensajeError("Debe rellenar todos los campos");
+      this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe rellenar todos los campos");
     }
   }
 
@@ -85,10 +85,10 @@ export class RegistroUsuarioComponent implements OnInit {
     }
 
     this._choferService.registerChofer(body).subscribe((res) => {
-      this.alertaEmergente.alertaMensajeOKSinBtnConfirmar("Registro de información personal exitoso");
+      this.alertaEmergente.alertaOKSinReload("Registro de información personal exitoso");
       this.iniciarSesion();
     }, error => {
-      this.alertaEmergente.alertMensajeError("No se pudo registrar su información en CarFace");
+      this.alertaEmergente.alertaErrorSinReload("No se pudo registrar su información");
     });
   }
 
@@ -103,7 +103,7 @@ export class RegistroUsuarioComponent implements OnInit {
       sessionStorage.setItem("rol", data.rol)
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertMensajeError("Ha ocurrido un error en el servidor");
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudo procesar su solicitud");
     })
   }
 
@@ -127,11 +127,11 @@ export class RegistroUsuarioComponent implements OnInit {
     //Compara lo del formData y procede a enviar a la API
     if (this.formData.getAll("files") != null) {
       this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data => {
-        this.alertaEmergente.alertaMensajeOKSinBtnConfirmar("Se ha registrado correctamente en CarFace");
+        this.alertaEmergente.alertaOKConReload("Se ha registrado correctamente en CarFace");
         this.ruta.navigateByUrl('/dashboard');
       }, error => {
         console.log(error)
-        this.alertaEmergente.alertMensajeError("No se ha podido registrar su rostro");
+        this.alertaEmergente.alertaErrorSinReload("No se ha podido registrar su rostro");
       });
     }
   }
@@ -174,7 +174,7 @@ export class RegistroUsuarioComponent implements OnInit {
       }
     }
     if (this.numFotos == 10) {
-      this.alertaEmergente.alertaMensajeOKSinBtnConfirmar("Face ID registrado");
+      this.alertaEmergente.alertaOKSinReload("Face ID capturado");
       console.log(this.fotosAEnviar);
     }
   }

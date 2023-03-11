@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
       sessionStorage.setItem("usuario", data.token);
       sessionStorage.setItem("rol", data.rol)
-      this.alertaEmergente.alertaMensajeOK("Inicio de sesión exitoso");
+      this.alertaEmergente.alertaOKConReload("Inicio de sesión exitoso");
       if (data.rol == 'CHOFER') {
         this.ruta.navigateByUrl('/dashboard');
       }
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       }
     }, error =>{
       console.log(error);
-      this.alertaEmergente.alertMensajeError("Credenciales incorrectas :(");
+      this.alertaEmergente.alertaErrorSinReload("Credenciales incorrectas");
     })
   }
 

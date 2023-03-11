@@ -3,8 +3,8 @@ import Swal from 'sweetalert2'
 
 export class Alerts {
 
-    //Método que muestra una alerta con un mensaje de estado OK
-    public alertaMensajeOK(mensaje: string) {
+    //Método que muestra una alerta con un mensaje de estado OK recargando y con botón
+    public alertaOKConReloadBtn(mensaje: string) {
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -15,18 +15,20 @@ export class Alerts {
         })
     }
 
-    //Método que muestra una alerta con un mensaje de estado ERROR
-    public alertMensajeError(mensaje: string) {
+    //Método que muestra una alerta con un mensaje de estado OK recargando y sin botón
+    public alertaOKConReload(mensaje: string) {
         Swal.fire({
             position: 'center',
-            icon: 'error',
+            icon: 'success',
             title: mensaje,
-            showConfirmButton: true,
+            showConfirmButton: false,
+        }).then((result) => {
+            window.location.reload();
         })
     }
 
-    //Método que muestra alerta con un mensaje de estado OK, sin recargar la página
-    public alertaMensajeOKSinRecargar(mensaje: string) {
+    //Método que muestra alerta con un mensaje de estado OK, sin recargar la página y con botón
+    public alertaOKSinReloadBtn(mensaje: string) {
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -36,13 +38,50 @@ export class Alerts {
     }
 
     //Método que muestra alerta con un mensaje de estado OK, sin recargar la página y sin botón de confirmación
-    public alertaMensajeOKSinBtnConfirmar(mensaje: string) {
+    public alertaOKSinReload(mensaje: string) {
         Swal.fire({
             position: 'center',
             icon: 'success',
             title: mensaje,
             showConfirmButton: false,
             timer: 1700
+        })
+    }
+
+    //Método que muestra una alerta con un mensaje de estado ERROR, sin recargar y con botón
+    public alertaErrorSinReloadBtn(mensaje: string) {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: mensaje,
+            showConfirmButton: true,
+        })
+    }
+
+    //Método que muestra una alerta con un mensaje de estado ERROR, sin recargar y sin botón
+    public alertaErrorSinReload(mensaje: string) {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: mensaje,
+            showConfirmButton: false,
+        })
+    }
+
+    //Método para confirmar si se quiere hacer una acción o no
+    public alertaAceptarCancelar(mensajePregunta: string, mensajeOK: string) {
+        Swal.fire({
+            /*title: 'Are you sure?',*/
+            text: mensajePregunta,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.alertaOKSinReload(mensajeOK)
+            }
         })
     }
 }

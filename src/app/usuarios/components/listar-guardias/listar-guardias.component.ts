@@ -1,4 +1,4 @@
-import { EliminarGuardiaComponent } from './../eliminar-guardia/eliminar-guardia.component';
+import { EditarGuardiaComponent } from './../editar-guardia/editar-guardia.component';
 import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
@@ -37,10 +37,10 @@ export class ListarGuardiasComponent implements OnInit {
     this.api.getDatos("/guardia/all").subscribe(data => {
       data.forEach(element => {
         //Dando formato al vector
-        if (element.estado == true){
+        if (element.estado == true) {
           this.estado = "ACTIVO";
         }
-        else{
+        else {
           this.estado = "INACTIVO";
         }
         let guardia = {
@@ -56,7 +56,7 @@ export class ListarGuardiasComponent implements OnInit {
       });
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertMensajeError("No se pudieron cargar los datos :(");
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los datos");
     })
   }
 
@@ -128,19 +128,32 @@ export class ListarGuardiasComponent implements OnInit {
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
   }
 
-  //Método para eliminar a un guardia
-  eliminarGuardia(modalEliminarGuardia: any, guardiaID: any){
-    this.modal.open(modalEliminarGuardia, { size: 'lg', centered: true });
-    //Pasamos el ID de la tabla a eliminar, al componente de Eliminar.
-    EliminarGuardiaComponent.guardiaIDEliminar = guardiaID;
-    console.log(guardiaID);
+
+  //Método para cambiar el estado de un guardia
+  cambiarEstadoGuardia(guardiaID: number, estado: string) {
+    let estadoConsumir = true;
+    if (estado == 'ACTIVO'){
+      estado = 'INACTIVO';
+      estadoConsumir = false;
+    }
+    this.api.putDatos("/guardia/" + guardiaID + "/" + estadoConsumir, guardiaID).subscribe(data => {
+      //this.alertaEmergente.alertaOKSinReload("Se ha cambiado el estado correctamente.")
+    }, error => {
+      this.alertaEmergente.alertaErrorSinReload("No se pudo procesar su consulta");
+    })
   }
 
+
+  //Método que abre el modal para cargar los datos del guardia
+  abrirModalEditarGuardia(modalGuardia, guardia){
+    console.log("capturado: " + guardia)
+    this.modal.open(modalGuardia, { size: 'lg', centered: true });
+    EditarGuardiaComponent.datosGuardia = guardia;
+  }
 
   //Iconos a utilizar
   iconEditar = iconos.faEdit;
   iconEliminar = iconos.faTrash;
-
   iconPdf = iconos.faFilePdf;
   iconXlsx = iconos.faFileExcel;
   iconGuardia = iconos.faUserShield;

@@ -1,0 +1,24 @@
+<!--Pestaña "General" la cual se usa para crear una tabla con la información correspondiente-->
+<div class="container">
+    <div class="modal-header">
+        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconEditar"></fa-icon> Editar Guardia</h4>
+    </div>
+
+    <div class="modal-body">
+        <form>
+            <formly-form [model]="modelEditGuardia" [fields]="fieldsEditGuardia" [options]="optionsEditGuardia"
+                [form]="formEditGuardia">
+            </formly-form>
+
+            <div class="boton-registrar">
+                <button type="button" class="btn btn-next btn btn-success" (click)="editarGuardia()">
+                    <fa-icon [icon]="iconAceptar"></fa-icon> Registrar</button>
+            </div>
+        </form>
+    </div>
+
+    <!--<div class="modal-footer">
+        <button (click)="modal.dismissAll()" class="btn btn-danger" type="button">Cancelar  <fa-icon id="iconEliminar" [icon]="iconCancelar"></fa-icon></button>
+        <button class="btn btn-success" type="button">Aceptar  <fa-icon id="iconEliminar" [icon]="iconAceptar"></fa-icon></button>
+    </div>-->
+</div>
