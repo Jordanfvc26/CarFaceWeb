@@ -43,10 +43,20 @@ export class ListarGuardiasComponent implements OnInit {
         else {
           this.estado = "INACTIVO";
         }
+
+        //Formateando los nombres
+        const nombreCompleto = element.nombre;
+        const nombresSeparados = nombreCompleto.split(" ");
+        const nombre1 = nombresSeparados[0];
+        const nombre2 = nombresSeparados[1];
+        const apellido1 = nombresSeparados[2];
+        const apellido2 = nombresSeparados[3];
+
         let guardia = {
           "id": element.id,
           "ci": element.ci,
-          "nombre": element.nombre,
+          "nombre": nombre1,
+          "apellido": nombre2,
           "correo": element.correo,
           "empresa": element.empresa,
           "estado": this.estado
@@ -132,7 +142,7 @@ export class ListarGuardiasComponent implements OnInit {
   //Método para cambiar el estado de un guardia
   cambiarEstadoGuardia(guardiaID: number, estado: string) {
     let estadoConsumir = true;
-    if (estado == 'ACTIVO'){
+    if (estado == 'ACTIVO') {
       estado = 'INACTIVO';
       estadoConsumir = false;
     }
@@ -145,10 +155,9 @@ export class ListarGuardiasComponent implements OnInit {
 
 
   //Método que abre el modal para cargar los datos del guardia
-  abrirModalEditarGuardia(modalGuardia, guardia){
-    console.log("capturado: " + guardia)
+  abrirModalEditarGuardia(modalGuardia, guardia) {
     this.modal.open(modalGuardia, { size: 'lg', centered: true });
-    EditarGuardiaComponent.datosGuardia = guardia;
+    EditarGuardiaComponent.objectGuardia = guardia;
   }
 
   //Iconos a utilizar

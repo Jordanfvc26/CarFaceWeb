@@ -1,3 +1,4 @@
+import { ListarGuardiasComponent } from './components/listar-guardias/listar-guardias.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -16,6 +17,7 @@ const routes:Routes =[
       { path: 'login', component: LoginComponent},
       { path: 'registro-usuario', component: RegistroUsuarioComponent},
       { path: 'dashboard', component: DashboardComponent},
+      { path: 'dashboard/listar-guardias', component: ListarGuardiasComponent},
       { path: 'registroVehiculo', component: RegistroVehiculoComponent},
       /*Path cuando no se especifica una ruta correcta*/
       { path: '**', redirectTo:'login'}

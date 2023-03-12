@@ -14,8 +14,15 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 })
 export class EditarGuardiaComponent implements OnInit {
 
-  static datosGuardia = [];
-  guardia = {};
+  static objectGuardia = {
+    id: "",
+    ci: "",
+    nombre: "",
+    apellido: "",
+    empresa: "",
+    fecha_inicio: "",
+    fecha_fin: "",
+  };
 
 
   constructor(
@@ -35,18 +42,20 @@ export class EditarGuardiaComponent implements OnInit {
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
-          className: 'col-sm-12 col-md-12 col-lg-3',
+          className: 'col-sm-12 col-md-12 col-lg-4',
           type: 'input',
           key: 'ci',
+          defaultValue: '',
           props: {
             label: 'Cédula:',
             required: true,
           },
         },
         {
-          className: 'col-sm-12 col-md-12 col-lg-5',
+          className: 'col-sm-12 col-md-12 col-lg-4',
           type: 'input',
           key: 'nombre',
+          defaultValue: '',
           props: {
             label: 'Nombres:',
             required: true,
@@ -55,27 +64,40 @@ export class EditarGuardiaComponent implements OnInit {
         {
           className: 'col-sm-12 col-md-12 col-lg-4',
           type: 'input',
-          key: 'correo',
+          key: 'apellido',
+          defaultValue: '',
           props: {
-            label: 'E-mail:',
+            label: 'Apellidos:',
             required: true,
           },
         },
         {
-          className: 'col-sm-12 col-md-12 col-lg-6',
+          className: 'col-sm-12 col-md-12 col-lg-12',
           type: 'input',
           key: 'compania',
+          defaultValue: '',
           props: {
-            label: 'Nombre de la compañía:',
+            label: 'Compañía:',
             required: true,
           },
         },
         {
           className: 'col-sm-12 col-md-12 col-lg-6',
           type: 'input',
-          key: 'estado',
+          key: 'fecha_inicio',
+          defaultValue: '',
           props: {
-            label: 'Estado:',
+            label: 'Fecha de incio:',
+            required: true,
+          },
+        },
+        {
+          className: 'col-sm-12 col-md-12 col-lg-6',
+          type: 'input',
+          key: 'fecha_fin',
+          defaultValue: '',
+          props: {
+            label: 'Fecha de fin:',
             required: true,
           },
         },
@@ -84,34 +106,36 @@ export class EditarGuardiaComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-
-    EditarGuardiaComponent.datosGuardia.forEach(element => {
-      this.guardia = {
-        "ci": element.ci,
-        "nombre": element.nombre,
-        "correo": element.correo,
-        "empresa": element.empresa,
-        "estado": element.estado
-      }
-    })
-
-    console.log(this.guardia);
-
-    /*this.fieldsEditGuardia.forEach(element2 => {
+    let i = 0;
+    //Se pasan los valores del objeto, a un vector
+    let arrayGuardia = [EditarGuardiaComponent.objectGuardia.ci,
+      EditarGuardiaComponent.objectGuardia.nombre,
+      EditarGuardiaComponent.objectGuardia.apellido,
+      EditarGuardiaComponent.objectGuardia.empresa,
+      "2023-02-01",
+      "2023-05-01"
+    ]
+    console.log(arrayGuardia);
+    //Se llena el objeto de formly con los datos seleccionados
+    this.fieldsEditGuardia.forEach(element2 => {
       element2.fieldGroup.forEach(element3 => {
-        
-
+        element3.defaultValue = arrayGuardia[i]
+        i++;
       });
-    });*/
-
-
-
-    console.log("Recibido ")
-    console.log(EditarGuardiaComponent.datosGuardia);
+    });
   }
 
-  editarGuardia() {
 
+  //Método que manda a modificar los datos del guardia
+  editarGuardia() {
+    console.log("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id);
+    console.log(this.modelEditGuardia.fields);
+    this.api.putDatos("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id, this.modelEditGuardia.fields).subscribe(data =>{
+      this.alertaEmergente.alertaOKSinReload("Se ha editado la información correctamente");
+      this.modal.dismissAll();
+    }, error =>{
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido editar la información");
+    });
   }
 
 

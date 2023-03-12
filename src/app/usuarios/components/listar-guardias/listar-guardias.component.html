@@ -18,6 +18,7 @@
                     <th scope="col">N°</th>
                     <th scope="col">Cédula</th>
                     <th scope="col">Nombres</th>
+                    <th scope="col">Apellidos</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Empresa</th>
                     <th scope="col">Activo</th>
@@ -29,6 +30,7 @@
                     <th scope="row">{{i+1}}</th>
                     <td>{{guardia.ci}}</td>
                     <td>{{guardia.nombre}}</td>
+                    <td>{{guardia.apellido}}</td>
                     <td>{{guardia.correo}}</td>
                     <td>{{guardia.empresa}}</td>
                     <td *ngIf="guardia.estado == 'ACTIVO'; else inactivo">
