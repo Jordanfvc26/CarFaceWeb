@@ -1,3 +1,5 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
 <section class="intro">
   <div class="container">
     <div class="row justify-content-center">
@@ -9,10 +11,10 @@
           <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()"><fa-icon
               [icon]="iconXlsx"></fa-icon> Exportar a .XLSX</button>
         </div>
-        <div class="card">
+        <div class="card" id="htmlTablaPDF">
           <div class="card-body p-0">
             <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative;">
-              <table class="table table-striped mb-0" id="htmlTablaExcel" id="htmlTablaPDF">
+              <table class="table table-striped mb-0" id="htmlTablaExcel">
                 <thead style="background-color: #3a853f;">
                   <tr>
                     <th scope="col">N°</th>
@@ -34,13 +36,16 @@
                     <td>{{guardia.correo}}</td>
                     <td>{{guardia.empresa}}</td>
                     <td *ngIf="guardia.estado == 'ACTIVO'; else inactivo">
-                      <input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox" checked id="checkbox">
+                      <input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox" checked
+                        id="checkbox">
                     </td>
                     <ng-template #inactivo>
-                      <td><input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox" id="checkbox"></td>
+                      <td><input (click)="cambiarEstadoGuardia(guardia.id, guardia.estado)" type="checkbox"
+                          id="checkbox"></td>
                     </ng-template>
                     <td class="acciones">
-                      <fa-icon (click)="abrirModalEditarGuardia(modalEditarGuardia, guardias[i])" data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
+                      <fa-icon (click)="abrirModalEditarGuardia(modalEditarGuardia, guardias[i])"
+                        data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
                     </td>
                   </tr>
                 </tbody>

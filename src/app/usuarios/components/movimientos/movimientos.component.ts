@@ -16,9 +16,12 @@ import * as XLSX from 'xlsx';
 })
 export class MovimientosComponent implements OnInit {
   @ViewChild('tabla', { static: false }) tabla: ElementRef;
+
+  //Varibles y objetos a utilizar
   movimientos: any[] = [];
   opciones: any;
   nombrePDF: string = "Usuario";
+  estadoSpinner = false;
 
   constructor(
     private api: ConsumirServiciosService,
@@ -28,6 +31,7 @@ export class MovimientosComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.estadoSpinner = true;
     let headers = new Map();
     this.api.getDatos("/chofer").subscribe(data => {
       data.chofer.vehiculo.forEach(element => {
@@ -56,18 +60,20 @@ export class MovimientosComponent implements OnInit {
           }
           //Agregando los datos finaes al vector
           this.movimientos.push(vehiculo);
+          this.estadoSpinner = true;
         });
       });
-
     }, error => {
       console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
+      this.estadoSpinner = true;
     })
   }
 
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
+    this.estadoSpinner = false;
     const DATA = document.getElementById('htmlTablaPDF');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
@@ -108,12 +114,14 @@ export class MovimientosComponent implements OnInit {
       };
       const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
       docResult.save(`${fechaPDFDownload}_movimientos.pdf`);
+      this.estadoSpinner = true;
     });
   }
 
 
   //Método que permite exportar los datos a excel
   exportToExcel() {
+    this.estadoSpinner = false;
     // Obtener la tabla desde el DOM
     const table = document.getElementById('htmlTablaExcel');
 
@@ -142,6 +150,7 @@ export class MovimientosComponent implements OnInit {
     };
     const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
+    this.estadoSpinner = true;
   }
 
   //Método que obtiene la fecha actual (Para usar en la impresión de PDF)

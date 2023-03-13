@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   nomUsuario = "usuario";
   rolUsuario = "rol";
   menuOpciones: any[] = [];
-
+  estadoSpinner = false;
 
   constructor(private _cargarScripts: CargarScriptsJsService, private ruta: Router) {
     _cargarScripts.CargarJS(["dashboard/dashboard"]);
@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
 
   //Al inciar comprobamos que exista un sessionStorage y según eso se muestra el menú de opciones
   ngOnInit(): void {
+    this.estadoSpinner = false;
     if (sessionStorage.getItem("usuario") == null && sessionStorage.getItem("rol") == null) {
       this.ruta.navigateByUrl('/login');
     }
@@ -34,14 +35,17 @@ export class DashboardComponent implements OnInit {
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconListGuardias, nombre: "Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
+      this.estadoSpinner = true;
     }
     else {
       this.menuOpciones.push({ icono: this.iconGuardia, nombre: "Crear Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconListGuardias, nombre: "Listar Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
+      this.estadoSpinner = true;
     }
   }
+
 
   //Inidice para mostrar componentes dentro del dashboard
   cambiarIndiceMenu(indice: number) {
@@ -52,11 +56,17 @@ export class DashboardComponent implements OnInit {
     console.log(this.opcionMenu);
   }
 
+
   //Método para cerrar la sesión y remover el sessionStorage
   cerrarSesion(){
+    this.estadoSpinner = false;
     sessionStorage.removeItem("usuario");
     sessionStorage.removeItem("rol");
-    this.ruta.navigateByUrl('/login');
+    setTimeout(() => {
+      this.estadoSpinner = true;
+      this.ruta.navigateByUrl('/login');
+    }, 2100);
+  
   }
 
   //Iconos generales
@@ -72,8 +82,4 @@ export class DashboardComponent implements OnInit {
   iconListGuardias = iconos.faUser;
   iconCerrarSesion = iconos.faSignOutAlt;
   iconGuardia = iconos.faUserShield;
-
-  
-  
-
 }

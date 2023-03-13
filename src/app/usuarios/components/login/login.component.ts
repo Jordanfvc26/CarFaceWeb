@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
     correo: new FormControl('', Validators.required),
     clave: new FormControl('', Validators.required)
   })
-
+  //Variables a utilizar
+  estadoSpinner = false;
   indice=0;
   webcamImage:WebcamImage | undefined
 
@@ -39,11 +40,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.estadoSpinner = true;
   }
 
   //Método para iniciar sesión
   iniciarSesion(){
+    this.estadoSpinner = false;
     let headers = new Map();
     headers.set("correo", this.loginForm.value.correo);
     headers.set("clave", this.loginForm.value.clave) ;
@@ -51,6 +53,7 @@ export class LoginComponent implements OnInit {
     this.api.postDatos("/sesion/login", null, headers).subscribe(data=>{
       sessionStorage.setItem("usuario", data.token);
       sessionStorage.setItem("rol", data.rol)
+      this.estadoSpinner = true;
       this.alertaEmergente.alertaOKConReload("Inicio de sesión exitoso");
       if (data.rol == 'CHOFER') {
         this.ruta.navigateByUrl('/dashboard');
@@ -61,13 +64,16 @@ export class LoginComponent implements OnInit {
     }, error =>{
       console.log(error);
       this.alertaEmergente.alertaErrorSinReload("Credenciales incorrectas");
+      this.estadoSpinner = true;
     })
   }
 
   //Método que cambia el indice y abre el formulario de registro
   abrirFormRegistro(){
+    this.estadoSpinner = false;
     this.indice = 1;
     this.ruta.navigateByUrl('/registro-usuario');
+    this.estadoSpinner = true;
   }
 
 

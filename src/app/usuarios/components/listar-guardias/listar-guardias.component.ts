@@ -21,9 +21,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListarGuardiasComponent implements OnInit {
 
+  //Variables y objetos a utilizar
   guardias: any[] = [];
   opciones: any;
-  estado: any;
+  estadoGuardia: any;
+  estadoSpinner = false;
 
   constructor(
     private _choferService: ChoferService,
@@ -32,16 +34,18 @@ export class ListarGuardiasComponent implements OnInit {
     public modal: NgbModal
   ) { }
 
+
   ngOnInit(): void {
+    this.estadoSpinner = false;
     let headers = new Map();
     this.api.getDatos("/guardia/all").subscribe(data => {
       data.forEach(element => {
         //Dando formato al vector
         if (element.estado == true) {
-          this.estado = "ACTIVO";
+          this.estadoGuardia = "ACTIVO";
         }
         else {
-          this.estado = "INACTIVO";
+          this.estadoGuardia = "INACTIVO";
         }
 
         //Formateando los nombres
@@ -59,20 +63,23 @@ export class ListarGuardiasComponent implements OnInit {
           "apellido": apellido1 + " " + apellido2,
           "correo": element.correo,
           "empresa": element.empresa,
-          "estado": this.estado
+          "estado": this.estadoGuardia
         }
-        //Agregando los datos finaes al vector
+        //Agregando los datos finales al vector
         this.guardias.push(guardia);
+        this.estadoSpinner = true;
       });
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los datos");
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
+      this.estadoSpinner = true;
     })
   }
 
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
+    this.estadoSpinner = false;
     //Se extrae la información a plasmar en el PDF
     const DATA = document.getElementById('htmlTablaPDF');
     const doc = new jsPDF('p', 'pt', 'a4');
@@ -89,7 +96,7 @@ export class ListarGuardiasComponent implements OnInit {
       const img = canvas.toDataURL('image/PNG');
       //Agregar image Canvas al PDF
       const bufferX = 15;
-      const bufferY = 15;
+      const bufferY = 90;
       const imgProps = (doc as any).getImageProperties(img);
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
@@ -114,23 +121,24 @@ export class ListarGuardiasComponent implements OnInit {
       };
       const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
       docResult.save(`${fechaPDFDownload}_movimientos.pdf`);
+      this.estadoSpinner = true;
     });
   }
 
 
   //Método que permite exportar los datos a excel
   exportToExcel() {
+    this.estadoSpinner = false;
     // Obtener la tabla desde el DOM
     const table = document.getElementById('htmlTablaExcel');
-
     // Crear una matriz para almacenar los datos de la tabla
     const rows = [];
     const cells = table.querySelectorAll('td');
     cells.forEach((cell2, index) => {
-      if (!rows[Math.floor(index / 6)]) {
-        rows[Math.floor(index / 6)] = [];
+      if (!rows[Math.floor(index / 7)]) {
+        rows[Math.floor(index / 7)] = [];
       }
-      rows[Math.floor(index / 6)][index % 6] = cell2.innerText;
+      rows[Math.floor(index / 7)][index % 7] = cell2.innerText;
     });
 
     // Crear un libro de Excel y agregar una hoja con los datos de la tabla
@@ -148,20 +156,23 @@ export class ListarGuardiasComponent implements OnInit {
     };
     const fechaPDFDownload = fecha.toLocaleString('es-ES', this.opciones);
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
+    this.estadoSpinner = true;
   }
 
 
   //Método para cambiar el estado de un guardia
   cambiarEstadoGuardia(guardiaID: number, estado: string) {
+    this.estadoGuardia = false;
     let estadoConsumir = true;
     if (estado == 'ACTIVO') {
       estado = 'INACTIVO';
       estadoConsumir = false;
     }
     this.api.putDatos("/guardia/" + guardiaID + "/" + estadoConsumir, guardiaID).subscribe(data => {
-      //this.alertaEmergente.alertaOKSinReload("Se ha cambiado el estado correctamente.")
+      this.estadoGuardia = true;
     }, error => {
       this.alertaEmergente.alertaErrorSinReload("No se pudo procesar su consulta");
+      this.estadoSpinner = true;
     })
   }
 
@@ -172,6 +183,7 @@ export class ListarGuardiasComponent implements OnInit {
     EditarGuardiaComponent.objectGuardia = guardia;
   }
 
+  //Método que obtiene la fecha actual para mostrarla en el archivo PDF
   obtenerFechaActual(): string {
     const fechaActual = new Date();
     const dia = fechaActual.getDate();
@@ -180,11 +192,11 @@ export class ListarGuardiasComponent implements OnInit {
     return `${dia}/${mes}/${anio}`;
   }
 
+
   //Iconos a utilizar
   iconEditar = iconos.faEdit;
   iconEliminar = iconos.faTrash;
   iconPdf = iconos.faFilePdf;
   iconXlsx = iconos.faFileExcel;
   iconGuardia = iconos.faUserShield;
-
 }

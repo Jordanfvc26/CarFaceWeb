@@ -1,9 +1,11 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
 <body>
     <div class="top-content">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-sm-offset-3 col-md-8 col-md-offset-4 col-lg-6 col-lg-offset-5 form-box">
-                    <form [formGroup]="formDatosChofer" role="form" action="" class="f1">
+                    <form [formGroup]="formDatosChofer" (ngSubmit)="registrarChofer()" role="form" action="" class="f1">
 
                         <div class="img-titulo">
                             <img src="../../../../assets/icono/iconCarFace.png">
@@ -33,19 +35,25 @@
                             <br>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-first-name">Cédula:</label>
-                                <input formControlName="ci" type="text" name="f1-first-name" placeholder="Cédula" class="f1-first-name form-control" id="f1-first-name" [maxlength]="10" >
+                                <input formControlName="ci" type="text" name="f1-first-name" placeholder="Cédula"
+                                    class="f1-first-name form-control" id="f1-first-name" [maxlength]="10">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Nombres:</label>
-                                <input formControlName="nombre" type="text" name="f1-last-name" placeholder="Nombres" class="f1-last-name form-control" id="f1-last-name" [maxlength]="30" >
+                                <input formControlName="nombre" type="text" name="f1-last-name" placeholder="Nombres"
+                                    class="f1-last-name form-control" id="f1-last-name" [maxlength]="30">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Apellidos:</label>
-                                <input formControlName="apellido" type="text" name="f1-last-name" placeholder="Apellidos" class="f1-last-name form-control" id="f1-last-name" [maxlength]="30">
+                                <input formControlName="apellido" type="text" name="f1-last-name"
+                                    placeholder="Apellidos" class="f1-last-name form-control" id="f1-last-name"
+                                    [maxlength]="30">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Teléfono celular:</label>
-                                <input formControlName="telefono" type="text" name="f1-last-name" placeholder="Teléfono celular" class="f1-last-name form-control" id="f1-last-name" [maxlength]="10">
+                                <input formControlName="telefono" type="text" name="f1-last-name"
+                                    placeholder="Teléfono celular" class="f1-last-name form-control" id="f1-last-name"
+                                    [maxlength]="10">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Tipo licencia:</label>
@@ -68,24 +76,29 @@
                             <br>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-email">Correo:</label>
-                                <input formControlName="correo" type="text" name="f1-email" placeholder="Correo electrónico" class="f1-email form-control" id="f1-email" >
+                                <input formControlName="correo" type="text" name="f1-email"
+                                    placeholder="Correo electrónico" class="f1-email form-control" id="f1-email">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-password">Contraseña</label>
-                                <input type="password" name="f1-password" placeholder="Contraseña" class="f1-password form-control" id="f1-password">
+                                <input type="password" name="f1-password" placeholder="Contraseña"
+                                    class="f1-password form-control" id="f1-password">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="f1-repeat-password">Confirmar contraseña</label>
-                                <input formControlName="clave" type="password" name="f1-repeat-password" placeholder="Confirmar contraseña" class="f1-repeat-password form-control" id="f1-repeat-password">
+                                <input formControlName="clave" type="password" name="f1-repeat-password"
+                                    placeholder="Confirmar contraseña" class="f1-repeat-password form-control"
+                                    id="f1-repeat-password">
                             </div>
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
-                                <button type="button" (click)="registrarChofer()" class="btn btn-next">Registrarme</button>
+                                <button type="submit"
+                                    class="btn btn-next">Registrarme</button>
                             </div>
                         </fieldset>
 
-                         <!--Paso 3 Registro del faceID-->
-                         <fieldset>
+                        <!--Paso 3 Registro del faceID-->
+                        <fieldset>
                             <div class="text-rostro row justify-content-center">
                                 <span>Permita el acceso a su cámara para registrar su rostro</span>
                                 <span>Foto número: {{numFotos}}</span>
@@ -95,9 +108,13 @@
                                 <div *ngIf="isCameraExist; else noCameraExist">
                                     <div style="text-align: center;">
                                         <div class="btn-group" style="margin-bottom: 10px;">
-                                            <button type="button" (click)="capturarFotos()" class="btn btn-primary" style="margin-right: 10px; border-radius: 6px;"><fa-icon [icon]="iconCamara"></fa-icon> Tomar foto</button>
+                                            <button type="button" (click)="capturarFotos()" class="btn btn-primary"
+                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                                    [icon]="iconCamara"></fa-icon> Tomar foto</button>
                                             <!--<button type="button" (click)="cambiarCamara(true)" class="btn btn-primary" style="margin-right: 10px; border-radius: 6px;"><fa-icon [icon]="iconCambiarCamara"></fa-icon> Cambiar</button>-->
-                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary" style="margin-right: 10px; border-radius: 6px;"><fa-icon [icon]="iconOnOffCamara"></fa-icon> On / Off Cámara</button>
+                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary"
+                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                                    [icon]="iconOnOffCamara"></fa-icon> On / Off Cámara</button>
                                         </div>
 
                                         <!--Barra de progreso para ver cuantas fotos va tomando-->
@@ -112,7 +129,8 @@
                                             [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
                                             *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
                                         <p style="color: black;">Este será el rostro a registrar:</p>
-                                        <img id="foto" [src]="capturedImageurl" *ngIf="capturedImageurl" [height]="220" [width]="300">
+                                        <img id="foto" [src]="capturedImageurl" *ngIf="capturedImageurl" [height]="220"
+                                            [width]="300">
                                     </div>
 
                                     <div *ngIf="errors.length > 0">
@@ -130,7 +148,8 @@
                             </ng-template>
 
                             <div class="f1-buttons">
-                                <button type="button" (click)="registrarFotos()" class="btn btn-submit">Registrarme</button>
+                                <button type="button" (click)="registrarFotos()"
+                                    class="btn btn-submit">Registrarme</button>
                             </div>
                         </fieldset>
                     </form>

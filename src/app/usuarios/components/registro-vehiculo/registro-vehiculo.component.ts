@@ -17,7 +17,9 @@ import { FormGroup } from '@angular/forms';
 })
 export class RegistroVehiculoComponent implements OnInit {
 
+  //Variables y objetos a utilizar
   static siAgrego = false;
+  estadoSpinner = false;
 
   constructor(
     private _vehiculoService: ConsumirServiciosService,
@@ -26,6 +28,7 @@ export class RegistroVehiculoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.estadoSpinner = true;
   }
 
   /*Form para crear a los Estudiantes */
@@ -107,6 +110,7 @@ export class RegistroVehiculoComponent implements OnInit {
   ];
 
   registrarVehiculos(): void {
+    this.estadoSpinner = false;
     //Verifica que haya activido la sección del repeat
     if (RegistroVehiculoComponent.siAgrego == true) {
       //Verifica que los campos estén llenos
@@ -115,18 +119,22 @@ export class RegistroVehiculoComponent implements OnInit {
           console.log(this.modelNewCarro.fields[index]);
           this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
             console.log(res);
+            this.estadoSpinner = true;
             this.alertaEmergente.alertaOKConReloadBtn("Se han registrado correctamente sus vehículos");
             this.ruta.navigateByUrl('/dashboard');
           }, error => {
+            this.estadoSpinner = true;
             this.alertaEmergente.alertaErrorSinReload("No se ha podido registrar sus vehículos");
           })
         }
       }
       else {
+        this.estadoSpinner = true;
         this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe rellenar los campos");
       }
     }
     else {
+      this.estadoSpinner = true;
       this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe agregar registros");
     }
   }

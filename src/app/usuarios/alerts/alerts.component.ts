@@ -22,6 +22,7 @@ export class Alerts {
             icon: 'success',
             title: mensaje,
             showConfirmButton: false,
+            timer: 1500
         }).then((result) => {
             window.location.reload();
         })
@@ -44,7 +45,7 @@ export class Alerts {
             icon: 'success',
             title: mensaje,
             showConfirmButton: false,
-            timer: 1700
+            timer: 1500
         })
     }
 
@@ -65,6 +66,7 @@ export class Alerts {
             icon: 'error',
             title: mensaje,
             showConfirmButton: false,
+            timer: 1500
         })
     }
 

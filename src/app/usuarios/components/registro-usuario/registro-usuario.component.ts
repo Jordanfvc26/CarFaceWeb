@@ -31,6 +31,7 @@ export class RegistroUsuarioComponent implements OnInit {
   showWebCam = true;
   isCameraExist = true;
   errors: WebcamInitError[] = [];
+  estadoSpinner: boolean = false;
 
   //Variables para registrar el número de fotos
   fotosAEnviar: WebcamImage[] = [];
@@ -62,6 +63,7 @@ export class RegistroUsuarioComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.estadoSpinner = true;
   }
 
   //Método que indica que primero debe rellenar todos los campos
@@ -73,6 +75,7 @@ export class RegistroUsuarioComponent implements OnInit {
 
   //Método para registrar los datos personales y de inicio de sesión del chofer
   registrarChofer(): void {
+    this.estadoSpinner = false;
     let body: any = {
       "ci": this.formDatosChofer.value.ci,
       "nombre": this.formDatosChofer.value.nombre,
@@ -85,40 +88,46 @@ export class RegistroUsuarioComponent implements OnInit {
     }
 
     this._choferService.registerChofer(body).subscribe((res) => {
-      this.alertaEmergente.alertaOKSinReload("Registro de información personal exitoso");
-      this.iniciarSesion();
+      this.iniciarSesion(this.formDatosChofer.value.correo, this.formDatosChofer.value.clave);
+      this.estadoSpinner = false;
+      this.alertaEmergente.alertaOKSinReloadBtn("Registro de información personal exitoso");
+      this.estadoSpinner = true;
     }, error => {
       this.alertaEmergente.alertaErrorSinReload("No se pudo registrar su información");
+      this.estadoSpinner = true;
     });
   }
 
-  //Método para iniciar sesión
-  iniciarSesion() {
-    let headers = new Map();
-    headers.set("correo", this.formDatosChofer.value.correo);
-    headers.set("clave", this.formDatosChofer.value.clave);
 
+  //Método para iniciar sesión
+  iniciarSesion(usuario, clave) {
+    this.estadoSpinner = false;
+    let headers = new Map();
+    headers.set("correo", usuario);
+    headers.set("clave", clave);
     this.api.postDatos("/sesion/login", null, headers).subscribe(data => {
       sessionStorage.setItem("usuario", data.token);
       sessionStorage.setItem("rol", data.rol)
+      //this.alertaEmergente.alertaOKSinReload("Se inició sesión correctamente");
+      this.estadoSpinner = true;
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudo procesar su solicitud");
+      this.alertaEmergente.alertaErrorSinReload("Ocurrió un error con sus credenciales de sesión.");
+      this.estadoSpinner = true;
     })
   }
 
 
   //Método que registra las fotos las cuales se almacenan previamente en un vector
   registrarFotos() {
+    this.estadoSpinner = false;
     let headers = new Map();
-
     const files: File[] = [];
     for (let i = 0; i < this.fotosAEnviar.length; i++) {
       const imgBlob = this.dataURItoBlob(this.fotosAEnviar[i].imageAsDataUrl);
       const file = new File([imgBlob], 'imagen_' + i + '.jpg', { type: imgBlob.type });
       files.push(file);
     }
-
     // Crea un objeto FormData y agrega cada archivo al campo 'files'
     for (let i = 0; i < files.length; i++) {
       this.formData.append('files', files[i]);
@@ -127,11 +136,13 @@ export class RegistroUsuarioComponent implements OnInit {
     //Compara lo del formData y procede a enviar a la API
     if (this.formData.getAll("files") != null) {
       this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data => {
+        this.estadoSpinner = true;
         this.alertaEmergente.alertaOKConReload("Se ha registrado correctamente en CarFace");
         this.ruta.navigateByUrl('/dashboard');
       }, error => {
         console.log(error)
         this.alertaEmergente.alertaErrorSinReload("No se ha podido registrar su rostro");
+        this.estadoSpinner = true;
       });
     }
   }
@@ -152,7 +163,9 @@ export class RegistroUsuarioComponent implements OnInit {
 
   //Toma la foto y las agrega a un vector
   async capturarFotos() {
+    this.estadoSpinner = false;
     await this.loadFaceApi();
+    this.estadoSpinner = true;
     //Se limpia el vector antes de volver a llenarlo
     this.fotosAEnviar.splice(0, this.fotosAEnviar.length);
     for (let index = 0; index < 10; index++) {
@@ -182,7 +195,7 @@ export class RegistroUsuarioComponent implements OnInit {
   //Método que agrega las imágenes al vector
   handleImage(webcamImage: WebcamImage) {
     this.capturedImage = webcamImage;
-    this.capturedImageurl=webcamImage.imageAsDataUrl;
+    this.capturedImageurl = webcamImage.imageAsDataUrl;
   }
 
   //Método para cambiar de cámara
@@ -191,6 +204,7 @@ export class RegistroUsuarioComponent implements OnInit {
   }
 
   async loadFaceApi() {
+    this.estadoSpinner = false;
     const MODEL_URL = '/../../../assets/models/';
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
@@ -200,6 +214,7 @@ export class RegistroUsuarioComponent implements OnInit {
       faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL)
     ]);
     console.log("MODELOS CARGADOS");
+    this.estadoSpinner = true;
   }
 
   //Método para encender/apagar la cámara

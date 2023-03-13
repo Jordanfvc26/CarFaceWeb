@@ -16,7 +16,9 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 })
 export class CrearGuardiaComponent implements OnInit {
 
+  //Variables a utilizar
   static siAgrego = false;
+  estadoSpinner = false;
 
   constructor(
     private _guardiaService: ConsumirServiciosService,
@@ -25,9 +27,10 @@ export class CrearGuardiaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.estadoSpinner = true;
   }
 
-  /*Form para crear a los Guardias */
+  /*Form para crear a los Guardias*/
   formNewGuardia = new FormGroup({});
   modelNewGuardia: any = {};
   optionsNewGuardia: FormlyFormOptions = {};
@@ -121,6 +124,7 @@ export class CrearGuardiaComponent implements OnInit {
 
   //Método que registra a los guardias en la base de datos
   registrarGuardias() {
+    this.estadoSpinner = false;
     //Verifica si ha agregado la sección del repeat
     if (CrearGuardiaComponent.siAgrego == true) {
       if(this.modelNewGuardia.fields[0]!= null){
@@ -128,24 +132,27 @@ export class CrearGuardiaComponent implements OnInit {
           console.log(this.modelNewGuardia.fields[index]);
           this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
             console.log(res);
+            this.estadoSpinner = true;
             this.alertaEmergente.alertaOKSinReloadBtn("Se ha registrado correctamente a los guardias");
             this.ruta.navigateByUrl('/dashboard');
           }, error => {
             this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido registrar a los guardias");
+            this.estadoSpinner = true;
           })
         }
       }
       else{
-        this.alertaEmergente.alertaOKSinReloadBtn("Primero debe llenar los campos");
+        this.alertaEmergente.alertaErrorSinReload("Primero debe llenar los campos");
+        this.estadoSpinner = true;
       }
     }
     else {
       this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe agregar registros");
+      this.estadoSpinner = true;
     }
   }
 
   //Iconos a utilizar
   iconGuardia = iconos.faUserShield;
   iconRegistrar = iconos.faCheck;
-
 }

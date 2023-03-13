@@ -14,6 +14,7 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 })
 export class EditarGuardiaComponent implements OnInit {
 
+  //Variables y objetos a utilizar
   static objectGuardia = {
     id: "",
     ci: "",
@@ -23,7 +24,7 @@ export class EditarGuardiaComponent implements OnInit {
     fecha_inicio: "",
     fecha_fin: "",
   };
-
+  estadoSpinner = false;
 
   constructor(
     public modal: NgbModal,
@@ -106,6 +107,7 @@ export class EditarGuardiaComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.estadoSpinner = false;
     let i = 0;
     //Se pasan los valores del objeto, a un vector
     let arrayGuardia = [EditarGuardiaComponent.objectGuardia.ci,
@@ -123,18 +125,22 @@ export class EditarGuardiaComponent implements OnInit {
         i++;
       });
     });
+    this.estadoSpinner = true;
   }
 
 
   //Método que manda a modificar los datos del guardia
   editarGuardia() {
+    this.estadoSpinner = false;
     console.log("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id);
     console.log(this.modelEditGuardia.fields);
     this.api.putDatos("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id, this.modelEditGuardia.fields).subscribe(data =>{
+      this.estadoSpinner = true;
       this.alertaEmergente.alertaOKSinReload("Se ha editado la información correctamente");
       this.modal.dismissAll();
     }, error =>{
       this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido editar la información");
+      this.estadoSpinner = true;
     });
   }
 
@@ -144,5 +150,4 @@ export class EditarGuardiaComponent implements OnInit {
   iconEliminar = iconos.faTrash;
   iconAceptar = iconos.faCheck;
   iconEditar = iconos.faEdit;
-
 }

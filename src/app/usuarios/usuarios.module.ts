@@ -28,6 +28,7 @@ import { MovimientosComponent } from './components/movimientos/movimientos.compo
 
 import 'boxicons';
 import { EditarGuardiaComponent } from './components/editar-guardia/editar-guardia.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { EditarGuardiaComponent } from './components/editar-guardia/editar-guard
     CrearGuardiaComponent,
     ListarGuardiasComponent,
     EditarGuardiaComponent,
+    SpinnerComponent,
   ],
   imports: [
     UsuariosRoutingModule,

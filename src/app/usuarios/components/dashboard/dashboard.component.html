@@ -1,3 +1,5 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
 <body id="body">
     <header class="header">
         <div class="icon__menu">
@@ -42,6 +44,6 @@
             <app-listar-guardias *ngSwitchCase="2"></app-listar-guardias>
            
         </ng-template>
-        <h4 *ngSwitchDefault>Lo sentimos, esta opción aún no está disponible :(</h4>
+        <!--<h4 *ngSwitchDefault>Lo sentimos, esta opción aún no está disponible :(</h4>-->
     </main>
 </body>
