@@ -18,6 +18,7 @@ export class MovimientosComponent implements OnInit {
   @ViewChild('tabla', { static: false }) tabla: ElementRef;
   movimientos: any[] = [];
   opciones: any;
+  nombrePDF: string = "Usuario";
 
   constructor(
     private api: ConsumirServiciosService,
@@ -67,23 +68,34 @@ export class MovimientosComponent implements OnInit {
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
-    //Se extrae la información a plasmar en el PDF
     const DATA = document.getElementById('htmlTablaPDF');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
       scale: 3
     };
+    //Datos para el encabezado
+    const empresa = 'CarFace: Registro de movimientos de usuario';
+    const fehcaEmision = 'Fecha de emisión: ' + this.obtenerFechaActual();
+    const usuario = 'Usuario: ' + this.obtenerUsuario();
     html2canvas(DATA, options).then((canvas) => {
 
       const img = canvas.toDataURL('image/PNG');
       //Agregar image Canvas al PDF
       const bufferX = 15;
-      const bufferY = 15;
+      const bufferY = 90; // Aumentamos el buffer en Y para dejar espacio para el encabezado
       const imgProps = (doc as any).getImageProperties(img);
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+
+      // Agregamos el encabezado
+      doc.setFontSize(18);
+      doc.text(empresa, 15, 30); // Posicionamos el texto a 15,30 (X,Y)
+      doc.setFontSize(11);
+      doc.text(fehcaEmision, 15, 50);
+      doc.setFontSize(11);
+      doc.text(usuario, 15, 70);
       return doc;
     }).then((docResult) => {
       //Se obtiene la fecha actual del sistema y se le concatena el nombre para darle un nombre final al archivo descargado
@@ -104,7 +116,7 @@ export class MovimientosComponent implements OnInit {
   exportToExcel() {
     // Obtener la tabla desde el DOM
     const table = document.getElementById('htmlTablaExcel');
-    
+
     // Crear una matriz para almacenar los datos de la tabla
     const rows = [];
     const cells = table.querySelectorAll('td');
@@ -119,7 +131,7 @@ export class MovimientosComponent implements OnInit {
     const worksheet = XLSX.utils.aoa_to_sheet(rows);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Movimientos');
-  
+
     //Se obtiene la fecha actual del sistema y se le concatena el nombre para darle un nombre final al archivo descargado
     const fechaPDF = new Date().toISOString()
     const fecha = new Date(fechaPDF);
@@ -132,8 +144,27 @@ export class MovimientosComponent implements OnInit {
     XLSX.writeFile(workbook, `${fechaPDFDownload}_movimientos.xlsx`);
   }
 
-   //Iconos a utilizar
-   iconPdf = iconos.faFilePdf;
-   iconXlsx = iconos.faFileExcel;
-   iconCalendario = iconos.faCalendar;
+  //Método que obtiene la fecha actual (Para usar en la impresión de PDF)
+  obtenerFechaActual(): string {
+    const fechaActual = new Date();
+    const dia = fechaActual.getDate();
+    const mes = fechaActual.getMonth() + 1; //Los meses van del 0 al 11, por eso se suma 1
+    const anio = fechaActual.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+  }
+
+  //Método que obtiene los datos del usuario para editarlos
+  obtenerUsuario() {
+    this.api.getDatos("/chofer").toPromise().then(data => {
+      const nombre = data.nombre;
+      const apellido = data.apellido;
+      console.log("enviando: " + `${nombre} ${apellido}`)
+      return `${nombre} ${apellido}`;
+    });
+  }
+
+  //Iconos a utilizar
+  iconPdf = iconos.faFilePdf;
+  iconXlsx = iconos.faFileExcel;
+  iconCalendario = iconos.faCalendar;
 }
