@@ -1,6 +1,7 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http'
+import { catchError, Observable, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -22,7 +23,9 @@ export class ConsumirServiciosService {
 
   options = {}
 
-  constructor(private http: HttpClient) { 
+  constructor(
+    private http: HttpClient,
+    private ruta: Router) { 
   }
 
 
@@ -59,5 +62,18 @@ export class ConsumirServiciosService {
     }
     this.options = { headers: this.headers };
     return headers != null;
+  }
+
+  //Interceptando el error 403 por si caduca el token y se redirige al incio de sesión
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.ruta.navigate(['/login']);
+          //this.ruta.navigateByUrl('/login');
+        }
+        return throwError(error);
+      })
+    );
   }
 }

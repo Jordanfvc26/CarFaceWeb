@@ -55,8 +55,8 @@ export class ListarGuardiasComponent implements OnInit {
         let guardia = {
           "id": element.id,
           "ci": element.ci,
-          "nombre": nombre1,
-          "apellido": nombre2,
+          "nombre": nombre1 + " " + nombre2,
+          "apellido": apellido1 + " " + apellido2,
           "correo": element.correo,
           "empresa": element.empresa,
           "estado": this.estado

@@ -1,3 +1,5 @@
+import { CrearGuardiaComponent } from './components/crear-guardia/crear-guardia.component';
+import { RegistroVehiculoComponent } from './components/registro-vehiculo/registro-vehiculo.component';
 import { Component } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
@@ -11,7 +13,7 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
       <p *ngIf="props.description">{{ props.description }}</p>
 
       <div style="text-align: start; margin-bottom:10px">
-        <button class="btn btn-primary" type="button" (click)="add()"> <fa-icon [icon]="iconAgregar"></fa-icon> Nuevo</button>
+        <button class="btn btn-primary" type="button" (click)="add()" (click)="siAgrego()"> <fa-icon [icon]="iconAgregar"></fa-icon> Nuevo</button>
       </div>
       
       <div *ngFor="let field of field.fieldGroup; let i = index" class="row align-items-baseline" style="border: 1px solid rgba(179, 179, 179, 0.863); border-radius: 10px; margin-bottom: 10px;">
@@ -28,6 +30,12 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 
 
 export class RepeatTypeComponent extends FieldArrayType {
+  //Enviamos una variable true para decirle que si activó el repeat     
+  public siAgrego(){
+    RegistroVehiculoComponent.siAgrego = true;
+    CrearGuardiaComponent.siAgrego = true;
+  }
+
   iconDelete = iconos.faTrash;
   iconAgregar = iconos.faPlus;
 }

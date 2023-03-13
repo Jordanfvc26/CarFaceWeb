@@ -16,6 +16,8 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 })
 export class CrearGuardiaComponent implements OnInit {
 
+  static siAgrego = false;
+
   constructor(
     private _guardiaService: ConsumirServiciosService,
     private ruta: Router,
@@ -96,7 +98,7 @@ export class CrearGuardiaComponent implements OnInit {
           },
           {
             className: 'col-sm-12 col-md-12 col-lg-4',
-            type: 'input',
+            type: 'datetime',
             key: 'fecha_inicio',
             props: {
               label: 'Fecha inicio de contrato:',
@@ -105,7 +107,7 @@ export class CrearGuardiaComponent implements OnInit {
           },
           {
             className: 'col-sm-12 col-md-12 col-lg-4',
-            type: 'input',
+            type: 'datetime',
             key: 'fecha_fin',
             props: {
               label: 'Fecha inicio de contrato:',

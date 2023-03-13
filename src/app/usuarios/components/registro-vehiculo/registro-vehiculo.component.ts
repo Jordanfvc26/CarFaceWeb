@@ -9,12 +9,15 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-registro-vehiculo',
   templateUrl: './registro-vehiculo.component.html',
   styleUrls: ['./registro-vehiculo.component.css']
 })
 export class RegistroVehiculoComponent implements OnInit {
+
+  static siAgrego = false;
 
   constructor(
     private _vehiculoService: ConsumirServiciosService,
@@ -104,20 +107,23 @@ export class RegistroVehiculoComponent implements OnInit {
   ];
 
   registrarVehiculos(): void {
-    if (!this.fieldsNewCarro) {
-      var datosTabla: JSON = <JSON><unknown>{
-        "vehiculos": this.modelNewCarro.fields
+    //Verifica que haya activido la sección del repeat
+    if (RegistroVehiculoComponent.siAgrego == true) {
+      //Verifica que los campos estén llenos
+      if (this.modelNewCarro.fields[0] != null) {
+        for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
+          console.log(this.modelNewCarro.fields[index]);
+          this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
+            console.log(res);
+            this.alertaEmergente.alertaOKConReloadBtn("Se han registrado correctamente sus vehículos");
+            this.ruta.navigateByUrl('/dashboard');
+          }, error => {
+            this.alertaEmergente.alertaErrorSinReload("No se ha podido registrar sus vehículos");
+          })
+        }
       }
-
-      for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
-        console.log(this.modelNewCarro.fields[index]);
-        this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
-          console.log(res);
-          this.alertaEmergente.alertaOKConReloadBtn("Se han registrado correctamente sus vehículos");
-          this.ruta.navigateByUrl('/dashboard');
-        }, error => {
-          this.alertaEmergente.alertaErrorSinReload("No se ha podido registrar sus vehículos");
-        })
+      else {
+        this.alertaEmergente.alertaErrorSinReloadBtn("Primero debe rellenar los campos");
       }
     }
     else {
