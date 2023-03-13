@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Alerts } from './alerts/alerts.component';
 import { ConsumirServiciosService } from './services/consumir-servicios.service';
 import { CargarScriptsJsService } from './services/cargar-scripts-js.service';
@@ -56,11 +56,12 @@ import { EditarGuardiaComponent } from './components/editar-guardia/editar-guard
         { name: 'minLenght', message: 'Se requiere mínimo 8 caracteres' }],
     }),
     WebcamModule,
+    HttpClientModule
   ],
   providers:[
     CargarScriptsJsService,
     Alerts,
-    /*{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},*/
+    {provide: HTTP_INTERCEPTORS, useClass: ConsumirServiciosService, multi: true},
   ]
 })
 export class UsuariosModule { }

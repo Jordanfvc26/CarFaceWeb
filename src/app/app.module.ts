@@ -1,3 +1,4 @@
+import { ConsumirServiciosService } from './usuarios/services/consumir-servicios.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -26,7 +27,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     HttpClientModule,
     NgbModule
   ],
-  providers: [/*{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },*/],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: ConsumirServiciosService, multi: true },],
   bootstrap: [AppComponent,]
 })
 export class AppModule { }

@@ -69,8 +69,9 @@ export class ConsumirServiciosService {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 403) {
+          sessionStorage.clear();
           this.ruta.navigate(['/login']);
-          //this.ruta.navigateByUrl('/login');
+          window.location.reload();
         }
         return throwError(error);
       })

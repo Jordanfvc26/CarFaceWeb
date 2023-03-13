@@ -80,6 +80,10 @@ export class ListarGuardiasComponent implements OnInit {
       background: 'white',
       scale: 3
     };
+    //Datos para el encabezado
+    const empresa = 'CarFace: Listado de registro de guardias';
+    const fehcaEmision = 'Fecha de emisión: ' + this.obtenerFechaActual();
+    const usuario = 'Usuario: Administrador';
     html2canvas(DATA, options).then((canvas) => {
 
       const img = canvas.toDataURL('image/PNG');
@@ -90,6 +94,14 @@ export class ListarGuardiasComponent implements OnInit {
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      
+      // Agregamos el encabezado
+      doc.setFontSize(18);
+      doc.text(empresa, 15, 30); // Posicionamos el texto a 15,30 (X,Y)
+      doc.setFontSize(11);
+      doc.text(fehcaEmision, 15, 50);
+      doc.setFontSize(11);
+      doc.text(usuario, 15, 70);
       return doc;
     }).then((docResult) => {
       //Se obtiene la fecha actual del sistema y se le concatena el nombre para darle un nombre final al archivo descargado
@@ -158,6 +170,14 @@ export class ListarGuardiasComponent implements OnInit {
   abrirModalEditarGuardia(modalGuardia, guardia) {
     this.modal.open(modalGuardia, { size: 'lg', centered: true });
     EditarGuardiaComponent.objectGuardia = guardia;
+  }
+
+  obtenerFechaActual(): string {
+    const fechaActual = new Date();
+    const dia = fechaActual.getDate();
+    const mes = fechaActual.getMonth() + 1; //Los meses van del 0 al 11, por eso se suma 1
+    const anio = fechaActual.getFullYear();
+    return `${dia}/${mes}/${anio}`;
   }
 
   //Iconos a utilizar

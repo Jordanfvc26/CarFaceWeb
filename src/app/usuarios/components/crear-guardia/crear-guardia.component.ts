@@ -98,7 +98,7 @@ export class CrearGuardiaComponent implements OnInit {
           },
           {
             className: 'col-sm-12 col-md-12 col-lg-4',
-            type: 'datetime',
+            type: 'input',
             key: 'fecha_inicio',
             props: {
               label: 'Fecha inicio de contrato:',
@@ -107,7 +107,7 @@ export class CrearGuardiaComponent implements OnInit {
           },
           {
             className: 'col-sm-12 col-md-12 col-lg-4',
-            type: 'datetime',
+            type: 'input',
             key: 'fecha_fin',
             props: {
               label: 'Fecha inicio de contrato:',
@@ -121,20 +121,22 @@ export class CrearGuardiaComponent implements OnInit {
 
   //Método que registra a los guardias en la base de datos
   registrarGuardias() {
-    if (!this.fieldsNewGuardia) {
-      var datosTabla: JSON = <JSON><unknown>{
-        "guardias": this.modelNewGuardia.fields
+    //Verifica si ha agregado la sección del repeat
+    if (CrearGuardiaComponent.siAgrego == true) {
+      if(this.modelNewGuardia.fields[0]!= null){
+        for (let index = 0; index < this.modelNewGuardia.fields.length; index++) {
+          console.log(this.modelNewGuardia.fields[index]);
+          this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
+            console.log(res);
+            this.alertaEmergente.alertaOKSinReloadBtn("Se ha registrado correctamente a los guardias");
+            this.ruta.navigateByUrl('/dashboard');
+          }, error => {
+            this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido registrar a los guardias");
+          })
+        }
       }
-
-      for (let index = 0; index < this.modelNewGuardia.fields.length; index++) {
-        console.log(this.modelNewGuardia.fields[index]);
-        this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
-          console.log(res);
-          this.alertaEmergente.alertaOKSinReloadBtn("Se ha registrado correctamente a los guardias");
-          this.ruta.navigateByUrl('/dashboard');
-        }, error => {
-          this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido registrar a los guardias");
-        })
+      else{
+        this.alertaEmergente.alertaOKSinReloadBtn("Primero debe llenar los campos");
       }
     }
     else {
