@@ -26,13 +26,29 @@ thead {
   position: sticky;
 }
 
-#checkbox{
+#checkbox {
   margin-left: 17px;
 }
 
-.botones-exportar {
-  margin-bottom: 15px;
-  text-align: end;
+/*Diseño del encabezado buscar*/
+.contenedor-padre {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contenedor-padre {
+  display: flex;
+  flex-direction: row;
+}
+
+.campos-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#buscar {
+  flex: 1;
+  margin-left: 20px;
 }
 
 .save-pdf {
@@ -79,5 +95,25 @@ thead {
   .botones-exportar .save-xlsx {
     margin-bottom: 14px;
     width: 100%;
+  }
+
+  #paginacion {
+    font-size: 13px;
+  }
+
+  /*Responsive del encabezado buscar*/
+  .contenedor-padre {
+    display: inline-block;
+    flex-direction: row;
+  }
+
+  .campos-form{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  #buscar {
+    margin-bottom: 20px;
+    margin-left: -1px;
   }
 }

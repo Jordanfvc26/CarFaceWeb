@@ -1,3 +1,4 @@
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { EditarGuardiaComponent } from './../editar-guardia/editar-guardia.component';
 import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
@@ -13,6 +14,7 @@ import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
 /*Para la ventana emergente*/
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listar-guardias',
@@ -26,6 +28,13 @@ export class ListarGuardiasComponent implements OnInit {
   opciones: any;
   estadoGuardia: any;
   estadoSpinner = false;
+  //Para la paginación
+  pageSize = 7;
+  desde = 0;
+  hasta = 7;
+
+  guardiasABuscar: any[] = [];
+  opcionFiltro = "empresa";
 
   constructor(
     private _choferService: ChoferService,
@@ -34,6 +43,9 @@ export class ListarGuardiasComponent implements OnInit {
     public modal: NgbModal
   ) { }
 
+  formSelect = new FormGroup({
+    filtro: new FormControl('empresa', Validators.required),
+  })
 
   ngOnInit(): void {
     this.estadoSpinner = false;
@@ -76,6 +88,19 @@ export class ListarGuardiasComponent implements OnInit {
     })
   }
 
+
+  //Método para capturar el valor del select el cual proporciona el filtro de búsqueda
+  obtenerFiltro(){
+    console.log(this.opcionFiltro);
+  }
+  
+
+  //Método que permite cambiar de una página a otra en las tablas
+  cambiarPagina(e:PageEvent){
+    console.log(e);
+    this.desde = e.pageIndex * e.pageSize;
+    this.hasta = this.desde + e.pageSize;
+  }
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {

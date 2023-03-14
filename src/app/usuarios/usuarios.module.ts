@@ -13,7 +13,7 @@ import { CrearGuardiaComponent } from './components/crear-guardia/crear-guardia.
 import { ListarGuardiasComponent } from './components/listar-guardias/listar-guardias.component'
 
 /*Importaciones necesarias para usar el formly */
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
@@ -30,6 +30,10 @@ import 'boxicons';
 import { EditarGuardiaComponent } from './components/editar-guardia/editar-guardia.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
+/*Para la paginación de las tablas*/
+import { MatPaginatorModule } from '@angular/material';
+import { BuscarRegistrosPipe } from './pipes/buscar-registros.pipe';
+
 
 @NgModule({
   declarations: [
@@ -44,6 +48,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     ListarGuardiasComponent,
     EditarGuardiaComponent,
     SpinnerComponent,
+    BuscarRegistrosPipe
   ],
   imports: [
     UsuariosRoutingModule,
@@ -58,7 +63,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
         { name: 'minLenght', message: 'Se requiere mínimo 8 caracteres' }],
     }),
     WebcamModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    FormsModule
   ],
   providers:[
     CargarScriptsJsService,

@@ -1,3 +1,5 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
@@ -22,12 +24,24 @@ export class MovimientosComponent implements OnInit {
   opciones: any;
   nombrePDF: string = "Usuario";
   estadoSpinner = false;
+  //Para la paginación
+  pageSize = 7;
+  desde = 0;
+  hasta = 7;
+
+  //Para la búsqueda en la tabla
+  movimientosABuscar: any[] = [];
+  opcionFiltro = "placa";
 
   constructor(
     private api: ConsumirServiciosService,
     public alertaEmergente: Alerts,
-    private ruta: Router,
+    private ruta: Router
   ) { }
+
+  formSelect = new FormGroup({
+    filtro: new FormControl('placa', Validators.required),
+  })
 
 
   ngOnInit(): void {
@@ -63,6 +77,7 @@ export class MovimientosComponent implements OnInit {
           this.estadoSpinner = true;
         });
       });
+      console.log(this.movimientos);
     }, error => {
       console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
@@ -70,6 +85,18 @@ export class MovimientosComponent implements OnInit {
     })
   }
 
+  
+  //Método para capturar el valor del select el cual proporciona el filtro de búsqueda
+  obtenerFiltro(){
+    console.log(this.opcionFiltro);
+  }
+
+  //Método que permite cambiar de una página a otra en las tablas
+  cambiarPagina(e:PageEvent){
+    console.log(e);
+    this.desde = e.pageIndex * e.pageSize;
+    this.hasta = this.desde + e.pageSize;
+  }
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
