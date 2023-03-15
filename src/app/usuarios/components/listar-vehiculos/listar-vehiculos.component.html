@@ -1,0 +1,92 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
+<section class="intro">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h3 id="titulo"><fa-icon [icon]="iconVehiculo"></fa-icon> Registro de Vehículos</h3>
+                <p>Filtrar los vehículos por: </p>
+
+                <div class="contenedor-padre">
+                    <div class="campos-form">
+                        <form [formGroup]="formSelect" class="d-flex" id="select">
+                            <select [(ngModel)]="opcionFiltro" formControlName="filtro" name="f1-last-name"
+                                class="f1-last-name form-control" id="f1-last-name" style="margin-bottom: 12px;">
+                                <option value="empresa" selected disabled>-- Filtrar por --</option>
+                                <option value="placa">Placa</option>
+                                <option value="tipo">Tipo</option>
+                                <option value="color">Color</option>
+                            </select>
+                        </form>
+                        <form id="buscar">
+                            <input class="form-control me-1" type="text" placeholder="Buscar..."
+                                name="buscarMovimientos" [(ngModel)]="vehiculosABuscar">
+                        </form>
+                    </div>
+
+                    <div class="botones-exportar">
+                        <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()"><fa-icon
+                                [icon]="iconPdf"></fa-icon> Exportar a .PDF</button>
+                        <button type="button" class="btn btn-success save-xlsx" (click)="exportToExcel()"><fa-icon
+                                [icon]="iconXlsx"></fa-icon> Exportar a .XLSX</button>
+                    </div>
+                </div>
+
+                <div class="card" id="htmlTablaPDF">
+                    <div class="card-body p-0">
+                        <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true"
+                            style="position: relative;">
+                            <table class="table table-striped mb-0" id="htmlTablaExcel">
+                                <thead style="background-color: #3a853f;">
+                                    <tr>
+                                        <th scope="col">N°</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Modelo</th>
+                                        <th scope="col">Placa</th>
+                                        <th scope="col">Año</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let vehiculo of vehiculos | slice:desde:hasta | buscarRegistros:vehiculosABuscar:opcionFiltro; let i = index">
+                                        <th scope="row">{{i+1}}</th>
+                                        <td>{{vehiculo.tipoVehiculo}}</td>
+                                        <td>{{vehiculo.marca}}</td>
+                                        <td>{{vehiculo.modelo}}</td>
+                                        <td>{{vehiculo.placa}}</td>
+                                        <td>{{vehiculo.anio}}</td>
+                                        <td>{{vehiculo.color}}</td>
+                                        <td class="acciones">
+                                            <fa-icon
+                                                (click)="abrirModalEditarVehiculo(modalEditarVehiculo, vehiculos[i])" data-bs-toggle="mensaje" title="Editar" id="iconEditar" [icon]="iconEditar"></fa-icon>
+                                            <fa-icon
+                                                (click)="abrirModalEliminarVehiculo(modalEliminarVehiculo, vehiculos[i])" data-bs-toggle="mensaje" title="Eliminar" id="iconEliminar" [icon]="iconEliminar"></fa-icon>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Para aplicar paginación en la tabla-->
+            <mat-paginator id="paginacion" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="pageSize"
+                [length]="vehiculos.length" (page)="cambiarPagina($event)"></mat-paginator>
+        </div>
+    </div>
+</section>
+
+
+<!--Ventanas emergentes para las acciones de editar y eliminar-->
+<!--Para editar un vehículo-->
+<ng-template #modalEditarVehiculo>
+    <app-editar-vehiculo></app-editar-vehiculo>
+</ng-template>
+
+<!--Para editar los datos de un guardia-->
+<ng-template #modalEliminarVehiculo>
+    <app-eliminar-vehiculo></app-eliminar-vehiculo>
+</ng-template>

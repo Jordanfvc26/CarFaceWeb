@@ -39,6 +39,7 @@ export class MovimientosComponent implements OnInit {
     private ruta: Router
   ) { }
 
+  //Form que captura la etiqueta select para obtener el filtro
   formSelect = new FormGroup({
     filtro: new FormControl('placa', Validators.required),
   })
@@ -83,12 +84,6 @@ export class MovimientosComponent implements OnInit {
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
       this.estadoSpinner = true;
     })
-  }
-
-  
-  //Método para capturar el valor del select el cual proporciona el filtro de búsqueda
-  obtenerFiltro(){
-    console.log(this.opcionFiltro);
   }
 
   //Método que permite cambiar de una página a otra en las tablas

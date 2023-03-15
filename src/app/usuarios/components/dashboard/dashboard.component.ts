@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
     this.rolUsuario = sessionStorage.getItem("rol") || "Usuario";
     this.menuOpciones.push({ icono: this.iconInicio, nombre: "Inicio" })
     if (sessionStorage.getItem("rol") == "CHOFER") {
+      this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Registrar vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Mis vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })

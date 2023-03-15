@@ -115,6 +115,7 @@ header {
     display: block;
     position: relative;
     transition: color 300ms;
+    width: 120%;
 }
 
 .options__menu ul li:hover {
@@ -128,6 +129,8 @@ header {
     display: flex;
     align-items: center;
     position: relative;
+    /*Agregué*/
+    width: 120%;
 }
 
 .options__menu .option fa-icon {

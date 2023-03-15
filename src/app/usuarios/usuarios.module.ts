@@ -33,6 +33,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 /*Para la paginación de las tablas*/
 import { MatPaginatorModule } from '@angular/material';
 import { BuscarRegistrosPipe } from './pipes/buscar-registros.pipe';
+import { ListarVehiculosComponent } from './components/listar-vehiculos/listar-vehiculos.component';
+import { EditarVehiculoComponent } from './components/editar-vehiculo/editar-vehiculo.component';
+import { EliminarVehiculoComponent } from './components/eliminar-vehiculo/eliminar-vehiculo.component';
 
 
 @NgModule({
@@ -48,7 +51,10 @@ import { BuscarRegistrosPipe } from './pipes/buscar-registros.pipe';
     ListarGuardiasComponent,
     EditarGuardiaComponent,
     SpinnerComponent,
-    BuscarRegistrosPipe
+    BuscarRegistrosPipe,
+    ListarVehiculosComponent,
+    EditarVehiculoComponent,
+    EliminarVehiculoComponent
   ],
   imports: [
     UsuariosRoutingModule,

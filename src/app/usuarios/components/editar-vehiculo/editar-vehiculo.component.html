@@ -1,0 +1,20 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
+<div class="container">
+    <div class="modal-header">
+        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconEditar"></fa-icon> Editar Vehículo</h4>
+    </div>
+
+    <div class="modal-body">
+        <form>
+            <formly-form [model]="modelEditVehiculo" [fields]="fieldsEditVehiculo" [options]="optionsEditVehiculo"
+                [form]="formEditVehiculo">
+            </formly-form>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="modal.dismissAll()" class="btn btn-danger" type="button"><fa-icon [icon]="iconCancelar"></fa-icon> Cancelar</button>
+        <button type="button" class="btn btn-next btn btn-success" (click)="editarVehiculo()"> <fa-icon [icon]="iconAceptar"></fa-icon> Guardar cambios</button>
+    </div>
+</div>

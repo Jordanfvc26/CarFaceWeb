@@ -1,39 +1,38 @@
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { EditarGuardiaComponent } from './../editar-guardia/editar-guardia.component';
+import { EliminarVehiculoComponent } from './../eliminar-vehiculo/eliminar-vehiculo.component';
+import { EditarVehiculoComponent } from './../editar-vehiculo/editar-vehiculo.component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
-import { ChoferService } from './../../services/chofer.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageEvent } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
+
 /*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
-/*Para generar PDF y Excel*/
+/*Para el PDF y excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
-/*Para la ventana emergente*/
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-listar-guardias',
-  templateUrl: './listar-guardias.component.html',
-  styleUrls: ['./listar-guardias.component.css']
+  selector: 'app-listar-vehiculos',
+  templateUrl: './listar-vehiculos.component.html',
+  styleUrls: ['./listar-vehiculos.component.css']
 })
-export class ListarGuardiasComponent implements OnInit {
+export class ListarVehiculosComponent implements OnInit {
 
-  //Variables y objetos a utilizar
-  guardias: any[] = [];
-  opciones: any;
-  estadoGuardia: any;
+  //Variables y métodos a utilizar
   estadoSpinner = false;
   //Para la paginación
   pageSize = 7;
   desde = 0;
   hasta = 7;
-
-  guardiasABuscar: any[] = [];
-  opcionFiltro = "empresa";
+  opciones: any;
+  //Para buscar en la tabla
+  vehiculosABuscar: any[] = [];
+  vehiculos: any[] = [];
+  opcionFiltro = "placa";
 
   constructor(
     public alertaEmergente: Alerts,
@@ -41,59 +40,50 @@ export class ListarGuardiasComponent implements OnInit {
     public modal: NgbModal
   ) { }
 
-
   //Form que captura la etiqueta select para obtener el filtro
   formSelect = new FormGroup({
-    filtro: new FormControl('empresa', Validators.required),
+    filtro: new FormControl('placa', Validators.required),
   })
 
   ngOnInit(): void {
-    this.estadoSpinner = false;
-    this.api.getDatos("/guardia/all").subscribe(data => {
-      data.forEach(element => {
-        //Dando formato al vector
-        if (element.estado == true) {
-          this.estadoGuardia = "ACTIVO";
-        }
-        else {
-          this.estadoGuardia = "INACTIVO";
-        }
-
-        //Formateando los nombres
-        const nombreCompleto = element.nombre;
-        const nombresSeparados = nombreCompleto.split(" ");
-        const nombre1 = nombresSeparados[0];
-        const nombre2 = nombresSeparados[1];
-        const apellido1 = nombresSeparados[2];
-        const apellido2 = nombresSeparados[3];
-
-        let guardia = {
-          "id": element.id,
-          "ci": element.ci,
-          "nombre": nombre1 + " " + nombre2,
-          "apellido": apellido1 + " " + apellido2,
-          "correo": element.correo,
-          "empresa": element.empresa,
-          "estado": this.estadoGuardia
-        }
-        //Agregando los datos finales al vector
-        this.guardias.push(guardia);
+    //this.estadoSpinner = false;
+    this.api.getDatos("/chofer").subscribe(data => {
+      if(data.chofer != null){
+        data.chofer.vehiculo.forEach(element => {
+          //Dando formato al vector
+          let vehiculo = {
+            "id": element.id,
+            "tipoVehiculo": element.tipoVehiculo,
+            "marca": element.marca,
+            "modelo": element.modelo,
+            "placa": element.placa,
+            "anio": element.anio,
+            "color": element.color
+          }
+          console.log(vehiculo);
+          //Agregando los datos finales al vector
+          this.vehiculos.push(vehiculo);
+          this.estadoSpinner = true;
+        });
+      }
+      else{
         this.estadoSpinner = true;
-      });
+      }
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
       this.estadoSpinner = true;
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
     })
   }
 
-  
+
   //Método que permite cambiar de una página a otra en las tablas
-  cambiarPagina(e:PageEvent){
+  cambiarPagina(e: PageEvent) {
     console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }
+
 
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
@@ -106,9 +96,9 @@ export class ListarGuardiasComponent implements OnInit {
       scale: 3
     };
     //Datos para el encabezado
-    const empresa = 'CarFace: Listado de registro de guardias';
+    const empresa = 'CarFace: Listado de vehículos registrados';
     const fehcaEmision = 'Fecha de emisión: ' + this.obtenerFechaActual();
-    const usuario = 'Usuario: Administrador';
+    const usuario = 'Usuario: ';
     html2canvas(DATA, options).then((canvas) => {
 
       const img = canvas.toDataURL('image/PNG');
@@ -119,7 +109,7 @@ export class ListarGuardiasComponent implements OnInit {
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      
+
       // Agregamos el encabezado
       doc.setFontSize(18);
       doc.text(empresa, 15, 30); // Posicionamos el texto a 15,30 (X,Y)
@@ -178,28 +168,19 @@ export class ListarGuardiasComponent implements OnInit {
   }
 
 
-  //Método para cambiar el estado de un guardia
-  cambiarEstadoGuardia(guardiaID: number, estado: string) {
-    this.estadoGuardia = false;
-    let estadoConsumir = true;
-    if (estado == 'ACTIVO') {
-      estado = 'INACTIVO';
-      estadoConsumir = false;
-    }
-    this.api.putDatos("/guardia/" + guardiaID + "/" + estadoConsumir, guardiaID).subscribe(data => {
-      this.estadoGuardia = true;
-    }, error => {
-      this.alertaEmergente.alertaErrorSinReload("No se pudo procesar su consulta");
-      this.estadoSpinner = true;
-    })
+  //Método que abre un modal para editar un vehículo
+  abrirModalEditarVehiculo(modalEditarVehiculo, vehiculo) {
+    this.modal.open(modalEditarVehiculo, { size: 'lg', centered: true });
+    EditarVehiculoComponent.objectVehiculo = vehiculo;
   }
 
 
-  //Método que abre el modal para cargar los datos del guardia
-  abrirModalEditarGuardia(modalGuardia, guardia) {
-    this.modal.open(modalGuardia, { size: 'lg', centered: true });
-    EditarGuardiaComponent.objectGuardia = guardia;
+  //Método que abre un modal para confirmar que desea eliminar un vehículo
+  abrirModalEliminarVehiculo(modalEliminarVehiculo, vehiculo) {
+    this.modal.open(modalEliminarVehiculo, { size: 'lg', centered: true });
+    EliminarVehiculoComponent.objectVehiculo = vehiculo;
   }
+
 
   //Método que obtiene la fecha actual para mostrarla en el archivo PDF
   obtenerFechaActual(): string {
@@ -211,10 +192,10 @@ export class ListarGuardiasComponent implements OnInit {
   }
 
 
-  //Iconos a utilizar
-  iconEditar = iconos.faEdit;
-  iconEliminar = iconos.faTrash;
+  //Íconos a utilizar
+  iconVehiculo = iconos.faCarSide;
   iconPdf = iconos.faFilePdf;
   iconXlsx = iconos.faFileExcel;
-  iconGuardia = iconos.faUserShield;
+  iconEditar = iconos.faEdit;
+  iconEliminar = iconos.faTrash;
 }
