@@ -46,7 +46,7 @@ export class ListarVehiculosComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    //this.estadoSpinner = false;
+    this.estadoSpinner = false;
     this.api.getDatos("/chofer").subscribe(data => {
       if(data.chofer != null){
         data.chofer.vehiculo.forEach(element => {

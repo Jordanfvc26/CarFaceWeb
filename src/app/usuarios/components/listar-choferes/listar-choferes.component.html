@@ -62,7 +62,7 @@
                     <td>{{chofer.licencia}}</td>
                     <td>{{chofer.fechacreacion}}</td>
                     <td class="acciones">
-                      <fa-icon (click)="abrirModalVerMovimientosChofer(modalVerMovimientosChofer, chofer.id)"
+                      <fa-icon (click)="abrirModalVerMovimientosChofer(modalVerMovimientosChofer, chofer.id, chofer.nombre)"
                         data-bs-toggle="mensaje" title="Ver movimientos" id="iconEditar" [icon]="iconVerDetalles"></fa-icon>
                     </td>
                   </tr>
@@ -83,5 +83,5 @@
 <!--Ventanas emergentes para las acciones de editar y eliminar-->
 <!--Para editar los datos de un guardia-->
 <ng-template #modalVerMovimientosChofer>
-  <app-movimientos></app-movimientos>
+  <app-movimientos-id></app-movimientos-id>
 </ng-template>

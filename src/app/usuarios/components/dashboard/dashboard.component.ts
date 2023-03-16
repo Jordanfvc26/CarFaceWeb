@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Registrar vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Mis vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
-      this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })
+      //this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
     }

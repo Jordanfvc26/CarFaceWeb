@@ -1,0 +1,102 @@
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: white;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
+
+.botones-exportar{
+    margin-bottom: 15px;
+    text-align: end;
+}
+
+/*Diseño del encabezado buscar*/
+.contenedor-padre {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contenedor-padre {
+  display: flex;
+  flex-direction: row;
+}
+
+.campos-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#buscar {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.save-pdf{
+    margin-right: 20px;
+}
+
+
+/*Responsive*/
+@media screen and (max-width: 760px) {
+  #titulo {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  #subtitulo {
+    font-size: 15;
+    margin-bottom: 8px;
+  }
+
+  .botones-exportar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .botones-exportar .save-pdf {
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .botones-exportar .save-xlsx {
+    margin-bottom: 14px;
+    width: 100%;
+  }
+
+  /*Responsive del encabezado buscar*/
+  .contenedor-padre {
+    display: inline-block;
+    flex-direction: row;
+  }
+
+  .campos-form{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  #buscar {
+    margin-bottom: 20px;
+    margin-left: -1px;
+  }
+}
+

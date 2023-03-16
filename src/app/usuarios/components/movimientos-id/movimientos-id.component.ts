@@ -33,8 +33,9 @@ export class MovimientosIdComponent implements OnInit {
   //Para la búsqueda en la tabla
   movimientosABuscar: any[] = [];
   opcionFiltro = "placa";
-
   static idChofer: any;
+  static nombreChofer = "usuario";
+  nombreChoferFinal = "usuario";
 
   constructor(
     public modal: NgbModal,
@@ -48,11 +49,11 @@ export class MovimientosIdComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    /*this.estadoSpinner = true;
+    this.nombreChoferFinal = MovimientosIdComponent.nombreChofer;
+    this.estadoSpinner = true;
     this.api.getDatos("/admin/usuario/id?id=" + MovimientosIdComponent.idChofer).subscribe(data => {
       data.chofer.vehiculo.forEach(element => {
         element.registros.forEach(element2 => {
-
           const fechatTemp = element2.fecha;
           const fecha = new Date(fechatTemp);
           //Dando formato a la fecha
@@ -84,7 +85,7 @@ export class MovimientosIdComponent implements OnInit {
       console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
       this.estadoSpinner = true;
-    });*/
+    });
   }
 
 

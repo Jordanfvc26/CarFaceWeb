@@ -1,16 +1,15 @@
-<!--<app-spinner *ngIf="!estadoSpinner"></app-spinner>-->
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
 
 <div class="container">
     <div class="modal-header">
-        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconVerMovimientos"></fa-icon> Movimientos del
-            usuario: </h4>
+        <h3 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconVerMovimientos"></fa-icon> Movimientos del
+            usuario: {{nombreChoferFinal}}</h3>
     </div>
 
     <div class="modal-body">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <h3 id="titulo"><fa-icon [icon]="iconCalendario"></fa-icon> Registro de Movimientos</h3>
                     <p>Filtrar los movimientos por: </p>
                     <div class="contenedor-padre">
                         <div class="campos-form">
@@ -55,7 +54,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let temp of movimientos | slice:desde:hasta; let i = index">
+                                        <tr *ngFor="let temp of movimientos | slice:desde:hasta | buscarRegistros:movimientosABuscar:opcionFiltro; let i = index">
                                             <th>{{i+1}}</th>
                                             <td>{{temp.marca}}</td>
                                             <td>{{temp.modelo}}</td>
@@ -79,6 +78,6 @@
 
     <div class="modal-footer">
         <button (click)="modal.dismissAll()" type="button" class="btn btn-next btn btn-success"> <fa-icon
-                [icon]="iconAceptar"></fa-icon> Guardar cambios</button>
+                [icon]="iconAceptar"></fa-icon> Aceptar</button>
     </div>
 </div>

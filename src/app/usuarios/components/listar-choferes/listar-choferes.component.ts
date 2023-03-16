@@ -46,6 +46,7 @@ export class ListarChoferesComponent implements OnInit {
     filtro: new FormControl('ci', Validators.required),
   })
 
+  
   ngOnInit(): void {
     this.estadoSpinner = false;
     this.api.getDatos("/chofer/all").subscribe(data => {
@@ -175,9 +176,10 @@ export class ListarChoferesComponent implements OnInit {
 
 
   //Método que abre el modal para cargar los datos del guardia
-  abrirModalVerMovimientosChofer(modalVerMovimientos, idChofer) {
+  abrirModalVerMovimientosChofer(modalVerMovimientos, idChofer, nombreChofer) {
     this.modal.open(modalVerMovimientos, { size: 'xl', centered: true });
     MovimientosIdComponent.idChofer = idChofer;
+    MovimientosIdComponent.nombreChofer = nombreChofer;
   }
 
   //Método que obtiene la fecha actual para mostrarla en el archivo PDF
