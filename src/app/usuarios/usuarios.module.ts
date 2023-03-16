@@ -40,6 +40,7 @@ import { ListarChoferesComponent } from './components/listar-choferes/listar-cho
 import { MovimientosIdComponent } from './components/movimientos-id/movimientos-id.component';
 import { PerfilChoferComponent } from './components/perfil-chofer/perfil-chofer.component';
 import { RegistroRostroComponent } from './components/registro-rostro/registro-rostro.component';
+import { EditarChoferComponent } from './components/editar-chofer/editar-chofer.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { RegistroRostroComponent } from './components/registro-rostro/registro-r
     ListarChoferesComponent,
     MovimientosIdComponent,
     PerfilChoferComponent,
-    RegistroRostroComponent
+    RegistroRostroComponent,
+    EditarChoferComponent
   ],
   imports: [
     UsuariosRoutingModule,

@@ -70,6 +70,19 @@ export class Alerts {
         })
     }
 
+    //Método que muestra una alerta con un mensaje de estado ERROR, sin recargar y sin botón
+    public alertaErrorConReload(mensaje: string) {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: mensaje,
+            showConfirmButton: false,
+            timer: 1500
+        }).then((result) => {
+            window.location.reload();
+        })
+    }
+
     //Método para confirmar si se quiere hacer una acción o no
     public alertaAceptarCancelar(mensajePregunta: string, mensajeOK: string) {
         Swal.fire({

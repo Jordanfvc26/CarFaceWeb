@@ -47,14 +47,14 @@ export class LoginComponent implements OnInit {
       this.estadoSpinner = true;
       this.alertaEmergente.alertaOKConReload("Inicio de sesión exitoso");
       if (data.rol == 'CHOFER') {
-        this.ruta.navigateByUrl('/dashboard/perfil-chofer');
+        this.ruta.navigateByUrl('/dashboard');
       }
       else {
         this.ruta.navigateByUrl('/dashboard');
       }
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertaErrorSinReload("Credenciales incorrectas");
+      this.alertaEmergente.alertaErrorConReload("Credenciales incorrectas");
       this.estadoSpinner = true;
     })
   }
