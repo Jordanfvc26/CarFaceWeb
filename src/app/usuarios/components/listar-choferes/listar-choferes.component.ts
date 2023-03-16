@@ -67,11 +67,11 @@ export class ListarChoferesComponent implements OnInit {
         let chofer = {
           "id": element.id,
           "ci": element.ci,
-          "nombre": element.nombre,
-          "apellido": element.apellido,
+          "nombre": element.nombres,
+          "apellido": element.apellidos,
           "correo": element.correo,
           "telefono": element.telefono,
-          "licencia": element.licencia,
+          "licencia": element.tipolicencia,
           "fechacreacion": fechaFormateada
         }
         //Agregando los datos finales al vector
@@ -176,10 +176,11 @@ export class ListarChoferesComponent implements OnInit {
 
 
   //Método que abre el modal para cargar los datos del guardia
-  abrirModalVerMovimientosChofer(modalVerMovimientos, idChofer, nombreChofer) {
+  abrirModalVerMovimientosChofer(modalVerMovimientos, idChofer, nombreChofer, apellidoChofer) {
     this.modal.open(modalVerMovimientos, { size: 'xl', centered: true });
     MovimientosIdComponent.idChofer = idChofer;
     MovimientosIdComponent.nombreChofer = nombreChofer;
+    MovimientosIdComponent.apellidoChofer = apellidoChofer;
   }
 
   //Método que obtiene la fecha actual para mostrarla en el archivo PDF

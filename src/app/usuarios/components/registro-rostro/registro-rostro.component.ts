@@ -1,3 +1,4 @@
+import { RegistroUsuarioComponent } from './../registro-usuario/registro-usuario.component';
 import { Alerts } from './../../alerts/alerts.component';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Router } from '@angular/router';
@@ -47,7 +48,6 @@ export class RegistroRostroComponent implements OnInit {
 
   ngOnInit(): void {
     this.estadoSpinner = true;
-    this.alertaEmergente.alertaWarningSinReloadBtn("Alerta", "A continuación registre su rostro para acceder a todas las funciones de CarFace")
   }
 
 

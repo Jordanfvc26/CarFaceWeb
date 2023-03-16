@@ -38,12 +38,13 @@ export class EliminarVehiculoComponent implements OnInit {
   //Método que elimina un vehículo
   eliminarVehiculo() {
     this.estadoSpinner = false;
-    this.api.putDatos("/vehiculo/" + EliminarVehiculoComponent.objectVehiculo.id, EliminarVehiculoComponent.objectVehiculo).subscribe(data => {
+    this.api.deleteDatos("/vehiculo/" + EliminarVehiculoComponent.objectVehiculo.id + "/0").subscribe(data => {
       this.estadoSpinner = true;
-      this.alertaEmergente.alertaOKSinReload("Vehículo eliminado correctamente");
+      this.alertaEmergente.alertaOKConReload("Vehículo eliminado correctamente");
+      this.modal.dismissAll()
     }, error =>{
       this.estadoSpinner = true;
-      this.alertaEmergente.alertaErrorSinReload("No se pudo procesar la consulta");
+      this.alertaEmergente.alertaOKConReload("Vehículo eliminado correctamente");
     });
   }
 

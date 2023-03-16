@@ -35,6 +35,8 @@ export class MovimientosIdComponent implements OnInit {
   opcionFiltro = "placa";
   static idChofer: any;
   static nombreChofer = "usuario";
+  static apellidoChofer = "apellido";
+
   nombreChoferFinal = "usuario";
 
   constructor(
@@ -49,7 +51,7 @@ export class MovimientosIdComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.nombreChoferFinal = MovimientosIdComponent.nombreChofer;
+    this.nombreChoferFinal = (MovimientosIdComponent.nombreChofer + " " + MovimientosIdComponent.apellidoChofer);
     this.estadoSpinner = true;
     this.api.getDatos("/admin/usuario/id?id=" + MovimientosIdComponent.idChofer).subscribe(data => {
       data.chofer.vehiculo.forEach(element => {

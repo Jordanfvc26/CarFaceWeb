@@ -1,3 +1,5 @@
+import { Alerts } from './../../alerts/alerts.component';
+import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
 import { Component, OnInit } from '@angular/core';
 import * as iconos from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +19,11 @@ export class DashboardComponent implements OnInit {
   menuOpciones: any[] = [];
   estadoSpinner = false;
 
-  constructor(private _cargarScripts: CargarScriptsJsService, private ruta: Router) {
+  constructor(
+    private _cargarScripts: CargarScriptsJsService, 
+    private ruta: Router,
+    private api: ConsumirServiciosService,
+    public alertaEmergente: Alerts) {
     _cargarScripts.CargarJS(["dashboard/dashboard"]);
   }
 
@@ -31,12 +37,27 @@ export class DashboardComponent implements OnInit {
     this.rolUsuario = sessionStorage.getItem("rol") || "Usuario";
     this.menuOpciones.push({ icono: this.iconInicio, nombre: "Inicio" })
     if (sessionStorage.getItem("rol") == "CHOFER") {
-      this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Registrar vehículos", habilitado: true })
-      this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Mis vehículos", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconAgregarVehiculos, nombre: "Registrar vehículos", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconListarVehiculos, nombre: "Mis vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconFaceID, nombre: "Registrar FaceID", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
+      
+      /*this.api.getDatos("/chofer").subscribe(data => {
+        data.chofer.fotochofer.forEach(element => {
+          if(element != null){
+            
+          }
+          else{
+            this.alertaEmergente.alertaWarningSinReloadBtn("Adevertencia", "Debe registrar su restro en la opción de 'Registrar FaceID' para completar su información y poder acceder al parqueadero.");
+          }
+        });
+      }, error => {
+        this.estadoSpinner = true;
+      });*/
+
     }
     else {
       this.menuOpciones.push({ icono: this.iconGuardia, nombre: "Crear Guardias", habilitado: true })
@@ -51,10 +72,16 @@ export class DashboardComponent implements OnInit {
   //Inidice para mostrar componentes dentro del dashboard
   cambiarIndiceMenu(indice: number) {
     this.opcionMenu = indice;
-    if (this.opcionMenu == 5) {
-      this.cerrarSesion();
+    if (sessionStorage.getItem("rol") == "CHOFER") {
+      if (this.opcionMenu == 6) {
+        this.cerrarSesion();
+      }
     }
-    console.log(this.opcionMenu);
+    else{
+      if (this.opcionMenu == 4) {
+        this.cerrarSesion();
+      }
+    }
   }
 
 
@@ -78,10 +105,12 @@ export class DashboardComponent implements OnInit {
 
   //Iconos del menu de opciones del chofer y administrador
   iconInicio = iconos.faHome;
-  iconAgregar = iconos.faCar;
+  iconAgregarVehiculos = iconos.faCar;
+  iconListarVehiculos = iconos.faCarSide;
   iconMovimientos = iconos.faCalendar;
   iconListUser = iconos.faUser;
   iconCerrarSesion = iconos.faSignOutAlt;
   iconGuardia = iconos.faUserShield;
   iconChoferes = iconos.faUsers;
+  iconFaceID = iconos.faSmile;
 }

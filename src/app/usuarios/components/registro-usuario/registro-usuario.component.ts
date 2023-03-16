@@ -18,6 +18,9 @@ import * as iconos from '@fortawesome/free-solid-svg-icons';
 export class RegistroUsuarioComponent implements OnInit {
   estadoSpinner: boolean = false;
 
+  static usuario = "";
+  static clave = "";
+
   constructor(
     private _choferService: ChoferService,
     private _cargarScripts: CargarScriptsJsService,
@@ -45,7 +48,7 @@ export class RegistroUsuarioComponent implements OnInit {
   }
 
   //Método que abre el login
-  abrirLogin(){
+  abrirLogin() {
     this.estadoSpinner = false;
     this.ruta.navigateByUrl('/Login');
     this.estadoSpinner = true;
@@ -72,33 +75,19 @@ export class RegistroUsuarioComponent implements OnInit {
       "clave": this.formDatosChofer.value.clave,
     }
 
-    this._choferService.registerChofer(body).subscribe((res) => {
-      this.iniciarSesion(this.formDatosChofer.value.correo, this.formDatosChofer.value.clave);
-      this.estadoSpinner = false;
-      this.alertaEmergente.alertaOKSinReloadBtn("Registro de información personal exitoso");
-      this.ruta.navigateByUrl('/dashboard/registro-rostro');
-      this.estadoSpinner = true;
+    RegistroUsuarioComponent.usuario = this.formDatosChofer.value.correo;
+    RegistroUsuarioComponent.clave = this.formDatosChofer.value.clave;
+
+    this._choferService.registerChofer(body).subscribe(res => {
+      this.estadoSpinner = true
+      this.alertaEmergente.alertaOKSinReloadBtn("Registro de información personal exitoso")
+      //Arreglaaaaaaaar
+      //this.iniciarSesion(this.formDatosChofer.value.correo, this.formDatosChofer.value.clave);
+      this.ruta.navigateByUrl('/dashboard');
     }, error => {
       this.alertaEmergente.alertaErrorSinReload("No se pudo registrar su información");
       this.estadoSpinner = true;
     });
-  }
-
-  //Método para iniciar sesión
-  iniciarSesion(usuario, clave) {
-    this.estadoSpinner = false;
-    let headers = new Map();
-    headers.set("correo", usuario);
-    headers.set("clave", clave);
-    this.api.postDatos("/sesion/login", null, headers).subscribe(data => {
-      sessionStorage.setItem("usuario", data.token);
-      sessionStorage.setItem("rol", data.rol)
-      this.estadoSpinner = true;
-    }, error => {
-      console.log(error);
-      this.alertaEmergente.alertaErrorSinReload("Ocurrió un error con sus credenciales de sesión.");
-      this.estadoSpinner = true;
-    })
   }
 
   //Iconos a utilizar

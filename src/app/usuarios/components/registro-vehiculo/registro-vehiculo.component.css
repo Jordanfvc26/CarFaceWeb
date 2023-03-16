@@ -1,6 +1,7 @@
 .registro-vehiculo{
     border-radius: 10px;
     padding: 20px;  
+    border: 1px solid rgba(179, 179, 179, 0.863);
 }
 
 .boton-registrar{

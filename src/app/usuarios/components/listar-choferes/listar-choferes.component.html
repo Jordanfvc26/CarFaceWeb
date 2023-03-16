@@ -46,7 +46,6 @@
                     <th scope="col">Correo</th>
                     <th scope="col">Teléfono</th>
                     <th scope="col">Licencia</th>
-                    <th scope="col">Fecha Registro</th>
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
@@ -60,9 +59,8 @@
                     <td>{{chofer.correo}}</td>
                     <td>{{chofer.telefono}}</td>
                     <td>{{chofer.licencia}}</td>
-                    <td>{{chofer.fechacreacion}}</td>
                     <td class="acciones">
-                      <fa-icon (click)="abrirModalVerMovimientosChofer(modalVerMovimientosChofer, chofer.id, chofer.nombre)"
+                      <fa-icon (click)="abrirModalVerMovimientosChofer(modalVerMovimientosChofer, chofer.id, chofer.nombre, chofer.apellido)"
                         data-bs-toggle="mensaje" title="Ver movimientos" id="iconEditar" [icon]="iconVerDetalles"></fa-icon>
                     </td>
                   </tr>

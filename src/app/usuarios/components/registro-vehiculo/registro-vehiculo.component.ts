@@ -100,7 +100,6 @@ export class RegistroVehiculoComponent implements OnInit {
               options: [
                 { label: 'Carro', value: 'CARRO' },
                 { label: 'Moto', value: 'MOTO' },
-                { label: 'Furgoneta', value: 'Furgoneta' },
               ],
             },
           },

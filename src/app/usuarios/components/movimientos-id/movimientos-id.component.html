@@ -2,8 +2,8 @@
 
 <div class="container">
     <div class="modal-header">
-        <h3 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconVerMovimientos"></fa-icon> Movimientos del
-            usuario: {{nombreChoferFinal}}</h3>
+        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconVerMovimientos"></fa-icon> Movimientos del
+            usuario: <i>{{nombreChoferFinal}}</i></h4>
     </div>
 
     <div class="modal-body">
@@ -27,14 +27,6 @@
                                 <input class="form-control me-1" type="text" placeholder="Buscar..."
                                     name="buscarMovimientos" [(ngModel)]="movimientosABuscar">
                             </form>
-                        </div>
-
-                        <div class="botones-exportar">
-                            <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()"><fa-icon
-                                    [icon]="iconPdf"></fa-icon> Exportar a .PDF</button>
-                            <button type="button" class="btn btn-success save-xlsx"
-                                (click)="exportToExcel()"><fa-icon [icon]="iconXlsx"></fa-icon> Exportar a
-                                .XLSX</button>
                         </div>
                     </div>
                     <div class="card" id="htmlTablaPDF">
