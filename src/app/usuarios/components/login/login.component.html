@@ -26,8 +26,7 @@
                             <input type="checkbox" id="logCheck">
                             <label for="logCheck" class="text">Recuérdame</label>
                         </div>
-
-                        <a href="#" class="text">Olvidé mi contraseña</a>
+                        <a (click)="olvideContrasenia()" id="olvideContrasenia" class="text">Olvidé mi contraseña</a>
                     </div>
 
                     <div class="input-field button">
@@ -38,18 +37,11 @@
                 <div class="login-signup">
                     <span class="text">¿No estás registrado?
                         <a (click)="abrirFormRegistro()" [ngSwitch]="indice" class="text signup-link">Regístrate ahora
-                            <app-registro-usuario *ngSwitchCase="1" (getPicture)="handleImage($event)"></app-registro-usuario>
-
-                            <div *ngIf="webcamImage" class="webcam-image">
-                                <img [src]="webcamImage.imageAsDataUrl"/>
-                            </div>
+                            <app-registro-usuario *ngSwitchCase="1"></app-registro-usuario>
                         </a>
                     </span>
                 </div>
             </div>
-
-            <!--Formulario de registro-->
-            
         </div>
     </div>
 </body>

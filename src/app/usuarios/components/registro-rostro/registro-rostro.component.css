@@ -1,0 +1,92 @@
+
+/*Para el rostro*/
+.text-rostro {
+	color: rgba(39, 39, 39, 0.904);
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+#foto {
+
+	margin-bottom: 15px;
+	border-radius: 8px;
+}
+
+/*Barra de progreso*/
+.progress {
+	margin-bottom: 10px;
+}
+
+.progress-bar {
+	animation: progress-bar 0.5s ease-in-out;
+}
+
+@keyframes progress-bar {
+	0% {
+		width: 0;
+	}
+}
+
+
+/* Retina-ize images/icons */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {}
+
+.contenedor{
+	border-radius: 50%;
+}
+
+.container{
+	margin-top: 3%;
+	background-color: #80c484;
+	border-radius: 25px;
+	width: 70%;
+}
+
+.contenedor-progress {
+	margin-left: 28.5%;
+	margin-right: 28.5%;
+}
+
+.f1-buttons{
+	text-align: center;
+}
+
+#btnRegistrarFotos{
+	width: 43%;
+	margin-bottom: 20px;
+}
+
+
+@media screen and (max-width: 760px) {
+	.contenedor{
+		border-radius: 50%;
+	}
+	
+	.container{
+		margin-top: 3%;
+		background-color: #80c484;
+		border-radius: 25px;
+		width: 90%;
+	}
+	
+	.contenedor-progress {
+		margin-left: 2%;
+		margin-right: 2%;
+	}
+	
+	.f1-buttons{
+		text-align: center;
+	}
+	
+	#btnRegistrarFotos{
+		width: 43%;
+		margin-bottom: 20px;
+	}
+}

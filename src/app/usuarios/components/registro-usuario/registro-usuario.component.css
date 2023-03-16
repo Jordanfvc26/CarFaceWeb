@@ -377,5 +377,26 @@ only screen and (min-device-pixel-ratio: 2),
 only screen and (min-resolution: 192dpi),
 only screen and (min-resolution: 2dppx) {}
 
+/*Decoracciones para la opción de volver al login*/
+fieldset .login-signup{
+    margin-top: 20px;
+    text-align: center;
+}
+
+fieldset .login-signup span{
+	color: #333;
+}
+
+fieldset .login-signup a{
+	color: #42AB49;
+	cursor: pointer;
+}
+
+fieldset .login-signup a:hover{
+	color: #42AB49;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
 
 /*----------------------------------------------------------*/

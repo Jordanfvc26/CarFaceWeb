@@ -86,4 +86,15 @@ export class Alerts {
             }
         })
     }
+
+    //Método que muestra alerta con un mensaje de estado ADVERTENCIA, sin recargar la página y con botón
+    public alertaWarningSinReloadBtn(mensaje: string, mensaje2) {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: mensaje,
+            text: mensaje2,
+            showConfirmButton: true,
+        })
+    }
 }

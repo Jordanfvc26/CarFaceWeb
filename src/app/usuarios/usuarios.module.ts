@@ -38,7 +38,8 @@ import { EditarVehiculoComponent } from './components/editar-vehiculo/editar-veh
 import { EliminarVehiculoComponent } from './components/eliminar-vehiculo/eliminar-vehiculo.component';
 import { ListarChoferesComponent } from './components/listar-choferes/listar-choferes.component';
 import { MovimientosIdComponent } from './components/movimientos-id/movimientos-id.component';
-
+import { PerfilChoferComponent } from './components/perfil-chofer/perfil-chofer.component';
+import { RegistroRostroComponent } from './components/registro-rostro/registro-rostro.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,9 @@ import { MovimientosIdComponent } from './components/movimientos-id/movimientos-
     EditarVehiculoComponent,
     EliminarVehiculoComponent,
     ListarChoferesComponent,
-    MovimientosIdComponent
+    MovimientosIdComponent,
+    PerfilChoferComponent,
+    RegistroRostroComponent
   ],
   imports: [
     UsuariosRoutingModule,

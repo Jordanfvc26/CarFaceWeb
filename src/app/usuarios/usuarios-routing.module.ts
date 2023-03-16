@@ -1,3 +1,4 @@
+import { RegistroRostroComponent } from './components/registro-rostro/registro-rostro.component';
 import { ListarGuardiasComponent } from './components/listar-guardias/listar-guardias.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,6 +19,7 @@ const routes:Routes =[
       { path: 'registro-usuario', component: RegistroUsuarioComponent},
       { path: 'dashboard', component: DashboardComponent},
       { path: 'dashboard/listar-guardias', component: ListarGuardiasComponent},
+      { path: 'dashboard/registro-rostro', component: RegistroRostroComponent},
       { path: 'registroVehiculo', component: RegistroVehiculoComponent},
       /*Path cuando no se especifica una ruta correcta*/
       { path: '**', redirectTo:'login'}

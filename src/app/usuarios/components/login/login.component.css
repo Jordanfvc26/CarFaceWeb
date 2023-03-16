@@ -198,3 +198,7 @@ body{
 .signup-link{
     cursor: pointer;
 }
+
+#olvideContrasenia:hover{
+    cursor: pointer;
+}

@@ -38,13 +38,14 @@
             <app-registro-vehiculo *ngSwitchCase="1"></app-registro-vehiculo>
             <app-listar-vehiculos *ngSwitchCase="2"></app-listar-vehiculos>
             <app-movimientos *ngSwitchCase="3"></app-movimientos>
+            <app-perfil-chofer *ngSwitchCase="4"></app-perfil-chofer>
         </div>
         <ng-template #administrador>
             <app-inicio *ngSwitchCase="0"></app-inicio>
             <app-crear-guardia *ngSwitchCase="1"></app-crear-guardia>
             <app-listar-guardias *ngSwitchCase="2"></app-listar-guardias>
             <app-listar-choferes *ngSwitchCase="3"></app-listar-choferes>
-           
+
         </ng-template>
         <!--<h4 *ngSwitchDefault>Lo sentimos, esta opción aún no está disponible :(</h4>-->
     </main>

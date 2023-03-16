@@ -17,12 +17,12 @@
                                     style="width: 16.66%;"></div>
                             </div>
                             <div class="f1-step active">
-                                <div class="f1-step-icon"><i class="fa fa-smile-o"></i></div>
-                                <p>Paso 1</p>
+                                <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                                <p>Personal</p>
                             </div>
                             <div class="f1-step">
-                                <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                                <p>Paso 2</p>
+                                <div class="f1-step-icon"><i class="fa fa-phone"></i></div>
+                                <p>Contacto</p>
                             </div>
                             <div class="f1-step">
                                 <div class="f1-step-icon"><i class="fa fa-lock"></i></div>
@@ -50,12 +50,6 @@
                                     [maxlength]="30">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="f1-last-name">Teléfono celular:</label>
-                                <input formControlName="telefono" type="text" name="f1-last-name"
-                                    placeholder="Teléfono celular" class="f1-last-name form-control" id="f1-last-name"
-                                    [maxlength]="10">
-                            </div>
-                            <div class="form-group">
                                 <label class="sr-only" for="f1-last-name">Tipo licencia:</label>
                                 <select formControlName="licencia" name="select" name="f1-last-name"
                                     placeholder="Tipo licencia" class="f1-last-name form-control" id="f1-last-name"
@@ -66,12 +60,61 @@
                                 </select>
                             </div>
 
+                            <div class="login-signup">
+                                <span class="text">¿Ya tienes una cuenta?
+                                    <a (click)="abrirLogin()" class="text signup-link">Inicia sesión
+                                    </a>
+                                </span>
+                            </div>
+
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-next" (click)="alertaRellenar()">Siguiente</button>
                             </div>
                         </fieldset>
 
-                        <!---Paso 2 (Llenado de la información de inicio de sesión correo y clave)-->
+                        <!---Paso 2 (Llenado de la información de contacto)-->
+                        <fieldset>
+                            <br>
+                            <div class="form-group">
+                                <label class="sr-only" for="f1-last-name">Teléfono celular:</label>
+                                <input formControlName="telefono" type="text" name="f1-last-name"
+                                    placeholder="Teléfono celular" class="f1-last-name form-control" id="f1-last-name"
+                                    [maxlength]="10">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="f1-last-name">Cantón al que pertenece:</label>
+                                <select name="select" name="f1-last-name"
+                                    placeholder="Tipo licencia" class="f1-last-name form-control" id="f1-last-name"
+                                    style="margin-bottom: 12px;">
+                                    <option value="canton" selected disabled>-- Seleccione su cantón --</option>
+                                    <option value="Baba">Baba</option>
+                                    <option value="Babahoyo">Babahoyo</option>
+                                    <option value="Buena Fe">Buena Fe</option>
+                                    <option value="Mocache">Mocache</option>
+                                    <option value="Montalvo">Montalvo</option>
+                                    <option value="Palenque">Palenque</option>
+                                    <option value="Pueblo Viejo">Pueblo Viejo</option>
+                                    <option value="Quevedo">Quevedo</option>
+                                    <option value="Quinsaloma">Quinsaloma</option>
+                                    <option value="Valencia">Valencia</option>
+                                    <option value="Ventanas">Ventanas</option>
+                                    <option value="Vinces">Vinces</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="f1-repeat-password">Dirección:</label>
+                                <input formControlName="direccion" type="text" name="f1-repeat-password"
+                                    placeholder="Dirección" class="f1-repeat-password form-control"
+                                    id="f1-repeat-password">
+                            </div>
+                            <div class="f1-buttons">
+                                <button type="button" class="btn btn-previous">Atrás</button>
+                                <button type="button"
+                                    class="btn btn-next">Siguiente</button>
+                            </div>
+                        </fieldset>
+
+                        <!---Paso 3 (Llenado de la información de inicio de sesión correo y clave)-->
                         <fieldset>
                             <br>
                             <div class="form-group">
@@ -80,12 +123,12 @@
                                     placeholder="Correo electrónico" class="f1-email form-control" id="f1-email">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="f1-password">Contraseña</label>
+                                <label class="sr-only" for="f1-password">Contraseña:</label>
                                 <input type="password" name="f1-password" placeholder="Contraseña"
                                     class="f1-password form-control" id="f1-password">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="f1-repeat-password">Confirmar contraseña</label>
+                                <label class="sr-only" for="f1-repeat-password">Confirmar contraseña:</label>
                                 <input formControlName="clave" type="password" name="f1-repeat-password"
                                     placeholder="Confirmar contraseña" class="f1-repeat-password form-control"
                                     id="f1-repeat-password">
@@ -93,62 +136,6 @@
                             <div class="f1-buttons">
                                 <button type="button" class="btn btn-previous">Atrás</button>
                                 <button type="submit"
-                                    class="btn btn-next">Registrarme</button>
-                            </div>
-                        </fieldset>
-
-                        <!--Paso 3 Registro del faceID-->
-                        <fieldset>
-                            <div class="text-rostro row justify-content-center">
-                                <span>Permita el acceso a su cámara para registrar su rostro</span>
-                                <span>Foto número: {{numFotos}}</span>
-                            </div>
-
-                            <div class="camara mt-4">
-                                <div *ngIf="isCameraExist; else noCameraExist">
-                                    <div style="text-align: center;">
-                                        <div class="btn-group" style="margin-bottom: 10px;">
-                                            <button type="button" (click)="capturarFotos()" class="btn btn-primary"
-                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
-                                                    [icon]="iconCamara"></fa-icon> Tomar foto</button>
-                                            <!--<button type="button" (click)="cambiarCamara(true)" class="btn btn-primary" style="margin-right: 10px; border-radius: 6px;"><fa-icon [icon]="iconCambiarCamara"></fa-icon> Cambiar</button>-->
-                                            <button type="button" (click)="onOffCamara()" class="btn btn-primary"
-                                                style="margin-right: 10px; border-radius: 6px;"><fa-icon
-                                                    [icon]="iconOnOffCamara"></fa-icon> On / Off Cámara</button>
-                                        </div>
-
-                                        <!--Barra de progreso para ver cuantas fotos va tomando-->
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar"
-                                                [ngStyle]="{ width: numFotos * 10 + '%' }" aria-valuemin="1"
-                                                aria-valuemax="10">
-                                            </div>
-                                        </div>
-
-                                        <webcam #webcamComponent [height]="300" [width]="300"
-                                            [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
-                                            *ngIf="showWebCam" [switchCamera]="nextWebcamObservable"></webcam>
-                                        <p style="color: black;">Este será el rostro a registrar:</p>
-                                        <img id="foto" [src]="capturedImageurl" *ngIf="capturedImageurl" [height]="220"
-                                            [width]="300">
-                                    </div>
-
-                                    <div *ngIf="errors.length > 0">
-                                        <h4>Mensajes de error:</h4>
-                                        <ul *ngFor="let error of errors">
-                                            <li>{{error | json}}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--Por si no existe una cámara-->
-                            <ng-template #noCameraExist>
-                                No hay una cámara disponible
-                            </ng-template>
-
-                            <div class="f1-buttons">
-                                <button type="button" (click)="registrarFotos()"
                                     class="btn btn-submit">Registrarme</button>
                             </div>
                         </fieldset>

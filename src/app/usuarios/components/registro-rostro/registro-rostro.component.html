@@ -1,0 +1,59 @@
+<app-spinner *ngIf="!estadoSpinner"></app-spinner>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="text-rostro row justify-content-center">
+            <h4>Permita el acceso a su cámara para registrar su rostro</h4>
+            <span>Foto número: {{numFotos}}</span>
+        </div>
+
+        <div class="camara mt-4">
+            <div *ngIf="isCameraExist; else noCameraExist">
+                <div style="text-align: center;">
+                    <div class="btn-group" style="margin-bottom: 10px;">
+                        <button type="button" (click)="capturarFotos()" class="btn btn-primary"
+                            style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                [icon]="iconCamara"></fa-icon> Tomar foto</button>
+                        <button type="button" (click)="onOffCamara()" class="btn btn-primary"
+                            style="margin-right: 10px; border-radius: 6px;"><fa-icon
+                                [icon]="iconOnOffCamara"></fa-icon> On / Off Cámara</button>
+                    </div>
+
+                    <!--Barra de progreso para ver cuantas fotos va tomando-->
+                    <div class="contenedor-progress">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"
+                                [ngStyle]="{ width: numFotos * 10 + '%' }" aria-valuemin="1"
+                                aria-valuemax="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <webcam #webcamComponent [height]="400" [width]="400"
+                        [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                        *ngIf="showWebCam" [switchCamera]="nextWebcamObservable" id="camaraWeb"></webcam>
+                    <p style="color: black;">Estas serán las imágenes a registrar:</p>
+                    <img id="foto" [src]="capturedImageurl" *ngIf="capturedImageurl" [height]="280"
+                        [width]="405">
+                </div>
+
+                <div *ngIf="errors.length > 0">
+                    <h4>Mensajes de error:</h4>
+                    <ul *ngFor="let error of errors">
+                        <li>{{error | json}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="f1-buttons">
+            <button type="button" (click)="registrarFotos()" id="btnRegistrarFotos"
+                class="btn btn-primary">Registrarme</button>
+        </div>
+
+        <!--Por si no existe una cámara-->
+        <ng-template #noCameraExist>
+            No hay una cámara disponible
+        </ng-template>
+    </div>
+</div>

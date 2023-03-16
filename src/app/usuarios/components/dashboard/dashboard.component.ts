@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Registrar vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconAgregar, nombre: "Mis vehículos", habilitado: true })
       this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
-      //this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconListUser, nombre: "Mi perfil", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
     }
@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
   //Inidice para mostrar componentes dentro del dashboard
   cambiarIndiceMenu(indice: number) {
     this.opcionMenu = indice;
-    if(this.opcionMenu == 4){
+    if (this.opcionMenu == 5) {
       this.cerrarSesion();
     }
     console.log(this.opcionMenu);
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
 
 
   //Método para cerrar la sesión y remover el sessionStorage
-  cerrarSesion(){
+  cerrarSesion() {
     this.estadoSpinner = false;
     sessionStorage.removeItem("usuario");
     sessionStorage.removeItem("rol");
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
       this.estadoSpinner = true;
       this.ruta.navigateByUrl('/login');
     }, 2100);
-  
+
   }
 
   //Iconos generales
