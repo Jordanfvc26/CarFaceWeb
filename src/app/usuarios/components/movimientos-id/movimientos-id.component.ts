@@ -1,9 +1,11 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Alerts } from './../../alerts/alerts.component';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+
+/*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
 /*Para generar PDF y excel*/
@@ -12,12 +14,11 @@ import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-movimientos',
-  templateUrl: './movimientos.component.html',
-  styleUrls: ['./movimientos.component.css']
+  selector: 'app-movimientos-id',
+  templateUrl: './movimientos-id.component.html',
+  styleUrls: ['./movimientos-id.component.css']
 })
-export class MovimientosComponent implements OnInit {
-  @ViewChild('tabla', { static: false }) tabla: ElementRef;
+export class MovimientosIdComponent implements OnInit {
 
   //Varibles y objetos a utilizar
   movimientos: any[] = [];
@@ -33,15 +34,12 @@ export class MovimientosComponent implements OnInit {
   movimientosABuscar: any[] = [];
   opcionFiltro = "placa";
 
-  static objectChofer: any ={
-  }
-
   static idChofer: any;
 
   constructor(
+    public modal: NgbModal,
     private api: ConsumirServiciosService,
-    public alertaEmergente: Alerts,
-    private ruta: Router
+    public alertaEmergente: Alerts
   ) { }
 
   //Form que captura la etiqueta select para obtener el filtro
@@ -49,10 +47,9 @@ export class MovimientosComponent implements OnInit {
     filtro: new FormControl('placa', Validators.required),
   })
 
-
   ngOnInit(): void {
-    this.estadoSpinner = true;
-    this.api.getDatos("/chofer").subscribe(data => {
+    /*this.estadoSpinner = true;
+    this.api.getDatos("/admin/usuario/id?id=" + MovimientosIdComponent.idChofer).subscribe(data => {
       data.chofer.vehiculo.forEach(element => {
         element.registros.forEach(element2 => {
 
@@ -87,11 +84,12 @@ export class MovimientosComponent implements OnInit {
       console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
       this.estadoSpinner = true;
-    });
+    });*/
   }
 
+
   //Método que permite cambiar de una página a otra en las tablas
-  cambiarPagina(e:PageEvent){
+  cambiarPagina(e: PageEvent) {
     console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
@@ -179,6 +177,7 @@ export class MovimientosComponent implements OnInit {
     this.estadoSpinner = true;
   }
 
+
   //Método que obtiene la fecha actual (Para usar en la impresión de PDF)
   obtenerFechaActual(): string {
     const fechaActual = new Date();
@@ -198,8 +197,10 @@ export class MovimientosComponent implements OnInit {
     });
   }
 
-  //Iconos a utilizar
+  //Íconos a utilizar
+  iconAceptar = iconos.faCheck;
+  iconVerMovimientos = iconos.faEye;
+  iconCalendario = iconos.faCalendar;
   iconPdf = iconos.faFilePdf;
   iconXlsx = iconos.faFileExcel;
-  iconCalendario = iconos.faCalendar;
 }

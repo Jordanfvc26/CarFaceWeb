@@ -1,0 +1,84 @@
+<!--<app-spinner *ngIf="!estadoSpinner"></app-spinner>-->
+
+<div class="container">
+    <div class="modal-header">
+        <h4 class="modal-title"><fa-icon id="iconEliminar" [icon]="iconVerMovimientos"></fa-icon> Movimientos del
+            usuario: </h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h3 id="titulo"><fa-icon [icon]="iconCalendario"></fa-icon> Registro de Movimientos</h3>
+                    <p>Filtrar los movimientos por: </p>
+                    <div class="contenedor-padre">
+                        <div class="campos-form">
+                            <form [formGroup]="formSelect" class="d-flex" id="select">
+                                <select [(ngModel)]="opcionFiltro" formControlName="filtro" name="f1-last-name"
+                                    class="f1-last-name form-control" id="f1-last-name"
+                                    style="margin-bottom: 12px;">
+                                    <option value="placa" selected disabled>-- Filtrar por --</option>
+                                    <option value="placa">Placa</option>
+                                    <option value="fecha">Fecha</option>
+                                    <option value="tipo">Tipo</option>
+                                </select>
+                            </form>
+                            <form id="buscar">
+                                <input class="form-control me-1" type="text" placeholder="Buscar..."
+                                    name="buscarMovimientos" [(ngModel)]="movimientosABuscar">
+                            </form>
+                        </div>
+
+                        <div class="botones-exportar">
+                            <button type="button" class="btn btn-warning save-pdf" (click)="downloadPDF()"><fa-icon
+                                    [icon]="iconPdf"></fa-icon> Exportar a .PDF</button>
+                            <button type="button" class="btn btn-success save-xlsx"
+                                (click)="exportToExcel()"><fa-icon [icon]="iconXlsx"></fa-icon> Exportar a
+                                .XLSX</button>
+                        </div>
+                    </div>
+                    <div class="card" id="htmlTablaPDF">
+                        <div class="card-body p-0">
+                            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true"
+                                style="position: relative;">
+                                <table class="table table-striped mb-0" id="htmlTablaExcel">
+                                    <thead style="background-color: #3a853f;">
+                                        <tr>
+                                            <th scope="col">N°</th>
+                                            <th scope="col">Marca</th>
+                                            <th scope="col">Modelo</th>
+                                            <th scope="col">Color</th>
+                                            <th scope="col">Placa</th>
+                                            <th scope="col">Fecha registro</th>
+                                            <th scope="col">Tipo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let temp of movimientos | slice:desde:hasta; let i = index">
+                                            <th>{{i+1}}</th>
+                                            <td>{{temp.marca}}</td>
+                                            <td>{{temp.modelo}}</td>
+                                            <td>{{temp.color}}</td>
+                                            <td>{{temp.placa}}</td>
+                                            <td>{{temp.fecha}}</td>
+                                            <td>{{temp.tipo}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Para aplicar paginación en la tabla-->
+                <mat-paginator id="paginacion" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="pageSize"
+                    [length]="movimientos.length" (page)="cambiarPagina($event)"></mat-paginator>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="modal.dismissAll()" type="button" class="btn btn-next btn btn-success"> <fa-icon
+                [icon]="iconAceptar"></fa-icon> Guardar cambios</button>
+    </div>
+</div>

@@ -36,6 +36,8 @@ import { BuscarRegistrosPipe } from './pipes/buscar-registros.pipe';
 import { ListarVehiculosComponent } from './components/listar-vehiculos/listar-vehiculos.component';
 import { EditarVehiculoComponent } from './components/editar-vehiculo/editar-vehiculo.component';
 import { EliminarVehiculoComponent } from './components/eliminar-vehiculo/eliminar-vehiculo.component';
+import { ListarChoferesComponent } from './components/listar-choferes/listar-choferes.component';
+import { MovimientosIdComponent } from './components/movimientos-id/movimientos-id.component';
 
 
 @NgModule({
@@ -54,7 +56,9 @@ import { EliminarVehiculoComponent } from './components/eliminar-vehiculo/elimin
     BuscarRegistrosPipe,
     ListarVehiculosComponent,
     EditarVehiculoComponent,
-    EliminarVehiculoComponent
+    EliminarVehiculoComponent,
+    ListarChoferesComponent,
+    MovimientosIdComponent
   ],
   imports: [
     UsuariosRoutingModule,

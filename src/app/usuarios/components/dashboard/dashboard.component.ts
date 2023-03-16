@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     else {
       this.menuOpciones.push({ icono: this.iconGuardia, nombre: "Crear Guardias", habilitado: true })
       this.menuOpciones.push({ icono: this.iconListUser, nombre: "Listar Guardias", habilitado: true })
-      this.menuOpciones.push({ icono: this.iconMovimientos, nombre: "Movimientos", habilitado: true })
+      this.menuOpciones.push({ icono: this.iconChoferes, nombre: "Listar Choferes", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
     }
@@ -83,4 +83,5 @@ export class DashboardComponent implements OnInit {
   iconListUser = iconos.faUser;
   iconCerrarSesion = iconos.faSignOutAlt;
   iconGuardia = iconos.faUserShield;
+  iconChoferes = iconos.faUsers;
 }

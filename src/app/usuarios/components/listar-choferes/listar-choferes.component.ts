@@ -1,62 +1,56 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+/*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
-/*Para generar PDF y excel*/
+
+/*Para generar PDF y Excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
+/*Para la ventana emergente*/
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageEvent } from '@angular/material/paginator';
+import { MovimientosIdComponent } from '../movimientos-id/movimientos-id.component';
 
 @Component({
-  selector: 'app-movimientos',
-  templateUrl: './movimientos.component.html',
-  styleUrls: ['./movimientos.component.css']
+  selector: 'app-listar-choferes',
+  templateUrl: './listar-choferes.component.html',
+  styleUrls: ['./listar-choferes.component.css']
 })
-export class MovimientosComponent implements OnInit {
-  @ViewChild('tabla', { static: false }) tabla: ElementRef;
+export class ListarChoferesComponent implements OnInit {
 
-  //Varibles y objetos a utilizar
-  movimientos: any[] = [];
+  //Variables y objetos a utilizar
+  choferes: any[] = [];
   opciones: any;
-  nombrePDF: string = "Usuario";
+  fechaTemp: any;
   estadoSpinner = false;
   //Para la paginación
   pageSize = 7;
   desde = 0;
   hasta = 7;
 
-  //Para la búsqueda en la tabla
-  movimientosABuscar: any[] = [];
-  opcionFiltro = "placa";
-
-  static objectChofer: any ={
-  }
-
-  static idChofer: any;
+  choferesABuscar: any[] = [];
+  opcionFiltro = "ci";
 
   constructor(
-    private api: ConsumirServiciosService,
     public alertaEmergente: Alerts,
-    private ruta: Router
+    private api: ConsumirServiciosService,
+    public modal: NgbModal
   ) { }
 
   //Form que captura la etiqueta select para obtener el filtro
   formSelect = new FormGroup({
-    filtro: new FormControl('placa', Validators.required),
+    filtro: new FormControl('ci', Validators.required),
   })
 
-
   ngOnInit(): void {
-    this.estadoSpinner = true;
-    this.api.getDatos("/chofer").subscribe(data => {
-      data.chofer.vehiculo.forEach(element => {
-        element.registros.forEach(element2 => {
-
-          const fechatTemp = element2.fecha;
+    this.estadoSpinner = false;
+    this.api.getDatos("/chofer/all").subscribe(data => {
+      data.forEach(element => {
+        const fechatTemp = element.fechacreacion;
           const fecha = new Date(fechatTemp);
           //Dando formato a la fecha
           this.opciones = {
@@ -68,30 +62,30 @@ export class MovimientosComponent implements OnInit {
             second: '2-digit'
           };
           const fechaFormateada = fecha.toLocaleString('es-ES', this.opciones);
-          //Dando formato al vector
-          let vehiculo = {
-            "marca": element.marca,
-            "modelo": element.modelo,
-            "color": element.color,
-            "placa": element.placa,
-            "fecha": fechaFormateada,
-            "tipo": element2.tipo
-          }
-          //Agregando los datos finaes al vector
-          this.movimientos.push(vehiculo);
-          this.estadoSpinner = true;
-        });
+
+        let chofer = {
+          "id": element.id,
+          "ci": element.ci,
+          "nombre": element.nombre,
+          "apellido": element.apellido,
+          "correo": element.correo,
+          "telefono": element.telefono,
+          "licencia": element.licencia,
+          "fechacreacion": fechaFormateada
+        }
+        //Agregando los datos finales al vector
+        this.choferes.push(chofer);
+        this.estadoSpinner = true;
       });
-      console.log(this.movimientos);
     }, error => {
       console.log(error);
-      this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
       this.estadoSpinner = true;
-    });
+    })
   }
 
   //Método que permite cambiar de una página a otra en las tablas
-  cambiarPagina(e:PageEvent){
+  cambiarPagina(e: PageEvent) {
     console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
@@ -100,6 +94,7 @@ export class MovimientosComponent implements OnInit {
   //Método para imprimir los movimientos del chofer, en PDF
   downloadPDF() {
     this.estadoSpinner = false;
+    //Se extrae la información a plasmar en el PDF
     const DATA = document.getElementById('htmlTablaPDF');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
@@ -107,15 +102,15 @@ export class MovimientosComponent implements OnInit {
       scale: 3
     };
     //Datos para el encabezado
-    const empresa = 'CarFace: Registro de movimientos de usuario';
+    const empresa = 'CarFace: Listado de choferes registrados';
     const fehcaEmision = 'Fecha de emisión: ' + this.obtenerFechaActual();
-    const usuario = 'Usuario: ' + this.obtenerUsuario();
+    const usuario = 'Usuario: Administrador';
     html2canvas(DATA, options).then((canvas) => {
 
       const img = canvas.toDataURL('image/PNG');
       //Agregar image Canvas al PDF
       const bufferX = 15;
-      const bufferY = 90; // Aumentamos el buffer en Y para dejar espacio para el encabezado
+      const bufferY = 90;
       const imgProps = (doc as any).getImageProperties(img);
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
@@ -150,15 +145,14 @@ export class MovimientosComponent implements OnInit {
     this.estadoSpinner = false;
     // Obtener la tabla desde el DOM
     const table = document.getElementById('htmlTablaExcel');
-
     // Crear una matriz para almacenar los datos de la tabla
     const rows = [];
     const cells = table.querySelectorAll('td');
     cells.forEach((cell2, index) => {
-      if (!rows[Math.floor(index / 6)]) {
-        rows[Math.floor(index / 6)] = [];
+      if (!rows[Math.floor(index / 7)]) {
+        rows[Math.floor(index / 7)] = [];
       }
-      rows[Math.floor(index / 6)][index % 6] = cell2.innerText;
+      rows[Math.floor(index / 7)][index % 7] = cell2.innerText;
     });
 
     // Crear un libro de Excel y agregar una hoja con los datos de la tabla
@@ -179,7 +173,14 @@ export class MovimientosComponent implements OnInit {
     this.estadoSpinner = true;
   }
 
-  //Método que obtiene la fecha actual (Para usar en la impresión de PDF)
+
+  //Método que abre el modal para cargar los datos del guardia
+  abrirModalVerMovimientosChofer(modalVerMovimientos, idChofer) {
+    this.modal.open(modalVerMovimientos, { size: 'xl', centered: true });
+    MovimientosIdComponent.idChofer = idChofer;
+  }
+
+  //Método que obtiene la fecha actual para mostrarla en el archivo PDF
   obtenerFechaActual(): string {
     const fechaActual = new Date();
     const dia = fechaActual.getDate();
@@ -188,18 +189,10 @@ export class MovimientosComponent implements OnInit {
     return `${dia}/${mes}/${anio}`;
   }
 
-  //Método que obtiene los datos del usuario para editarlos
-  obtenerUsuario() {
-    this.api.getDatos("/chofer").toPromise().then(data => {
-      const nombre = data.nombre;
-      const apellido = data.apellido;
-      console.log("enviando: " + `${nombre} ${apellido}`)
-      return `${nombre} ${apellido}`;
-    });
-  }
 
   //Iconos a utilizar
+  iconVerDetalles = iconos.faEye;
   iconPdf = iconos.faFilePdf;
   iconXlsx = iconos.faFileExcel;
-  iconCalendario = iconos.faCalendar;
+  iconChofer = iconos.faUser;
 }
