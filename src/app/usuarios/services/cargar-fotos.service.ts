@@ -10,7 +10,7 @@ export class CargarFotosService {
 
   correo = '';
   clave = '';
-  url: string = "http://localhost:8080"
+  url: string = "http://100.25.162.10:8080"
   token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Authorization': 'Bearer ' + this.token,

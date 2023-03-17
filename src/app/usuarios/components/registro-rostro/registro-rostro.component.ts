@@ -42,7 +42,8 @@ export class RegistroRostroComponent implements OnInit {
   constructor(
     private ruta: Router,
     private api: ConsumirServiciosService,
-    public alertaEmergente: Alerts
+    public alertaEmergente: Alerts,
+    private _cargarFotos: CargarFotosService
   ) { }
 
   ngOnInit(): void {
@@ -71,7 +72,7 @@ export class RegistroRostroComponent implements OnInit {
 
     //Compara lo del formData y procede a enviar a la API
     if (this.formData.getAll("files") != null) {
-      this.api.putDatos("/chofer/fotos", this.formData).subscribe(data => {
+      this._cargarFotos.putDatos("/chofer/fotos", this.formData).subscribe(data => {
         this.estadoSpinner = true;
         this.alertaEmergente.alertaOKConReload("Se ha registrado correctamente en CarFace");
         this.ruta.navigateByUrl('/dashboard');
