@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http'
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class ConsumirServiciosService {
 
   correo = '';
   clave = '';
-  url: string = "http://localhost:8080"
+  url: string = environment.urlApi
   token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Content-Type': 'application/json',

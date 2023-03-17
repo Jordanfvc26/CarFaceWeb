@@ -78,7 +78,7 @@ export class RegistroUsuarioComponent implements OnInit {
     RegistroUsuarioComponent.usuario = this.formDatosChofer.value.correo;
     RegistroUsuarioComponent.clave = this.formDatosChofer.value.clave;
 
-    this._choferService.registerChofer(body).subscribe(res => {
+    this.api.postDatos("/chofer",body).subscribe(res => {
       this.estadoSpinner = true
       this.alertaEmergente.alertaOKSinReloadBtn("Registro de información personal exitoso")
       //Arreglaaaaaaaar
