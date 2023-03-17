@@ -44,14 +44,13 @@ export class DashboardComponent implements OnInit {
       this.menuOpciones.push({ icono: this.iconFaceID, nombre: "Registrar FaceID", habilitado: true })
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
-      
+      //Para verificar si ya registró su rostro o no
       this.api.getDatos("/chofer").subscribe(data => {
         if(data.chofer.fotochofer== null || data.chofer.fotochofer.length <= 0)
-          this.alertaEmergente.alertaWarningSinReloadBtn("Adevertencia", "Debe registrar su restro en la opción de 'Registrar FaceID' para completar su información y poder acceder al parqueadero.");
+          this.alertaEmergente.alertaWarningSinReloadBtn("Adevertencia", "Debe registrar su rostro en la opción de 'Registrar FaceID' para completar su información y poder acceder al parqueadero.");
       }, error => {
         this.estadoSpinner = true;
       });
-
     }
     else {
       this.menuOpciones.push({ icono: this.iconGuardia, nombre: "Crear Guardias", habilitado: true })

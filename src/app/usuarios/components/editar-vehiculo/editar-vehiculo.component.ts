@@ -132,8 +132,6 @@ export class EditarVehiculoComponent implements OnInit {
   //Método que edita la información de un vehículo
   editarVehiculo() {
     this.estadoSpinner = false;
-    console.log("/vehiculo/"+EditarVehiculoComponent.objectVehiculo.id);
-    console.log(this.modelEditVehiculo.fields);
     this.api.putDatos("/vehiculo/"+EditarVehiculoComponent.objectVehiculo.id, this.modelEditVehiculo.fields).subscribe(data =>{
       this.estadoSpinner = true;
       this.alertaEmergente.alertaOKSinReload("Se ha editado la información correctamente");

@@ -2,7 +2,6 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { EditarGuardiaComponent } from './../editar-guardia/editar-guardia.component';
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Alerts } from './../../alerts/alerts.component';
-import { ChoferService } from './../../services/chofer.service';
 import { Component, OnInit } from '@angular/core';
 /*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
@@ -33,6 +32,7 @@ export class ListarGuardiasComponent implements OnInit {
   hasta = 7;
 
   guardiasABuscar: any[] = [];
+  guardia: {};
   opcionFiltro = "empresa";
 
   constructor(
@@ -59,29 +59,20 @@ export class ListarGuardiasComponent implements OnInit {
           this.estadoGuardia = "INACTIVO";
         }
 
-        //Formateando los nombres
-        const nombreCompleto = element.nombre;
-        const nombresSeparados = nombreCompleto.split(" ");
-        const nombre1 = nombresSeparados[0];
-        const nombre2 = nombresSeparados[1];
-        const apellido1 = nombresSeparados[2];
-        const apellido2 = nombresSeparados[3];
-
-        let guardia = {
+        this.guardia = {
           "id": element.id,
           "ci": element.ci,
-          "nombre": nombre1 + " " + nombre2,
-          "apellido": apellido1 + " " + apellido2,
+          "nombre": element.nombres,
+          "apellido": element.apellidos,
           "correo": element.correo,
           "empresa": element.empresa,
           "estado": this.estadoGuardia
         }
         //Agregando los datos finales al vector
-        this.guardias.push(guardia);
+        this.guardias.push(this.guardia);
         this.estadoSpinner = true;
       });
     }, error => {
-      console.log(error);
       this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
       this.estadoSpinner = true;
     })

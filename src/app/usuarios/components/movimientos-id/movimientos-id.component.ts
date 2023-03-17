@@ -82,9 +82,7 @@ export class MovimientosIdComponent implements OnInit {
           this.estadoSpinner = true;
         });
       });
-      console.log(this.movimientos);
     }, error => {
-      console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
       this.estadoSpinner = true;
     });
@@ -93,7 +91,6 @@ export class MovimientosIdComponent implements OnInit {
 
   //Método que permite cambiar de una página a otra en las tablas
   cambiarPagina(e: PageEvent) {
-    console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }

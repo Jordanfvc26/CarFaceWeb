@@ -25,6 +25,9 @@ export class EditarGuardiaComponent implements OnInit {
     fecha_fin: "",
   };
   estadoSpinner = false;
+  opciones: any;
+  opciones2: any;
+  arrayGuardia: any[] = [];
 
   constructor(
     public modal: NgbModal,
@@ -106,22 +109,38 @@ export class EditarGuardiaComponent implements OnInit {
     },
   ];
 
+
   ngOnInit(): void {
     this.estadoSpinner = false;
     let i = 0;
+    //Obteniendo la fecha de los guardias
+    this.api.getDatos("/admin/usuario/id?id=" + EditarGuardiaComponent.objectGuardia.id).subscribe(data => {
+      //Formateando fecha_inicio
+      const fechaInicio: string = data.guardia.fecha_inicio;
+      const subFechaInicio: string = fechaInicio.substring(0, 10);
+      //Formateando fecha_fin
+      const fechaFin: string = data.guardia.fecha_fin;
+      const subFechaFin: string = fechaFin.substring(0, 10);
+      //Pasando las fechas al objeto
+      EditarGuardiaComponent.objectGuardia.fecha_inicio = subFechaInicio,
+        EditarGuardiaComponent.objectGuardia.fecha_fin = subFechaFin
+    }, error => {
+      this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron obtener las fechas");
+      this.estadoSpinner = true;
+    })
+
     //Se pasan los valores del objeto, a un vector
-    let arrayGuardia = [EditarGuardiaComponent.objectGuardia.ci,
-      EditarGuardiaComponent.objectGuardia.nombre,
-      EditarGuardiaComponent.objectGuardia.apellido,
-      EditarGuardiaComponent.objectGuardia.empresa,
-      "2023-02-01",
-      "2023-05-01"
+    this.arrayGuardia = [EditarGuardiaComponent.objectGuardia.ci,
+    EditarGuardiaComponent.objectGuardia.nombre,
+    EditarGuardiaComponent.objectGuardia.apellido,
+    EditarGuardiaComponent.objectGuardia.empresa,
+    EditarGuardiaComponent.objectGuardia.fecha_inicio,
+    EditarGuardiaComponent.objectGuardia.fecha_fin
     ]
-    console.log(arrayGuardia);
     //Se llena el objeto de formly con los datos seleccionados
     this.fieldsEditGuardia.forEach(element2 => {
       element2.fieldGroup.forEach(element3 => {
-        element3.defaultValue = arrayGuardia[i]
+        element3.defaultValue = this.arrayGuardia[i]
         i++;
       });
     });
@@ -132,13 +151,11 @@ export class EditarGuardiaComponent implements OnInit {
   //Método que manda a modificar los datos del guardia
   editarGuardia() {
     this.estadoSpinner = false;
-    console.log("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id);
-    console.log(this.modelEditGuardia.fields);
-    this.api.putDatos("/guardia/editar/"+EditarGuardiaComponent.objectGuardia.id, this.modelEditGuardia.fields).subscribe(data =>{
+    this.api.putDatos("/guardia/editar/" + EditarGuardiaComponent.objectGuardia.id, this.modelEditGuardia.fields).subscribe(data => {
       this.estadoSpinner = true;
       this.alertaEmergente.alertaOKSinReload("Se ha editado la información correctamente");
       this.modal.dismissAll();
-    }, error =>{
+    }, error => {
       this.alertaEmergente.alertaErrorSinReloadBtn("No se ha podido editar la información");
       this.estadoSpinner = true;
     });

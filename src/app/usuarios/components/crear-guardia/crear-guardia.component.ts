@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 /*Importaciones para usar el formly*/
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
-
+/*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -129,9 +129,7 @@ export class CrearGuardiaComponent implements OnInit {
     if (CrearGuardiaComponent.siAgrego == true) {
       if(this.modelNewGuardia.fields[0]!= null){
         for (let index = 0; index < this.modelNewGuardia.fields.length; index++) {
-          console.log(this.modelNewGuardia.fields[index]);
           this._guardiaService.postDatos("/guardia", this.modelNewGuardia.fields[index]).subscribe((res) => {
-            console.log(res);
             this.estadoSpinner = true;
             this.alertaEmergente.alertaOKSinReloadBtn("Se ha registrado correctamente a los guardias");
             this.ruta.navigateByUrl('/dashboard');

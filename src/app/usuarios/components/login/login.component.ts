@@ -12,7 +12,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   //Fomr para loguearse
   loginForm = new FormGroup({
     correo: new FormControl('', Validators.required),
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit {
     let headers = new Map();
     headers.set("correo", this.loginForm.value.correo);
     headers.set("clave", this.loginForm.value.clave);
-    //console.log(headers);
     this.api.postDatos("/sesion/login", null, headers).subscribe(data => {
       sessionStorage.setItem("usuario", data.token);
       sessionStorage.setItem("rol", data.rol)
@@ -53,7 +51,6 @@ export class LoginComponent implements OnInit {
         this.ruta.navigateByUrl('/dashboard');
       }
     }, error => {
-      console.log(error);
       this.alertaEmergente.alertaErrorConReload("Credenciales incorrectas");
       this.estadoSpinner = true;
     })

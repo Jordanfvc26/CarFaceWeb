@@ -5,8 +5,6 @@ import { ConsumirServiciosService } from './../../services/consumir-servicios.se
 import { Alerts } from './../../alerts/alerts.component';
 import { CargarScriptsJsService } from './../../services/cargar-scripts-js.service';
 import { Component, OnInit } from '@angular/core';
-
-
 /*Para íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
 
@@ -74,14 +72,12 @@ export class RegistroUsuarioComponent implements OnInit {
       "correo": this.formDatosChofer.value.correo,
       "clave": this.formDatosChofer.value.clave,
     }
-
     RegistroUsuarioComponent.usuario = this.formDatosChofer.value.correo;
     RegistroUsuarioComponent.clave = this.formDatosChofer.value.clave;
 
     this.api.postDatos("/chofer",body).subscribe(res => {
       this.estadoSpinner = true
       this.alertaEmergente.alertaOKSinReloadBtn("Registro de información personal exitoso")
-      //Arreglaaaaaaaar
       //this.iniciarSesion(this.formDatosChofer.value.correo, this.formDatosChofer.value.clave);
       this.ruta.navigateByUrl('/dashboard');
     }, error => {

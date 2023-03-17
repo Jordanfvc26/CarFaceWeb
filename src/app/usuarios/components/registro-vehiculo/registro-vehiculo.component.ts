@@ -1,14 +1,11 @@
 import { ConsumirServiciosService } from './../../services/consumir-servicios.service';
 import { Router } from '@angular/router';
 import { Alerts } from './../../alerts/alerts.component';
-import { VehiculosService } from './../../services/vehiculos.service';
 import { Component, OnInit } from '@angular/core';
 import * as iconos from '@fortawesome/free-solid-svg-icons';
-
 /*Importaciones necesarias para usar el formly*/
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
-
 
 @Component({
   selector: 'app-registro-vehiculo',
@@ -16,7 +13,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./registro-vehiculo.component.css']
 })
 export class RegistroVehiculoComponent implements OnInit {
-
   //Variables y objetos a utilizar
   static siAgrego = false;
   estadoSpinner = false;
@@ -108,6 +104,8 @@ export class RegistroVehiculoComponent implements OnInit {
     },
   ];
 
+
+  //Método que registra los vehículos
   registrarVehiculos(): void {
     this.estadoSpinner = false;
     //Verifica que haya activido la sección del repeat
@@ -115,9 +113,7 @@ export class RegistroVehiculoComponent implements OnInit {
       //Verifica que los campos estén llenos
       if (this.modelNewCarro.fields[0] != null) {
         for (let index = 0; index < this.modelNewCarro.fields.length; index++) {
-          console.log(this.modelNewCarro.fields[index]);
           this._vehiculoService.postDatos("/vehiculo", this.modelNewCarro.fields[index]).subscribe((res) => {
-            console.log(res);
             this.estadoSpinner = true;
             this.alertaEmergente.alertaOKConReloadBtn("Se han registrado correctamente sus vehículos");
             this.ruta.navigateByUrl('/dashboard');

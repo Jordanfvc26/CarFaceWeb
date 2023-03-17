@@ -18,7 +18,6 @@ import * as XLSX from 'xlsx';
 })
 export class MovimientosComponent implements OnInit {
   @ViewChild('tabla', { static: false }) tabla: ElementRef;
-
   //Varibles y objetos a utilizar
   movimientos: any[] = [];
   opciones: any;
@@ -28,14 +27,12 @@ export class MovimientosComponent implements OnInit {
   pageSize = 7;
   desde = 0;
   hasta = 7;
-
   //Para la búsqueda en la tabla
   movimientosABuscar: any[] = [];
   opcionFiltro = "placa";
 
-  static objectChofer: any ={
+  static objectChofer: any = {
   }
-
   static idChofer: any;
 
   constructor(
@@ -82,17 +79,14 @@ export class MovimientosComponent implements OnInit {
           this.estadoSpinner = true;
         });
       });
-      console.log(this.movimientos);
     }, error => {
-      console.log(error);
       this.alertaEmergente.alertaErrorSinReload("No se pudieron cargar los datos");
       this.estadoSpinner = true;
     });
   }
 
   //Método que permite cambiar de una página a otra en las tablas
-  cambiarPagina(e:PageEvent){
-    console.log(e);
+  cambiarPagina(e: PageEvent) {
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }
@@ -193,7 +187,6 @@ export class MovimientosComponent implements OnInit {
     this.api.getDatos("/chofer").toPromise().then(data => {
       const nombre = data.nombre;
       const apellido = data.apellido;
-      console.log("enviando: " + `${nombre} ${apellido}`)
       return `${nombre} ${apellido}`;
     });
   }

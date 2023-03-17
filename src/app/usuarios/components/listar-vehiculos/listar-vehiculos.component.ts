@@ -6,10 +6,8 @@ import { Alerts } from './../../alerts/alerts.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageEvent } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
-
 /*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
-
 /*Para el PDF y excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -21,7 +19,6 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./listar-vehiculos.component.css']
 })
 export class ListarVehiculosComponent implements OnInit {
-
   //Variables y métodos a utilizar
   estadoSpinner = false;
   //Para la paginación
@@ -40,10 +37,12 @@ export class ListarVehiculosComponent implements OnInit {
     public modal: NgbModal
   ) { }
 
+
   //Form que captura la etiqueta select para obtener el filtro
   formSelect = new FormGroup({
     filtro: new FormControl('placa', Validators.required),
   })
+
 
   ngOnInit(): void {
     this.estadoSpinner = false;
@@ -60,7 +59,6 @@ export class ListarVehiculosComponent implements OnInit {
             "anio": element.anio,
             "color": element.color
           }
-          console.log(vehiculo);
           //Agregando los datos finales al vector
           this.vehiculos.push(vehiculo);
           this.estadoSpinner = true;
@@ -70,7 +68,6 @@ export class ListarVehiculosComponent implements OnInit {
         this.estadoSpinner = true;
       }
     }, error => {
-      console.log(error);
       this.estadoSpinner = true;
       this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
     })
@@ -79,7 +76,6 @@ export class ListarVehiculosComponent implements OnInit {
 
   //Método que permite cambiar de una página a otra en las tablas
   cambiarPagina(e: PageEvent) {
-    console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }

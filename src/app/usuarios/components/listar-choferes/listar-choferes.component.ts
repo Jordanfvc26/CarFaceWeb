@@ -4,8 +4,6 @@ import { Alerts } from './../../alerts/alerts.component';
 import { Component, OnInit } from '@angular/core';
 /*Para los íconos*/
 import * as iconos from '@fortawesome/free-solid-svg-icons';
-
-
 /*Para generar PDF y Excel*/
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -21,7 +19,6 @@ import { MovimientosIdComponent } from '../movimientos-id/movimientos-id.compone
   styleUrls: ['./listar-choferes.component.css']
 })
 export class ListarChoferesComponent implements OnInit {
-
   //Variables y objetos a utilizar
   choferes: any[] = [];
   opciones: any;
@@ -31,7 +28,7 @@ export class ListarChoferesComponent implements OnInit {
   pageSize = 7;
   desde = 0;
   hasta = 7;
-
+  //Para buscar en la tabla de choferes
   choferesABuscar: any[] = [];
   opcionFiltro = "ci";
 
@@ -46,24 +43,24 @@ export class ListarChoferesComponent implements OnInit {
     filtro: new FormControl('ci', Validators.required),
   })
 
-  
+
   ngOnInit(): void {
     this.estadoSpinner = false;
     this.api.getDatos("/chofer/all").subscribe(data => {
       data.forEach(element => {
         const fechatTemp = element.fechacreacion;
-          const fecha = new Date(fechatTemp);
-          //Dando formato a la fecha
-          this.opciones = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-          };
-          const fechaFormateada = fecha.toLocaleString('es-ES', this.opciones);
-
+        const fecha = new Date(fechatTemp);
+        //Dando formato a la fecha
+        this.opciones = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        };
+        const fechaFormateada = fecha.toLocaleString('es-ES', this.opciones);
+        //Creando el formato del objeto
         let chofer = {
           "id": element.id,
           "ci": element.ci,
@@ -79,7 +76,6 @@ export class ListarChoferesComponent implements OnInit {
         this.estadoSpinner = true;
       });
     }, error => {
-      console.log(error);
       this.alertaEmergente.alertaErrorSinReloadBtn("No se pudieron cargar los registros");
       this.estadoSpinner = true;
     })
@@ -87,7 +83,6 @@ export class ListarChoferesComponent implements OnInit {
 
   //Método que permite cambiar de una página a otra en las tablas
   cambiarPagina(e: PageEvent) {
-    console.log(e);
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }
