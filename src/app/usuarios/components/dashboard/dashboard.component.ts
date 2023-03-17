@@ -45,18 +45,12 @@ export class DashboardComponent implements OnInit {
       this.menuOpciones.push({ icono: this.iconCerrarSesion, nombre: "Cerrar sesión", habilitado: true })
       this.estadoSpinner = true;
       
-      /*this.api.getDatos("/chofer").subscribe(data => {
-        data.chofer.fotochofer.forEach(element => {
-          if(element != null){
-            
-          }
-          else{
-            this.alertaEmergente.alertaWarningSinReloadBtn("Adevertencia", "Debe registrar su restro en la opción de 'Registrar FaceID' para completar su información y poder acceder al parqueadero.");
-          }
-        });
+      this.api.getDatos("/chofer").subscribe(data => {
+        if(data.chofer.fotochofer== null || data.chofer.fotochofer.length <= 0)
+          this.alertaEmergente.alertaWarningSinReloadBtn("Adevertencia", "Debe registrar su restro en la opción de 'Registrar FaceID' para completar su información y poder acceder al parqueadero.");
       }, error => {
         this.estadoSpinner = true;
-      });*/
+      });
 
     }
     else {

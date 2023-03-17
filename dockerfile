@@ -17,5 +17,4 @@ RUN npm run build --prod
 #Segunda Etapa
 FROM nginx:1.8-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
-	#Si estas utilizando otra aplicacion cambia PokeApp por el nombre de tu app
 COPY --from=build-step /app/dist/car-face-web /usr/share/nginx/html

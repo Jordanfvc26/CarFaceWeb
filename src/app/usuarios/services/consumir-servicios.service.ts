@@ -13,10 +13,8 @@ export class ConsumirServiciosService {
   correo = '';
   clave = '';
   url: string = environment.urlApi
-  token = sessionStorage.getItem("usuario");
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + this.token,
     'Accept': '*/*',
     'Access-Control-Request-Header':'Content-type',
     'Access-Control-Allow-Origin': '*'
@@ -61,6 +59,10 @@ export class ConsumirServiciosService {
         this.headers = this.headers.append(key, headers.get(key) || "");
       }
     }
+    console.log(sessionStorage.getItem("usuario"))
+    this.headers = this.headers.delete("Authorization")
+    this.headers = this.headers.append("Authorization", `Bearer ${sessionStorage.getItem("usuario")}`)
+    console.log(this.headers)
     this.options = { headers: this.headers };
     return headers != null;
   }
